@@ -14,4 +14,11 @@ class ContentTarget{
   final Widget child;
 
   ContentTarget({this.align = AlignContent.bottom, this.child}):assert(child != null);
+
+  @override
+  String toString() {
+    return 'ContentTarget{align: $align, child: $child}';
+  }
+
+
 }
