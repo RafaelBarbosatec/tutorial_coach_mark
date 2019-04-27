@@ -1,4 +1,3 @@
- import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -23,8 +22,9 @@ class LightPaint extends CustomPainter {
     canvas.saveLayer(Offset.zero & size, Paint());
     canvas.drawColor(Colors.black.withOpacity(0.8), BlendMode.dstATop);
 
-    double sizeFocus = (size.height * 1.4) * (1-progress) + sizeCircle;
-    double radius  = min(sizeFocus,sizeFocus);
+    var maxSise = size.width > size.height ? size.width : size.height;
+
+    double radius = maxSise * (1-progress) + sizeCircle;
 
     canvas.drawCircle(
         positioned,
