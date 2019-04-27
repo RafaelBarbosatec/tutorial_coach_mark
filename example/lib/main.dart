@@ -57,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     initTargets();
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     super.initState();
   }
 
@@ -268,7 +269,14 @@ class _MyHomePageState extends State<MyHomePage> {
     TutorialCoachMark(
       context,
       targets: targets,
+      clickTarget: (target){
+        print(target);
+      }
     )..show();
   }
 
+
+  void _afterLayout(_) {
+    showTutorial();
+  }
 }
