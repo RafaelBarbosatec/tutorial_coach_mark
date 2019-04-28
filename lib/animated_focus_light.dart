@@ -14,8 +14,19 @@ class AnimatedFocusLight extends StatefulWidget {
   final Function removeFocus;
   final Function() finish;
   final double paddingFocus;
+  final Color colorShadow;
 
-  const AnimatedFocusLight({Key key, this.targets, this.focus, this.finish, this.removeFocus, this.clickTarget, this.paddingFocus = 10}) : super(key: key);
+  const AnimatedFocusLight(
+      {
+        Key key,
+        this.targets,
+        this.focus,
+        this.finish,
+        this.removeFocus,
+        this.clickTarget,
+        this.paddingFocus = 10,
+        this.colorShadow = Colors.black
+      }) : super(key: key);
 
   @override
   _AnimatedFocusLightState createState() => _AnimatedFocusLightState();
@@ -121,7 +132,8 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProv
                         painter: LightPaint(
                             progressAnimated,
                             positioned,
-                            sizeCircle
+                            sizeCircle,
+                            colorShadow: widget.colorShadow
                         )),
                   );
                 },

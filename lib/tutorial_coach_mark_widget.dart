@@ -12,9 +12,24 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final List<TargetFocus> targets;
   final Function(TargetFocus) clickTarget;
   final Function() finish;
+  final Color colorShadow;
   final double paddingFocus;
+  final Function() clickSkip;
+  final AlignmentGeometry alignSkip;
+  final String textSkip;
 
-  const TutorialCoachMarkWidget({Key key, this.targets, this.finish, this.paddingFocus = 10, this.clickTarget}) : super(key: key);
+  const TutorialCoachMarkWidget(
+      {
+        Key key,
+        this.targets,
+        this.finish,
+        this.paddingFocus = 10,
+        this.clickTarget,
+        this.alignSkip = Alignment.bottomRight,
+        this.textSkip = "SKIP",
+        this.clickSkip,
+        this.colorShadow = Colors.black
+      }) : super(key: key);
 
   @override
   _TutorialCoachMarkWidgetState createState() => _TutorialCoachMarkWidgetState();
@@ -36,6 +51,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             targets: widget.targets,
             finish: widget.finish,
             paddingFocus: widget.paddingFocus,
+            colorShadow: widget.colorShadow,
             clickTarget: (target){
               if(widget.clickTarget != null)
                 widget.clickTarget(target);
@@ -48,7 +64,8 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
               _controllerFade.sink.add(0.0);
             },
           ),
-          _buildContents()
+          _buildContents(),
+          _buildSkip()
         ],
       ),
     );
@@ -104,12 +121,12 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
           case AlignContent.left:{
             weight = positioned.dx - sizeCircle;
             left = 0;
-            top = positioned.dy - target.size.height;
+            top = positioned.dy - target.size.height/2 - sizeCircle;
             bottom = null;
           } break;
           case AlignContent.right:{
             left = positioned.dx + sizeCircle;
-            top = positioned.dy - target.size.height;
+            top = positioned.dy - target.size.height/2 - sizeCircle;
             bottom = null;
             weight = MediaQuery.of(context).size.width - left;
           } break;
@@ -132,6 +149,39 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
 
     return Stack(
       children: widgtes,
+    );
+  }
+
+  _buildSkip() {
+    return Align(
+      alignment: widget.alignSkip,
+      child: StreamBuilder(
+        stream: _controllerFade.stream,
+        initialData: 0.0,
+        builder: (_,snapshot){
+          return AnimatedOpacity(
+            opacity: snapshot.data,
+            duration: Duration(milliseconds: 300),
+            child: InkWell(
+              onTap: (){
+                widget.finish();
+                if(widget.clickSkip != null){
+                  widget.clickSkip();
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  widget.textSkip,
+                  style: TextStyle(
+                    color: Colors.white
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
