@@ -386,7 +386,6 @@ class _MyHomePageState extends State<MyHomePage> {
     )..show();
   }
 
-
   void _afterLayout(_) {
     showTutorial();
   }
