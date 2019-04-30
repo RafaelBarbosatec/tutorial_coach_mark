@@ -1,4 +1,4 @@
-[![pub package](https://img.shields.io/pub/v/tutorial_coach_mark.svg)](https://pub.dartlang.org/packages/hidden_drawer_menu)
+[![pub package](https://img.shields.io/pub/v/tutorial_coach_mark.svg)](https://pub.dartlang.org/packages/tutorial_coach_mark)
 
 # TutorialCoachMark
 
