@@ -1,6 +1,8 @@
 # TutorialCoachMark
 
-![Usage of the TutorialCoachMark on an android device](https://github.com/RafaelBarbosatec/tutorial_coach_mark/blob/master/img/exampleTutorialCoachMark.gif)
+Example 1             |  Example 2
+:-------------------------:|:-------------------------:
+![](https://github.com/RafaelBarbosatec/tutorial_coach_mark/blob/master/img/exampleTutorialCoachMark.gif)  |  ![](https://github.com/RafaelBarbosatec/tutorial_coach_mark/blob/master/img/example_boleiro.gif)
 
 # Usage
 To use this plugin, add `tutorial_coach_mark` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
