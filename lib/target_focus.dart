@@ -9,7 +9,12 @@ class TargetFocus{
   final TargetPosition targetPosition;
   final List<ContentTarget> contents;
 
-  TargetFocus({this.identify, this.keyTarget, this.targetPosition, this.contents}):assert(keyTarget != null || targetPosition != null);
+  TargetFocus(
+      {
+        this.identify,
+        this.keyTarget,
+        this.targetPosition,
+        this.contents}):assert(keyTarget != null || targetPosition != null);
 
   @override
   String toString() {

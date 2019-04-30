@@ -359,6 +359,7 @@ class _MyHomePageState extends State<MyHomePage> {
        // alignSkip: Alignment.bottomRight,
        // textSkip: "SKIP",
        // paddingFocus: 10,
+       // opacityShadow: 0.8,
       finish: (){
         print("finish");
       },

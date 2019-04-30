@@ -15,6 +15,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final Function() finish;
   final double paddingFocus;
   final Color colorShadow;
+  final double opacityShadow;
 
   const AnimatedFocusLight(
       {
@@ -25,7 +26,8 @@ class AnimatedFocusLight extends StatefulWidget {
         this.removeFocus,
         this.clickTarget,
         this.paddingFocus = 10,
-        this.colorShadow = Colors.black
+        this.colorShadow = Colors.black,
+        this.opacityShadow = 0.8
       }) : super(key: key);
 
   @override
@@ -133,7 +135,8 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProv
                             progressAnimated,
                             positioned,
                             sizeCircle,
-                            colorShadow: widget.colorShadow
+                            colorShadow: widget.colorShadow,
+                            opacityShadow: widget.opacityShadow
                         )),
                   );
                 },
