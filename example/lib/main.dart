@@ -373,6 +373,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _afterLayout(_) {
-    showTutorial();
+    Future.delayed(Duration(milliseconds: 100),(){
+      showTutorial();
+    });
   }
 }
