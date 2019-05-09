@@ -1,8 +1,8 @@
 name: tutorial_coach_mark
-description: TutorialCoachMark
-version: 0.0.1
-author:
-homepage:
+description: Guide that helps you to present your app and its features in a beautiful, simple and customizable way.
+version: 0.1.1
+author: RafaelBarbosatec<rafaelbarbosatec@gmail.com>
+homepage: https://github.com/RafaelBarbosatec/tutorial_coach_mark
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

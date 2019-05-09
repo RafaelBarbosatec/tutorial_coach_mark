@@ -1,6 +1,10 @@
+[![pub package](https://img.shields.io/pub/v/tutorial_coach_mark.svg)](https://pub.dartlang.org/packages/tutorial_coach_mark)
+
 # TutorialCoachMark
 
-![Usage of the TutorialCoachMark on an android device](https://github.com/RafaelBarbosatec/tutorial_coach_mark/blob/master/img/exampleTutorialCoachMark.gif)
+Example 1             |  Example 2
+:-------------------------:|:-------------------------:
+![](https://github.com/RafaelBarbosatec/tutorial_coach_mark/blob/master/img/exampleTutorialCoachMark.gif)  |  ![](https://github.com/RafaelBarbosatec/tutorial_coach_mark/blob/master/img/example_boleiro.gif)
 
 # Usage
 To use this plugin, add `tutorial_coach_mark` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
@@ -31,31 +35,31 @@ void showTutorial() {
     )..show();
   }
 ```
-#### WARN: Certifique-se que a sua view foi renderizada antes de chamar 'show' para que a lib possa localizar a posição do widget na tela.
+#### WARN: Make sure your view has been rendered before calling 'show' so the lib can find the position of the widget on the screen.
 
 ### Creating targets (TargetFocus)
 
-TargetFocus é a classe que representa o widget que será focado e configurar oque será exibido após foca-lo.
+TargetFocus is the class that represents the widget that will be focused and configure what will be displayed after you focus it.
 
-Seus atributos:
+Attributes:
 
 | Attribute | Type | Description |
 | --- | --- | --- |
-| `identify` | dynamic | atributo livre para uso de identificação |
-| `keyTarget` | GlobalKey | GlobalKey do widget que deseja ser focado |
-| `targetPosition` | TargetPosition | Caso não deseje utilizar GlobalKey, você pode criar um TargetPosition para determinar onde focar |
-| `contents` | ContentTarget[] | Lista de conteudo que deseja exibir após focar widget |
+| `identify` | dynamic | free for identification use |
+| `keyTarget` | GlobalKey | GlobalKey widget that wants to be focused |
+| `targetPosition` | TargetPosition | If you do not want to use GlobalKey, you can create a TargetPosition to determine where to focus |
+| `contents` | ContentTarget[] | Content list you want to display after focusing widget |
 
 ### Creating contents (ContentTarget)
 
-ContentTarget é a classe responsavel por determinar o que deverar ser exibido e como será exibido após focar widget.
+ContentTarget is the class responsible for determining what should be displayed and how it will appear after focusing on the widget.
 
-Seus atributos:
+Attributes:
 
 | Attribute | Type | Description |
 | --- | --- | --- |
-| `align` | AlignContent | Com esse atributo você determina em qual região deve exibir o conteudo em relação ao widget focado (top,bottom,left,right) |
-| `child` | Widget | Conteudo que deseja ser exibito |
+| `align` | AlignContent | With this attribute you determine in which region to display the content in relation to the focused widget (top,bottom,left,right) |
+| `child` | Widget | Content you want to be displayed |
 
 ### Example Complete
 
@@ -207,6 +211,7 @@ void showTutorial() {
        // alignSkip: Alignment.bottomRight,
        // textSkip: "SKIP",
        // paddingFocus: 10,
+       // opacityShadow: 0.8,
       finish: (){
         print("finish");
       },
