@@ -1,4 +1,5 @@
 library tutorial_coach_mark;
+
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/target_focus.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark_widget.dart';
@@ -6,7 +7,6 @@ export 'package:tutorial_coach_mark/content_target.dart';
 export 'package:tutorial_coach_mark/target_focus.dart';
 
 class TutorialCoachMark {
-
   final BuildContext _context;
   final List<TargetFocus> targets;
   final Function(TargetFocus) clickTarget;
@@ -20,18 +20,16 @@ class TutorialCoachMark {
   OverlayEntry _overlayEntry;
 
   TutorialCoachMark(
-  this._context,
-      {
-        this.targets,
-        this.colorShadow = Colors.black,
-        this.clickTarget,
-        this.finish,
-        this.paddingFocus = 10,
-        this.clickSkip,
-        this.alignSkip = Alignment.bottomRight,
-        this.textSkip = "SKIP",
-      }
-      ):assert(targets != null);
+    this._context, {
+    this.targets,
+    this.colorShadow = Colors.black,
+    this.clickTarget,
+    this.finish,
+    this.paddingFocus = 10,
+    this.clickSkip,
+    this.alignSkip = Alignment.bottomRight,
+    this.textSkip = "SKIP",
+  }) : assert(targets != null);
 
   OverlayEntry _buildOverlay() {
     return OverlayEntry(builder: (context) {
@@ -43,10 +41,9 @@ class TutorialCoachMark {
         alignSkip: alignSkip,
         textSkip: textSkip,
         colorShadow: colorShadow,
-        finish: (){
+        finish: () {
           _hide();
-          if(finish != null)
-            finish();
+          if (finish != null) finish();
         },
       );
     });

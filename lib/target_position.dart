@@ -1,7 +1,6 @@
-
 import 'dart:ui';
 
-class TargetPosition{
+class TargetPosition {
   final Size size;
   final Offset offset;
 

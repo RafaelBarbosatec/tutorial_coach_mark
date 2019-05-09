@@ -8,7 +8,6 @@ import 'package:tutorial_coach_mark/target_position.dart';
 import 'package:tutorial_coach_mark/util.dart';
 
 class TutorialCoachMarkWidget extends StatefulWidget {
-
   final List<TargetFocus> targets;
   final Function(TargetFocus) clickTarget;
   final Function() finish;
@@ -19,24 +18,23 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final String textSkip;
 
   const TutorialCoachMarkWidget(
-      {
-        Key key,
-        this.targets,
-        this.finish,
-        this.paddingFocus = 10,
-        this.clickTarget,
-        this.alignSkip = Alignment.bottomRight,
-        this.textSkip = "SKIP",
-        this.clickSkip,
-        this.colorShadow = Colors.black
-      }) : super(key: key);
+      {Key key,
+      this.targets,
+      this.finish,
+      this.paddingFocus = 10,
+      this.clickTarget,
+      this.alignSkip = Alignment.bottomRight,
+      this.textSkip = "SKIP",
+      this.clickSkip,
+      this.colorShadow = Colors.black})
+      : super(key: key);
 
   @override
-  _TutorialCoachMarkWidgetState createState() => _TutorialCoachMarkWidgetState();
+  _TutorialCoachMarkWidgetState createState() =>
+      _TutorialCoachMarkWidgetState();
 }
 
 class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
-
   StreamController _controllerFade = StreamController<double>.broadcast();
 
   TargetFocus currentTarget;
@@ -52,15 +50,14 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             finish: widget.finish,
             paddingFocus: widget.paddingFocus,
             colorShadow: widget.colorShadow,
-            clickTarget: (target){
-              if(widget.clickTarget != null)
-                widget.clickTarget(target);
+            clickTarget: (target) {
+              if (widget.clickTarget != null) widget.clickTarget(target);
             },
-            focus: (target){
+            focus: (target) {
               currentTarget = target;
               _controllerFade.sink.add(1.0);
             },
-            removeFocus: (){
+            removeFocus: () {
               _controllerFade.sink.add(0.0);
             },
           ),
@@ -75,77 +72,86 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
     return StreamBuilder(
       stream: _controllerFade.stream,
       initialData: 0.0,
-      builder: (_,snapshot){
+      builder: (_, snapshot) {
         return AnimatedOpacity(
-            opacity: snapshot.data,
-            duration: Duration(milliseconds: 300),
-            child: _buildPositionedsContents(),
+          opacity: snapshot.data,
+          duration: Duration(milliseconds: 300),
+          child: _buildPositionedsContents(),
         );
       },
     );
   }
 
   _buildPositionedsContents() {
-
-    if(currentTarget == null){
+    if (currentTarget == null) {
       return Container();
     }
 
-      List<Widget> widgtes = List();
+    List<Widget> widgtes = List();
 
-      TargetPosition target = getTargetCurrent(currentTarget);
-      var positioned = Offset(target.offset.dx + target.size.width/2, target.offset.dy + target.size.height/2);
-      var sizeCircle = target.size.width > target.size.height ? target.size.width : target.size.height;
-      sizeCircle = sizeCircle * 0.6 + widget.paddingFocus;
-      double weight = 0.0;
+    TargetPosition target = getTargetCurrent(currentTarget);
+    var positioned = Offset(target.offset.dx + target.size.width / 2,
+        target.offset.dy + target.size.height / 2);
+    var sizeCircle = target.size.width > target.size.height
+        ? target.size.width
+        : target.size.height;
+    sizeCircle = sizeCircle * 0.6 + widget.paddingFocus;
+    double weight = 0.0;
 
-      double top;
-      double bottom;
-      double left;
+    double top;
+    double bottom;
+    double left;
 
-      widgtes = currentTarget.contents.map<Widget>((i){
-
-        switch(i.align){
-          case AlignContent.bottom:{
+    widgtes = currentTarget.contents.map<Widget>((i) {
+      switch (i.align) {
+        case AlignContent.bottom:
+          {
             weight = MediaQuery.of(context).size.width;
             left = 0;
             top = positioned.dy + sizeCircle;
             bottom = null;
-          }break;
-          case AlignContent.top:{
+          }
+          break;
+        case AlignContent.top:
+          {
             weight = MediaQuery.of(context).size.width;
             left = 0;
             top = null;
-            bottom = sizeCircle + (MediaQuery.of(context).size.height - positioned.dy);
-          } break;
-          case AlignContent.left:{
+            bottom = sizeCircle +
+                (MediaQuery.of(context).size.height - positioned.dy);
+          }
+          break;
+        case AlignContent.left:
+          {
             weight = positioned.dx - sizeCircle;
             left = 0;
-            top = positioned.dy - target.size.height/2 - sizeCircle;
+            top = positioned.dy - target.size.height / 2 - sizeCircle;
             bottom = null;
-          } break;
-          case AlignContent.right:{
+          }
+          break;
+        case AlignContent.right:
+          {
             left = positioned.dx + sizeCircle;
-            top = positioned.dy - target.size.height/2 - sizeCircle;
+            top = positioned.dy - target.size.height / 2 - sizeCircle;
             bottom = null;
             weight = MediaQuery.of(context).size.width - left;
-          } break;
-        }
+          }
+          break;
+      }
 
-        return Positioned(
-          top: top,
-          bottom: bottom,
-          left: left,
-          child: Container(
-            width: weight,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: i.child,
-            ),
+      return Positioned(
+        top: top,
+        bottom: bottom,
+        left: left,
+        child: Container(
+          width: weight,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: i.child,
           ),
-        );
-
-      }).toList();
+        ),
+      );
+    }).toList();
 
     return Stack(
       children: widgtes,
@@ -158,14 +164,14 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
       child: StreamBuilder(
         stream: _controllerFade.stream,
         initialData: 0.0,
-        builder: (_,snapshot){
+        builder: (_, snapshot) {
           return AnimatedOpacity(
             opacity: snapshot.data,
             duration: Duration(milliseconds: 300),
             child: InkWell(
-              onTap: (){
+              onTap: () {
                 widget.finish();
-                if(widget.clickSkip != null){
+                if (widget.clickSkip != null) {
                   widget.clickSkip();
                 }
               },
@@ -173,9 +179,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
                   widget.textSkip,
-                  style: TextStyle(
-                    color: Colors.white
-                  ),
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
@@ -190,5 +194,4 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
     _controllerFade.close();
     super.dispose();
   }
-
 }
