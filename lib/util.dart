@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:tutorial_coach_mark/target_focus.dart';
 import 'package:tutorial_coach_mark/target_position.dart';
 
-getTargetCurrent(TargetFocus target) {
+TargetPosition getTargetCurrent(TargetFocus target) {
   if (target.keyTarget != null) {
     var key = target.keyTarget;
 
