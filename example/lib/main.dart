@@ -43,20 +43,28 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.blueGrey,
+        color: Colors.white,
         child: Stack(
           children: <Widget>[
-            Container(
-              key: keyButton,
-              height: 100,
-              width: 200,
+            Padding(
+              padding: const EdgeInsets.only(top: 100.0),
               child: Align(
                 alignment: Alignment.topCenter,
-                child: RaisedButton(
-                  child: Icon(Icons.remove_red_eye),
-                  onPressed: () {
-                    showTutorial();
-                  },
+                child: Container(
+                  key: keyButton,
+                  color: Colors.blue,
+                  height: 100,
+                  width: MediaQuery.of(context).size.width - 50,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: RaisedButton(
+                      color: Colors.blueAccent,
+                      child: Icon(Icons.remove_red_eye),
+                      onPressed: () {
+                        showTutorial();
+                      },
+                    ),
+                  ),
                 ),
               ),
             ),
