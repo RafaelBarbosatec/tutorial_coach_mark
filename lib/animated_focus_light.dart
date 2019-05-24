@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tutorial_coach_mark/light_paint.dart';
@@ -17,6 +19,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final double paddingFocus;
   final Color colorShadow;
   final double opacityShadow;
+  final Stream<void> streamTap;
 
   const AnimatedFocusLight({
     Key key,
@@ -28,6 +31,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.paddingFocus = 10,
     this.colorShadow = Colors.black,
     this.opacityShadow = 0.8,
+    this.streamTap,
   }) : super(key: key);
 
   @override
@@ -101,7 +105,9 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
         .animate(CurvedAnimation(parent: _controllerPulse, curve: Curves.ease));
 
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-
+    widget.streamTap.listen((_) {
+      _tapHandler();
+    });
     super.initState();
   }
 
@@ -111,13 +117,7 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          setState(() {
-            initReverse = true;
-            _controllerPulse.reverse(from: _controllerPulse.value);
-          });
-          if (currentFocus > -1) {
-            widget?.clickTarget(widget.targets[currentFocus]);
-          }
+          _tapHandler();
         },
         child: AnimatedBuilder(
             animation: _controller,
@@ -160,6 +160,16 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
             }),
       ),
     );
+  }
+
+  void _tapHandler() {
+    setState(() {
+      initReverse = true;
+      _controllerPulse.reverse(from: _controllerPulse.value);
+    });
+    if (currentFocus > -1) {
+      widget?.clickTarget(widget.targets[currentFocus]);
+    }
   }
 
   void _nextFocus() {
