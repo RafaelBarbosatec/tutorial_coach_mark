@@ -76,11 +76,15 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
       stream: _controllerFade.stream,
       initialData: 0.0,
       builder: (_, snapshot) {
-        return AnimatedOpacity(
-          opacity: snapshot.data,
-          duration: Duration(milliseconds: 300),
-          child: _buildPositionedsContents(),
-        );
+        try {
+          return AnimatedOpacity(
+            opacity: snapshot.data,
+            duration: Duration(milliseconds: 300),
+            child: _buildPositionedsContents(),
+          );
+        } catch (err) {
+          return Container();
+        }
       },
     );
   }
