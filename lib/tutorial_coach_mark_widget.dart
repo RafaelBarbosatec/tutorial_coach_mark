@@ -17,7 +17,6 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final Function() clickSkip;
   final AlignmentGeometry alignSkip;
   final String textSkip;
-
   const TutorialCoachMarkWidget(
       {Key key,
       this.targets,
@@ -38,6 +37,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
 
 class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
   StreamController _controllerFade = StreamController<double>.broadcast();
+  StreamController _controllerTapChild = StreamController<void>.broadcast();
 
   TargetFocus currentTarget;
 
@@ -63,6 +63,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             removeFocus: () {
               _controllerFade.sink.add(0.0);
             },
+            streamTap: _controllerTapChild.stream,
           ),
           _buildContents(),
           _buildSkip()
@@ -150,11 +151,16 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
         top: top,
         bottom: bottom,
         left: left,
-        child: Container(
-          width: weight,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: i.child,
+        child: GestureDetector(
+          onTap: () {
+            _controllerTapChild.add(null);
+          },
+          child: Container(
+            width: weight,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: i.child,
+            ),
           ),
         ),
       );
