@@ -15,7 +15,8 @@ class AnimatedFocusLight extends StatefulWidget {
   final Function(TargetFocus) focus;
   final Function(TargetFocus) clickTarget;
   final Function removeFocus;
-  final Function() finish;
+  final Function() onTutorialEnd;
+  final Function() onDispose;
   final double paddingFocus;
   final Color colorShadow;
   final double opacityShadow;
@@ -25,7 +26,8 @@ class AnimatedFocusLight extends StatefulWidget {
     Key key,
     this.targets,
     this.focus,
-    this.finish,
+    this.onTutorialEnd,
+    this.onDispose,
     this.removeFocus,
     this.clickTarget,
     this.paddingFocus = 10,
@@ -180,7 +182,8 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
         currentFocus = -1;
       });
 
-      widget.finish();
+      widget.onDispose();
+      if (widget.onTutorialEnd != null) widget.onTutorialEnd();
       return;
     }
 
