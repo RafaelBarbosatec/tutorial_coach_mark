@@ -10,9 +10,10 @@ class TutorialCoachMark {
   final BuildContext _context;
   final List<TargetFocus> targets;
   final Function(TargetFocus) clickTarget;
-  final Function() finish;
+  final Function() onDispose;
   final double paddingFocus;
   final Function() clickSkip;
+  final Function() onTutorialEnd;
   final AlignmentGeometry alignSkip;
   final String textSkip;
   final Color colorShadow;
@@ -25,9 +26,10 @@ class TutorialCoachMark {
     this.targets,
     this.colorShadow = Colors.black,
     this.clickTarget,
-    this.finish,
+    this.onDispose,
     this.paddingFocus = 10,
     this.clickSkip,
+    this.onTutorialEnd,
     this.alignSkip = Alignment.bottomRight,
     this.textSkip = "SKIP",
     this.opacityShadow = 0.8,
@@ -44,9 +46,10 @@ class TutorialCoachMark {
         textSkip: textSkip,
         colorShadow: colorShadow,
         opacityShadow: opacityShadow,
-        finish: () {
+        onTutorialEnd: onTutorialEnd,
+        onDispose: () {
           _hide();
-          if (finish != null) finish();
+          if (onDispose != null) onDispose();
         },
       );
     });
