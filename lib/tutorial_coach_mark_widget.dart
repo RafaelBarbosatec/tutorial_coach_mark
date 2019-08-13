@@ -174,30 +174,32 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
   _buildSkip() {
     return Align(
       alignment: widget.alignSkip,
-      child: StreamBuilder(
-        stream: _controllerFade.stream,
-        initialData: 0.0,
-        builder: (_, snapshot) {
-          return AnimatedOpacity(
-            opacity: snapshot.data,
-            duration: Duration(milliseconds: 300),
-            child: InkWell(
-              onTap: () {
-                widget.finish();
-                if (widget.clickSkip != null) {
-                  widget.clickSkip();
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  widget.textSkip,
-                  style: TextStyle(color: Colors.white),
+      child: SafeArea(
+        child: StreamBuilder(
+          stream: _controllerFade.stream,
+          initialData: 0.0,
+          builder: (_, snapshot) {
+            return AnimatedOpacity(
+              opacity: snapshot.data,
+              duration: Duration(milliseconds: 300),
+              child: InkWell(
+                onTap: () {
+                  widget.finish();
+                  if (widget.clickSkip != null) {
+                    widget.clickSkip();
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text(
+                    widget.textSkip,
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
