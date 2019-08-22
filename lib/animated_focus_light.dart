@@ -168,11 +168,12 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProv
   }
 
   void _nextFocus() {
-    currentFocus++;
-    if (currentFocus > widget.targets.length - 1) {
+    if (currentFocus >= widget.targets.length - 1) {
       this._finish();
       return;
     }
+
+    currentFocus++;
 
     var targetPosition = getTargetCurrent(widget.targets[currentFocus]);
     if (targetPosition == null) {
