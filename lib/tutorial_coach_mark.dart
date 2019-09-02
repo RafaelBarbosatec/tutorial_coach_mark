@@ -17,6 +17,7 @@ class TutorialCoachMark {
   final String textSkip;
   final Color colorShadow;
   final double opacityShadow;
+  final double animationSpeed;
 
   OverlayEntry _overlayEntry;
 
@@ -31,6 +32,7 @@ class TutorialCoachMark {
     this.alignSkip = Alignment.bottomRight,
     this.textSkip = "SKIP",
     this.opacityShadow = 0.8,
+    this.animationSpeed = 1.0,
   }) : assert(targets != null, opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay() {
@@ -44,8 +46,9 @@ class TutorialCoachMark {
         textSkip: textSkip,
         colorShadow: colorShadow,
         opacityShadow: opacityShadow,
+        animationSpeed: animationSpeed,
         finish: () {
-          _hide();
+          hide();
           if (finish != null) finish();
         },
       );
@@ -59,7 +62,7 @@ class TutorialCoachMark {
     }
   }
 
-  void _hide() {
+  void hide() {
     _overlayEntry?.remove();
     _overlayEntry = null;
   }

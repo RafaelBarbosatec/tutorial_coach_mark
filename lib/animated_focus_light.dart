@@ -19,6 +19,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final double paddingFocus;
   final Color colorShadow;
   final double opacityShadow;
+  final double animationSpeed;
   final Stream<void> streamTap;
 
   const AnimatedFocusLight({
@@ -31,6 +32,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.paddingFocus = 10,
     this.colorShadow = Colors.black,
     this.opacityShadow = 0.8,
+    this.animationSpeed = 1.0,
     this.streamTap,
   }) : super(key: key);
 
@@ -56,7 +58,7 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
   @override
   void initState() {
     _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 600));
+        AnimationController(vsync: this, duration: Duration(milliseconds: (600 / widget.animationSpeed).toInt()));
     _controller
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
@@ -83,7 +85,7 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
     _curvedAnimation = CurvedAnimation(parent: _controller, curve: Curves.ease);
 
     _controllerPulse =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+        AnimationController(vsync: this, duration: Duration(milliseconds: (500 / widget.animationSpeed).toInt()));
     _controllerPulse.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _controllerPulse.reverse();
