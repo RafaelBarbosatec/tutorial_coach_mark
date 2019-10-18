@@ -342,6 +342,9 @@ class _MyHomePageState extends State<MyHomePage> {
         colorShadow: Colors.red,
         textSkip: "SKIP",
         paddingFocus: 10,
+        textStyleSkip: TextStyle(
+          color: Colors.yellow
+        ),
         opacityShadow: 0.8, finish: () {
       print("finish");
     }, clickTarget: (target) {
