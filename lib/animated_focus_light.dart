@@ -38,7 +38,8 @@ class AnimatedFocusLight extends StatefulWidget {
   _AnimatedFocusLightState createState() => _AnimatedFocusLightState();
 }
 
-class _AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProviderStateMixin {
+class _AnimatedFocusLightState extends State<AnimatedFocusLight>
+    with TickerProviderStateMixin {
   AnimationController _controller;
   AnimationController _controllerPulse;
   CurvedAnimation _curvedAnimation;
@@ -54,7 +55,8 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProv
 
   @override
   void initState() {
-    _controller = AnimationController(vsync: this, duration: Duration(milliseconds: 600));
+    _controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 600));
     _controller
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
@@ -80,7 +82,8 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProv
 
     _curvedAnimation = CurvedAnimation(parent: _controller, curve: Curves.ease);
 
-    _controllerPulse = AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    _controllerPulse =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     _controllerPulse.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _controllerPulse.reverse();
@@ -98,7 +101,8 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProv
       }
     });
 
-    tweenPulse = Tween(begin: 1.0, end: 0.99).animate(CurvedAnimation(parent: _controllerPulse, curve: Curves.ease));
+    tweenPulse = Tween(begin: 1.0, end: 0.99)
+        .animate(CurvedAnimation(parent: _controllerPulse, curve: Curves.ease));
 
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     widget.streamTap.listen((_) {
@@ -130,7 +134,8 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProv
                     height: double.maxFinite,
                     child: currentFocus != -1
                         ? CustomPaint(
-                            painter: widget?.targets[currentFocus]?.shape == ShapeLightFocus.RRect
+                            painter: widget?.targets[currentFocus]?.shape ==
+                                    ShapeLightFocus.RRect
                                 ? LightPaintRect(
                                     colorShadow: widget.colorShadow,
                                     positioned: positioned,
