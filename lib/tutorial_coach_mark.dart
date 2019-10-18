@@ -48,8 +48,7 @@ class TutorialCoachMark {
         colorShadow: colorShadow,
         opacityShadow: opacityShadow,
         finish: () {
-          _hide();
-          if (finish != null) finish();
+          hide();
         },
       );
     });
@@ -62,7 +61,8 @@ class TutorialCoachMark {
     }
   }
 
-  void _hide() {
+  void hide() {
+    if (finish != null) finish();
     _overlayEntry?.remove();
     _overlayEntry = null;
   }
