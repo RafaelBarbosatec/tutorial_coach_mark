@@ -29,7 +29,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
       this.clickSkip,
       this.colorShadow = Colors.black,
       this.opacityShadow = 0.8,
-      this.hideSkip = false})
+      this.hideSkip})
       : super(key: key);
 
   @override
