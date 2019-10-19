@@ -15,6 +15,7 @@ class TutorialCoachMark {
   final Function() clickSkip;
   final AlignmentGeometry alignSkip;
   final String textSkip;
+  final TextStyle textStyleSkip;
   final bool hideSkip;
   final Color colorShadow;
   final double opacityShadow;
@@ -31,6 +32,7 @@ class TutorialCoachMark {
     this.clickSkip,
     this.alignSkip = Alignment.bottomRight,
     this.textSkip = "SKIP",
+    this.textStyleSkip = const TextStyle(color: Colors.white),
     this.hideSkip = false,
     this.opacityShadow = 0.8,
   }) : assert(targets != null, opacityShadow >= 0 && opacityShadow <= 1);
@@ -44,12 +46,12 @@ class TutorialCoachMark {
         clickSkip: clickSkip,
         alignSkip: alignSkip,
         textSkip: textSkip,
+        textStyleSkip: textStyleSkip,
         hideSkip: hideSkip,
         colorShadow: colorShadow,
         opacityShadow: opacityShadow,
         finish: () {
-          _hide();
-          if (finish != null) finish();
+          hide();
         },
       );
     });
@@ -62,7 +64,8 @@ class TutorialCoachMark {
     }
   }
 
-  void _hide() {
+  void hide() {
+    if (finish != null) finish();
     _overlayEntry?.remove();
     _overlayEntry = null;
   }

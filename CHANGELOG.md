@@ -1,3 +1,9 @@
+## [0.3.0] - 18/10/2019.
+
+* Fix Issue #14
+* Fix Issue #11
+* Fix Issue #18
+* Accepts contributions from grandpa-guru and Vanethos
 
 ## [0.2.0] - 22/06/2019.
 

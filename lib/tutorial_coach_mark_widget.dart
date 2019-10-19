@@ -17,7 +17,9 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final Function() clickSkip;
   final AlignmentGeometry alignSkip;
   final String textSkip;
+  final TextStyle textStyleSkip;
   final bool hideSkip;
+
   const TutorialCoachMarkWidget(
       {Key key,
       this.targets,
@@ -29,6 +31,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
       this.clickSkip,
       this.colorShadow = Colors.black,
       this.opacityShadow = 0.8,
+      this.textStyleSkip = const TextStyle(color: Colors.white),
       this.hideSkip})
       : super(key: key);
 
@@ -102,10 +105,19 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
     TargetPosition target = getTargetCurrent(currentTarget);
     var positioned = Offset(target.offset.dx + target.size.width / 2,
         target.offset.dy + target.size.height / 2);
-    var sizeCircle = target.size.width > target.size.height
-        ? target.size.width
-        : target.size.height;
-    sizeCircle = sizeCircle * 0.6 + widget.paddingFocus;
+    double haloWidth;
+    double haloHeight;
+    if (currentTarget.shape == ShapeLightFocus.Circle) {
+      haloWidth = target.size.width > target.size.height
+          ? target.size.width
+          : target.size.height;
+      haloHeight = haloWidth;
+    } else {
+      haloWidth = target.size.width;
+      haloHeight = target.size.height;
+    }
+    haloWidth = haloWidth * 0.6 + widget.paddingFocus;
+    haloHeight = haloHeight * 0.6 + widget.paddingFocus;
     double weight = 0.0;
 
     double top;
@@ -118,7 +130,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
           {
             weight = MediaQuery.of(context).size.width;
             left = 0;
-            top = positioned.dy + sizeCircle;
+            top = positioned.dy + haloHeight;
             bottom = null;
           }
           break;
@@ -127,22 +139,22 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             weight = MediaQuery.of(context).size.width;
             left = 0;
             top = null;
-            bottom = sizeCircle +
+            bottom = haloHeight +
                 (MediaQuery.of(context).size.height - positioned.dy);
           }
           break;
         case AlignContent.left:
           {
-            weight = positioned.dx - sizeCircle;
+            weight = positioned.dx - haloWidth;
             left = 0;
-            top = positioned.dy - target.size.height / 2 - sizeCircle;
+            top = positioned.dy - target.size.height / 2 - haloHeight;
             bottom = null;
           }
           break;
         case AlignContent.right:
           {
-            left = positioned.dx + sizeCircle;
-            top = positioned.dy - target.size.height / 2 - sizeCircle;
+            left = positioned.dx + haloWidth;
+            top = positioned.dy - target.size.height / 2 - haloHeight;
             bottom = null;
             weight = MediaQuery.of(context).size.width - left;
           }
@@ -179,30 +191,32 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
     }
     return Align(
       alignment: widget.alignSkip,
-      child: StreamBuilder(
-        stream: _controllerFade.stream,
-        initialData: 0.0,
-        builder: (_, snapshot) {
-          return AnimatedOpacity(
-            opacity: snapshot.data,
-            duration: Duration(milliseconds: 300),
-            child: InkWell(
-              onTap: () {
-                widget.finish();
-                if (widget.clickSkip != null) {
-                  widget.clickSkip();
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  widget.textSkip,
-                  style: TextStyle(color: Colors.white),
+      child: SafeArea(
+        child: StreamBuilder(
+          stream: _controllerFade.stream,
+          initialData: 0.0,
+          builder: (_, snapshot) {
+            return AnimatedOpacity(
+              opacity: snapshot.data,
+              duration: Duration(milliseconds: 300),
+              child: InkWell(
+                onTap: () {
+                  widget.finish();
+                  if (widget.clickSkip != null) {
+                    widget.clickSkip();
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text(
+                    widget.textSkip,
+                    style: widget.textStyleSkip,
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

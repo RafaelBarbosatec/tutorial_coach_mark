@@ -173,23 +173,27 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
   }
 
   void _nextFocus() {
+    if (currentFocus >= widget.targets.length - 1) {
+      this._finish();
+      return;
+    }
+
     currentFocus++;
 
-    if (currentFocus > widget.targets.length - 1) {
-      setState(() {
-        currentFocus = -1;
-      });
-
-      widget.finish();
+    var targetPosition = getTargetCurrent(widget.targets[currentFocus]);
+    if (targetPosition == null) {
+      this._finish();
       return;
     }
 
     setState(() {
       finishFocus = false;
-      targetPosition = getTargetCurrent(widget.targets[currentFocus]);
+      this.targetPosition = targetPosition;
+
       positioned = Offset(
-          targetPosition.offset.dx + (targetPosition.size.width / 2),
-          targetPosition.offset.dy + (targetPosition.size.height / 2));
+        targetPosition.offset.dx + (targetPosition.size.width / 2),
+        targetPosition.offset.dy + (targetPosition.size.height / 2),
+      );
 
       if (targetPosition.size.height > targetPosition.size.width) {
         sizeCircle = targetPosition.size.height * 0.6 + widget.paddingFocus;
@@ -199,6 +203,14 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
     });
 
     _controller.forward();
+  }
+
+  void _finish() {
+    setState(() {
+      currentFocus = -1;
+    });
+
+    widget.finish();
   }
 
   @override
