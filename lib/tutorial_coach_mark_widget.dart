@@ -69,7 +69,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             streamTap: _controllerTapChild.stream,
           ),
           _buildContents(),
-          _buildSkip()
+          // _buildSkip()
         ],
       ),
     );
