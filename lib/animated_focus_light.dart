@@ -20,6 +20,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final Color colorShadow;
   final double opacityShadow;
   final Stream<void> streamTap;
+  final bool disableOverlayTap;
 
   const AnimatedFocusLight({
     Key key,
@@ -32,14 +33,14 @@ class AnimatedFocusLight extends StatefulWidget {
     this.colorShadow = Colors.black,
     this.opacityShadow = 0.8,
     this.streamTap,
+    this.disableOverlayTap = false,
   }) : super(key: key);
 
   @override
   _AnimatedFocusLightState createState() => _AnimatedFocusLightState();
 }
 
-class _AnimatedFocusLightState extends State<AnimatedFocusLight>
-    with TickerProviderStateMixin {
+class _AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProviderStateMixin {
   AnimationController _controller;
   AnimationController _controllerPulse;
   CurvedAnimation _curvedAnimation;
@@ -55,8 +56,7 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
 
   @override
   void initState() {
-    _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 600));
+    _controller = AnimationController(vsync: this, duration: Duration(milliseconds: 600));
     _controller
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
@@ -82,8 +82,7 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
 
     _curvedAnimation = CurvedAnimation(parent: _controller, curve: Curves.ease);
 
-    _controllerPulse =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    _controllerPulse = AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     _controllerPulse.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _controllerPulse.reverse();
@@ -101,8 +100,7 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
       }
     });
 
-    tweenPulse = Tween(begin: 1.0, end: 0.99)
-        .animate(CurvedAnimation(parent: _controllerPulse, curve: Curves.ease));
+    tweenPulse = Tween(begin: 1.0, end: 0.99).animate(CurvedAnimation(parent: _controllerPulse, curve: Curves.ease));
 
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     widget.streamTap.listen((_) {
@@ -134,8 +132,7 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
                     height: double.maxFinite,
                     child: currentFocus != -1
                         ? CustomPaint(
-                            painter: widget?.targets[currentFocus]?.shape ==
-                                    ShapeLightFocus.RRect
+                            painter: widget?.targets[currentFocus]?.shape == ShapeLightFocus.RRect
                                 ? LightPaintRect(
                                     colorShadow: widget.colorShadow,
                                     positioned: positioned,
@@ -163,12 +160,14 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
   }
 
   void _tapHandler() {
-    setState(() {
-      initReverse = true;
-      _controllerPulse.reverse(from: _controllerPulse.value);
-    });
-    if (currentFocus > -1) {
-      widget?.clickTarget(widget.targets[currentFocus]);
+    if (widget.disableOverlayTap == false) {
+      setState(() {
+        initReverse = true;
+        _controllerPulse.reverse(from: _controllerPulse.value);
+      });
+      if (currentFocus > -1) {
+        widget?.clickTarget(widget.targets[currentFocus]);
+      }
     }
   }
 

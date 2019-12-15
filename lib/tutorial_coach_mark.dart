@@ -18,6 +18,7 @@ class TutorialCoachMark {
   final TextStyle textStyleSkip;
   final Color colorShadow;
   final double opacityShadow;
+  final bool disableOverlayTap;
 
   OverlayEntry _overlayEntry;
 
@@ -33,6 +34,7 @@ class TutorialCoachMark {
     this.textSkip = "SKIP",
     this.textStyleSkip = const TextStyle(color: Colors.white),
     this.opacityShadow = 0.8,
+    this.disableOverlayTap = false,
   }) : assert(targets != null, opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay() {
@@ -50,6 +52,7 @@ class TutorialCoachMark {
         finish: () {
           hide();
         },
+        disableOverlayTap: disableOverlayTap,
       );
     });
   }

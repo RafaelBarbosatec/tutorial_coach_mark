@@ -18,6 +18,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final AlignmentGeometry alignSkip;
   final String textSkip;
   final TextStyle textStyleSkip;
+  final bool disableOverlayTap;
 
   const TutorialCoachMarkWidget(
       {Key key,
@@ -30,7 +31,8 @@ class TutorialCoachMarkWidget extends StatefulWidget {
       this.clickSkip,
       this.colorShadow = Colors.black,
       this.opacityShadow = 0.8,
-      this.textStyleSkip = const TextStyle(color: Colors.white)})
+      this.textStyleSkip = const TextStyle(color: Colors.white),
+      this.disableOverlayTap = false})
       : super(key: key);
 
   @override
@@ -67,6 +69,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
               _controllerFade.sink.add(0.0);
             },
             streamTap: _controllerTapChild.stream,
+            disableOverlayTap: widget.disableOverlayTap,
           ),
           _buildContents(),
           _buildSkip()
