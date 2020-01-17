@@ -19,7 +19,8 @@ class AnimatedFocusLight extends StatefulWidget {
   final double paddingFocus;
   final Color colorShadow;
   final double opacityShadow;
-  final Stream<void> streamTap;
+  final Stream<void> streamPreviousTap;
+  final Stream<void> streamNextTap;
 
   const AnimatedFocusLight({
     Key key,
@@ -31,7 +32,8 @@ class AnimatedFocusLight extends StatefulWidget {
     this.paddingFocus = 10,
     this.colorShadow = Colors.black,
     this.opacityShadow = 0.8,
-    this.streamTap,
+    this.streamPreviousTap,
+    this.streamNextTap,
   }) : super(key: key);
 
   @override
@@ -53,6 +55,8 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
   bool initReverse = false;
   double progressAnimated = 0;
 
+  bool isGoNext = true;
+
   @override
   void initState() {
     _controller =
@@ -72,7 +76,11 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
             finishFocus = false;
             initReverse = false;
           });
-          _nextFocus();
+          if (isGoNext) {
+            _nextFocus();
+          } else {
+            _previousFocus();
+          }
         }
 
         if (status == AnimationStatus.reverse) {
@@ -105,7 +113,12 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
         .animate(CurvedAnimation(parent: _controllerPulse, curve: Curves.ease));
 
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    widget.streamTap.listen((_) {
+    widget.streamPreviousTap.listen((_) {
+      isGoNext = false;
+      _tapHandler();
+    });
+    widget.streamNextTap.listen((_) {
+      isGoNext = true;
       _tapHandler();
     });
     super.initState();
@@ -117,11 +130,11 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          _tapHandler();
+          //_tapHandler();
         },
         child: AnimatedBuilder(
             animation: _controller,
-            builder: (_, chuild) {
+            builder: (_, __) {
               progressAnimated = _curvedAnimation.value;
               return AnimatedBuilder(
                 animation: _controllerPulse,
@@ -170,6 +183,37 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
     if (currentFocus > -1) {
       widget?.clickTarget(widget.targets[currentFocus]);
     }
+  }
+
+  void _previousFocus() {
+    if (currentFocus <= 0) {
+      this._finish();
+      return;
+    }
+    currentFocus--;
+
+    var targetPosition = getTargetCurrent(widget.targets[currentFocus]);
+    if (targetPosition == null) {
+      this._finish();
+      return;
+    }
+
+    setState(() {
+      finishFocus = false;
+      this.targetPosition = targetPosition;
+
+      positioned = Offset(
+        targetPosition.offset.dx + (targetPosition.size.width / 2),
+        targetPosition.offset.dy + (targetPosition.size.height / 2),
+      );
+
+      if (targetPosition.size.height > targetPosition.size.width) {
+        sizeCircle = targetPosition.size.height * 0.6 + widget.paddingFocus;
+      } else {
+        sizeCircle = targetPosition.size.width * 0.6 + widget.paddingFocus;
+      }
+    });
+    _controller.forward();
   }
 
   void _nextFocus() {
