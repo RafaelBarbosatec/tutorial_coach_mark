@@ -14,8 +14,14 @@ class TutorialCoachMark {
   final double paddingFocus;
   final Function() clickSkip;
   final AlignmentGeometry alignSkip;
+  final AlignmentGeometry alignPrevious;
+  final AlignmentGeometry alignNext;
   final String textSkip;
+  final String textPrevious;
+  final String textNext;
   final TextStyle textStyleSkip;
+  final TextStyle textStylePrevious;
+  final TextStyle textStyleNext;
   final Color colorShadow;
   final double opacityShadow;
 
@@ -29,9 +35,15 @@ class TutorialCoachMark {
     this.finish,
     this.paddingFocus = 10,
     this.clickSkip,
-    this.alignSkip = Alignment.bottomRight,
+    this.alignSkip = Alignment.topRight,
+    this.alignPrevious = Alignment.bottomLeft,
+    this.alignNext = Alignment.bottomRight,
     this.textSkip = "SKIP",
+    this.textPrevious = "PREVIOUS",
+    this.textNext = "NEXT",
     this.textStyleSkip = const TextStyle(color: Colors.white),
+    this.textStylePrevious = const TextStyle(color: Colors.white),
+    this.textStyleNext = const TextStyle(color: Colors.white),
     this.opacityShadow = 0.8,
   }) : assert(targets != null, opacityShadow >= 0 && opacityShadow <= 1);
 
@@ -45,6 +57,12 @@ class TutorialCoachMark {
         alignSkip: alignSkip,
         textSkip: textSkip,
         textStyleSkip: textStyleSkip,
+        alignPrevious: alignPrevious,
+        alignNext: alignNext,
+        textPrevious: textPrevious,
+        textNext: textNext,
+        textStylePrevious: textStylePrevious,
+        textStyleNext: textStyleNext,
         colorShadow: colorShadow,
         opacityShadow: opacityShadow,
         finish: () {

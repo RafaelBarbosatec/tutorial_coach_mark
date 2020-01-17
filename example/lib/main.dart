@@ -341,6 +341,13 @@ class _MyHomePageState extends State<MyHomePage> {
         targets: targets,
         colorShadow: Colors.red,
         textSkip: "SKIP",
+        textPrevious: "Previous",
+        textNext: "next",
+        textStyleNext: TextStyle(color: Colors.amber),
+        textStylePrevious: TextStyle(color: Colors.amber),
+        alignPrevious: Alignment.centerLeft,
+        alignNext: Alignment.centerRight,
+        alignSkip: Alignment.topRight,
         paddingFocus: 10,
         opacityShadow: 0.8, finish: () {
       print("finish");
