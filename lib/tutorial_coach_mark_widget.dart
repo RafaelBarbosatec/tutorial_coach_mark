@@ -14,6 +14,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final Color colorShadow;
   final double opacityShadow;
   final double paddingFocus;
+  final double radius;
   final Function() clickSkip;
   final AlignmentGeometry alignSkip;
   final String textSkip;
@@ -25,6 +26,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
       this.targets,
       this.finish,
       this.paddingFocus = 10,
+      this.radius = 0,
       this.clickTarget,
       this.alignSkip = Alignment.bottomRight,
       this.textSkip = "SKIP",
@@ -53,6 +55,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
       child: Stack(
         children: <Widget>[
           AnimatedFocusLight(
+            radius: widget.radius,
             targets: widget.targets,
             finish: widget.finish,
             paddingFocus: widget.paddingFocus,
