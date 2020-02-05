@@ -295,17 +295,9 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child: Container(
-                          height: 20,
-                          width: 20,
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Text(
-                            widget.textNext,
-                            style: widget.textStyleNext,
-                          ),
+                        child: Text(
+                          widget.textNext,
+                          style: widget.textStyleNext,
                         ),
                       ),
                     ),
