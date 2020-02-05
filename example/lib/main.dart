@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:tutorial_coach_mark/animated_focus_light.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -136,27 +135,27 @@ class _MyHomePageState extends State<MyHomePage> {
         ContentTarget(
             align: AlignContent.bottom,
             child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Titulo lorem ipsum",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20.0),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
-                ],
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Titulo lorem ipsum",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 20.0),
               ),
-            ))
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Text(
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
+            ],
+          ),
+        ))
       ],
       shape: ShapeLightFocus.RRect,
     ));
@@ -338,15 +337,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void showTutorial() {
-    // ignore: close_sinks
-    final BehaviorSubject<AlignmentGeometry> alignPrevious =
-        BehaviorSubject.seeded(Alignment.centerLeft);
-    // ignore: close_sinks
-    final BehaviorSubject<AlignmentGeometry> alignNext =
-        BehaviorSubject.seeded(Alignment.centerRight);
-    // ignore: close_sinks
-    final BehaviorSubject<AlignmentGeometry> alignSkip =
-        BehaviorSubject.seeded(Alignment.bottomRight);
     TutorialCoachMark(context,
         targets: targets,
         colorShadow: Colors.red,
@@ -355,23 +345,18 @@ class _MyHomePageState extends State<MyHomePage> {
         textNext: "next",
         textStyleNext: TextStyle(color: Colors.amber),
         textStylePrevious: TextStyle(color: Colors.amber),
-        alignPrevious: alignPrevious,
-        alignNext: alignNext,
-        alignSkip: alignSkip,
         paddingFocus: 10,
-        opacityShadow: 0.8, finish: () {
-      print("finish");
-    }, clickTarget: (target) {
-      print(target);
-    }, currentTarget: (target) {
-      if (target.keyTarget != null && target.keyTarget == keyButton4) {
-        alignPrevious.add(Alignment.topLeft);
-      } else {
-        alignPrevious.add(Alignment.centerLeft);
-      }
-    }, clickSkip: () {
-      print("skip");
-    })
+        opacityShadow: 0.8,
+        finish: () {
+          print("finish");
+        },
+        clickTarget: (target) {
+          print(target);
+        },
+        currentTarget: (target) {},
+        clickSkip: () {
+          print("skip");
+        })
       ..show();
   }
 

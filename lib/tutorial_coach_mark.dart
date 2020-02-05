@@ -14,12 +14,6 @@ class TutorialCoachMark {
   final Function() finish;
   final double paddingFocus;
   final Function() clickSkip;
-  @required
-  final Stream<AlignmentGeometry> alignSkip;
-  @required
-  final Stream<AlignmentGeometry> alignPrevious;
-  @required
-  final Stream<AlignmentGeometry> alignNext;
   final String textSkip;
   final String textPrevious;
   final String textNext;
@@ -40,9 +34,6 @@ class TutorialCoachMark {
     this.finish,
     this.paddingFocus = 10,
     this.clickSkip,
-    this.alignSkip,
-    this.alignPrevious,
-    this.alignNext,
     this.textSkip = "SKIP",
     this.textPrevious = "PREVIOUS",
     this.textNext = "NEXT",
@@ -60,11 +51,8 @@ class TutorialCoachMark {
         currentTarget: currentTarget,
         paddingFocus: paddingFocus,
         clickSkip: clickSkip,
-        alignSkip: alignSkip,
         textSkip: textSkip,
         textStyleSkip: textStyleSkip,
-        alignPrevious: alignPrevious,
-        alignNext: alignNext,
         textPrevious: textPrevious,
         textNext: textNext,
         textStylePrevious: textStylePrevious,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:tutorial_coach_mark/animated_focus_light.dart';
 import 'package:tutorial_coach_mark/content_target.dart';
 import 'package:tutorial_coach_mark/target_focus.dart';
@@ -16,12 +17,6 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final double opacityShadow;
   final double paddingFocus;
   final Function() clickSkip;
-  @required
-  final Stream<AlignmentGeometry> alignSkip;
-  @required
-  final Stream<AlignmentGeometry> alignPrevious;
-  @required
-  final Stream<AlignmentGeometry> alignNext;
   final String textSkip;
   final String textPrevious;
   final String textNext;
@@ -30,16 +25,13 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final TextStyle textStyleNext;
   final Function() onPreviousClick;
 
-  const TutorialCoachMarkWidget({
+  TutorialCoachMarkWidget({
     Key key,
     this.targets,
     this.finish,
     this.paddingFocus = 10,
     this.clickTarget,
     this.currentTarget,
-    this.alignSkip,
-    this.alignPrevious,
-    this.alignNext,
     this.textSkip = "SKIP",
     this.textPrevious = "PREVIOUS",
     this.textNext = "NEXT",
@@ -62,7 +54,12 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
   StreamController _controllerTapChild = StreamController<void>.broadcast();
   StreamController _controllerTapPrevious = StreamController<void>.broadcast();
   StreamController _controllerTapNext = StreamController<void>.broadcast();
-
+  @required
+  final alignSkip = BehaviorSubject<AlignmentGeometry>();
+  @required
+  final alignPrevious = BehaviorSubject<AlignmentGeometry>();
+  @required
+  final alignNext = BehaviorSubject<AlignmentGeometry>();
   TargetFocus currentTarget;
 
   @override
@@ -84,6 +81,15 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
               currentTarget = target;
               if (widget.currentTarget != null) widget.currentTarget(target);
               _controllerFade.sink.add(1.0);
+              if (currentTarget.contents.first.align == AlignContent.bottom) {
+                alignNext.add(Alignment.bottomRight);
+                alignPrevious.add(Alignment.bottomLeft);
+                alignSkip.add(Alignment.topRight);
+              } else {
+                alignNext.add(Alignment.topRight);
+                alignPrevious.add(Alignment.topLeft);
+                alignSkip.add(Alignment.bottomRight);
+              }
             },
             removeFocus: () {
               _controllerFade.sink.add(0.0);
@@ -206,7 +212,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
 
   _buildSkip() {
     return StreamBuilder<AlignmentGeometry>(
-        stream: widget.alignSkip,
+        stream: alignSkip,
         builder: (context, snapshot) {
           return Align(
             alignment: snapshot.data ?? Alignment.bottomRight,
@@ -243,7 +249,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
 
   _buildPrevious() {
     return StreamBuilder<AlignmentGeometry>(
-        stream: widget.alignPrevious,
+        stream: alignPrevious,
         builder: (context, snapshot) {
           return Align(
             alignment: snapshot.data ?? Alignment.centerLeft,
@@ -277,7 +283,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
 
   _buildNext() {
     return StreamBuilder<AlignmentGeometry>(
-        stream: widget.alignNext,
+        stream: alignNext,
         builder: (context, snapshot) {
           return Align(
             alignment: snapshot.data ?? Alignment.centerRight,
@@ -311,6 +317,9 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
 
   @override
   void dispose() {
+    alignNext.close();
+    alignPrevious.close();
+    alignSkip.close();
     _controllerFade.close();
     _controllerTapChild.close();
     _controllerTapPrevious.close();
