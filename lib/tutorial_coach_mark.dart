@@ -10,12 +10,16 @@ class TutorialCoachMark {
   final BuildContext _context;
   final List<TargetFocus> targets;
   final Function(TargetFocus) clickTarget;
+  final Function(TargetFocus) currentTarget;
   final Function() finish;
   final double paddingFocus;
   final Function() clickSkip;
-  final AlignmentGeometry alignSkip;
-  final AlignmentGeometry alignPrevious;
-  final AlignmentGeometry alignNext;
+  @required
+  final Stream<AlignmentGeometry> alignSkip;
+  @required
+  final Stream<AlignmentGeometry> alignPrevious;
+  @required
+  final Stream<AlignmentGeometry> alignNext;
   final String textSkip;
   final String textPrevious;
   final String textNext;
@@ -32,12 +36,13 @@ class TutorialCoachMark {
     this.targets,
     this.colorShadow = Colors.black,
     this.clickTarget,
+    this.currentTarget,
     this.finish,
     this.paddingFocus = 10,
     this.clickSkip,
-    this.alignSkip = Alignment.topRight,
-    this.alignPrevious = Alignment.bottomLeft,
-    this.alignNext = Alignment.bottomRight,
+    this.alignSkip,
+    this.alignPrevious,
+    this.alignNext,
     this.textSkip = "SKIP",
     this.textPrevious = "PREVIOUS",
     this.textNext = "NEXT",
@@ -52,6 +57,7 @@ class TutorialCoachMark {
       return TutorialCoachMarkWidget(
         targets: targets,
         clickTarget: clickTarget,
+        currentTarget: currentTarget,
         paddingFocus: paddingFocus,
         clickSkip: clickSkip,
         alignSkip: alignSkip,

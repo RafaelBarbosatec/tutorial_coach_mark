@@ -10,14 +10,18 @@ import 'package:tutorial_coach_mark/util.dart';
 class TutorialCoachMarkWidget extends StatefulWidget {
   final List<TargetFocus> targets;
   final Function(TargetFocus) clickTarget;
+  final Function(TargetFocus) currentTarget;
   final Function() finish;
   final Color colorShadow;
   final double opacityShadow;
   final double paddingFocus;
   final Function() clickSkip;
-  final AlignmentGeometry alignSkip;
-  final AlignmentGeometry alignPrevious;
-  final AlignmentGeometry alignNext;
+  @required
+  final Stream<AlignmentGeometry> alignSkip;
+  @required
+  final Stream<AlignmentGeometry> alignPrevious;
+  @required
+  final Stream<AlignmentGeometry> alignNext;
   final String textSkip;
   final String textPrevious;
   final String textNext;
@@ -32,9 +36,10 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.finish,
     this.paddingFocus = 10,
     this.clickTarget,
-    this.alignSkip = Alignment.topRight,
-    this.alignPrevious = Alignment.bottomLeft,
-    this.alignNext = Alignment.bottomRight,
+    this.currentTarget,
+    this.alignSkip,
+    this.alignPrevious,
+    this.alignNext,
     this.textSkip = "SKIP",
     this.textPrevious = "PREVIOUS",
     this.textNext = "NEXT",
@@ -54,6 +59,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
 
 class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
   StreamController _controllerFade = StreamController<double>.broadcast();
+  StreamController _controllerTapChild = StreamController<void>.broadcast();
   StreamController _controllerTapPrevious = StreamController<void>.broadcast();
   StreamController _controllerTapNext = StreamController<void>.broadcast();
 
@@ -76,11 +82,13 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             },
             focus: (target) {
               currentTarget = target;
+              if (widget.currentTarget != null) widget.currentTarget(target);
               _controllerFade.sink.add(1.0);
             },
             removeFocus: () {
               _controllerFade.sink.add(0.0);
             },
+            streamTap: _controllerTapChild.stream,
             streamPreviousTap: _controllerTapPrevious.stream,
             streamNextTap: _controllerTapNext.stream,
           ),
@@ -197,101 +205,122 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
   }
 
   _buildSkip() {
-    return Align(
-      alignment: widget.alignSkip,
-      child: SafeArea(
-        child: StreamBuilder(
-          stream: _controllerFade.stream,
-          initialData: 0.0,
-          builder: (_, snapshot) {
-            return AnimatedOpacity(
-              opacity: snapshot.data,
-              duration: Duration(milliseconds: 300),
-              child: InkWell(
-                onTap: () {
-                  widget.finish();
-                  if (widget.clickSkip != null) {
-                    widget.clickSkip();
-                  }
+    return StreamBuilder<AlignmentGeometry>(
+        stream: widget.alignSkip,
+        builder: (context, snapshot) {
+          return Align(
+            alignment: snapshot.data ?? Alignment.bottomRight,
+            child: SafeArea(
+              child: StreamBuilder(
+                stream: _controllerFade.stream,
+                initialData: 0.0,
+                builder: (_, snapshot) {
+                  return AnimatedOpacity(
+                    opacity: snapshot.data,
+                    duration: Duration(milliseconds: 300),
+                    child: InkWell(
+                      onTap: () {
+                        widget.finish();
+                        if (widget.clickSkip != null) {
+                          widget.clickSkip();
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          widget.textSkip,
+                          style: widget.textStyleSkip,
+                        ),
+                      ),
+                    ),
+                  );
                 },
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    widget.textSkip,
-                    style: widget.textStyleSkip,
-                  ),
-                ),
               ),
-            );
-          },
-        ),
-      ),
-    );
+            ),
+          );
+        });
   }
 
   _buildPrevious() {
-    return Align(
-      alignment: widget.alignPrevious,
-      child: SafeArea(
-        child: StreamBuilder(
-          stream: _controllerFade.stream,
-          initialData: 0.0,
-          builder: (_, snapshot) {
-            return AnimatedOpacity(
-              opacity: snapshot.data,
-              duration: Duration(milliseconds: 300),
-              child: InkWell(
-                onTap: () {
-                  _controllerTapPrevious.add(null);
+    return StreamBuilder<AlignmentGeometry>(
+        stream: widget.alignPrevious,
+        builder: (context, snapshot) {
+          return Align(
+            alignment: snapshot.data ?? Alignment.centerLeft,
+            child: SafeArea(
+              child: StreamBuilder(
+                stream: _controllerFade.stream,
+                initialData: 0.0,
+                builder: (_, snapshot) {
+                  return AnimatedOpacity(
+                    opacity: snapshot.data,
+                    duration: Duration(milliseconds: 300),
+                    child: InkWell(
+                      onTap: () {
+                        _controllerTapPrevious.add(null);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          widget.textPrevious,
+                          style: widget.textStylePrevious,
+                        ),
+                      ),
+                    ),
+                  );
                 },
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    widget.textPrevious,
-                    style: widget.textStylePrevious,
-                  ),
-                ),
               ),
-            );
-          },
-        ),
-      ),
-    );
+            ),
+          );
+        });
   }
 
   _buildNext() {
-    return Align(
-      alignment: widget.alignNext,
-      child: SafeArea(
-        child: StreamBuilder(
-          stream: _controllerFade.stream,
-          initialData: 0.0,
-          builder: (_, snapshot) {
-            return AnimatedOpacity(
-              opacity: snapshot.data,
-              duration: Duration(milliseconds: 300),
-              child: InkWell(
-                onTap: () {
-                  _controllerTapNext.add(null);
+    return StreamBuilder<AlignmentGeometry>(
+        stream: widget.alignNext,
+        builder: (context, snapshot) {
+          return Align(
+            alignment: snapshot.data ?? Alignment.centerRight,
+            child: SafeArea(
+              child: StreamBuilder(
+                stream: _controllerFade.stream,
+                initialData: 0.0,
+                builder: (_, snapshot) {
+                  return AnimatedOpacity(
+                    opacity: snapshot.data,
+                    duration: Duration(milliseconds: 300),
+                    child: InkWell(
+                      onTap: () {
+                        _controllerTapNext.add(null);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Container(
+                          height: 20,
+                          width: 20,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Text(
+                            widget.textNext,
+                            style: widget.textStyleNext,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
                 },
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    widget.textNext,
-                    style: widget.textStyleNext,
-                  ),
-                ),
               ),
-            );
-          },
-        ),
-      ),
-    );
+            ),
+          );
+        });
   }
 
   @override
   void dispose() {
     _controllerFade.close();
+    _controllerTapChild.close();
     _controllerTapPrevious.close();
     _controllerTapNext.close();
     super.dispose();

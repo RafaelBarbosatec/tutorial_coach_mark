@@ -19,6 +19,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final double paddingFocus;
   final Color colorShadow;
   final double opacityShadow;
+  final Stream<void> streamTap;
   final Stream<void> streamPreviousTap;
   final Stream<void> streamNextTap;
 
@@ -32,6 +33,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.paddingFocus = 10,
     this.colorShadow = Colors.black,
     this.opacityShadow = 0.8,
+    this.streamTap,
     this.streamPreviousTap,
     this.streamNextTap,
   }) : super(key: key);
@@ -113,6 +115,10 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
         .animate(CurvedAnimation(parent: _controllerPulse, curve: Curves.ease));
 
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    widget.streamTap.listen((_) {
+      isGoNext = true;
+      _tapHandler();
+    });
     widget.streamPreviousTap.listen((_) {
       isGoNext = false;
       _tapHandler();
@@ -130,7 +136,7 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          //_tapHandler();
+          _tapHandler();
         },
         child: AnimatedBuilder(
             animation: _controller,
@@ -191,29 +197,7 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
       return;
     }
     currentFocus--;
-
-    var targetPosition = getTargetCurrent(widget.targets[currentFocus]);
-    if (targetPosition == null) {
-      this._finish();
-      return;
-    }
-
-    setState(() {
-      finishFocus = false;
-      this.targetPosition = targetPosition;
-
-      positioned = Offset(
-        targetPosition.offset.dx + (targetPosition.size.width / 2),
-        targetPosition.offset.dy + (targetPosition.size.height / 2),
-      );
-
-      if (targetPosition.size.height > targetPosition.size.width) {
-        sizeCircle = targetPosition.size.height * 0.6 + widget.paddingFocus;
-      } else {
-        sizeCircle = targetPosition.size.width * 0.6 + widget.paddingFocus;
-      }
-    });
-    _controller.forward();
+    forwardAnimation();
   }
 
   void _nextFocus() {
@@ -223,7 +207,10 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
     }
 
     currentFocus++;
+    forwardAnimation();
+  }
 
+  void forwardAnimation() {
     var targetPosition = getTargetCurrent(widget.targets[currentFocus]);
     if (targetPosition == null) {
       this._finish();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:tutorial_coach_mark/animated_focus_light.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -337,6 +338,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void showTutorial() {
+    // ignore: close_sinks
+    final BehaviorSubject<AlignmentGeometry> alignPrevious =
+        BehaviorSubject.seeded(Alignment.centerLeft);
+    // ignore: close_sinks
+    final BehaviorSubject<AlignmentGeometry> alignNext =
+        BehaviorSubject.seeded(Alignment.centerRight);
+    // ignore: close_sinks
+    final BehaviorSubject<AlignmentGeometry> alignSkip =
+        BehaviorSubject.seeded(Alignment.bottomRight);
     TutorialCoachMark(context,
         targets: targets,
         colorShadow: Colors.red,
@@ -345,14 +355,20 @@ class _MyHomePageState extends State<MyHomePage> {
         textNext: "next",
         textStyleNext: TextStyle(color: Colors.amber),
         textStylePrevious: TextStyle(color: Colors.amber),
-        alignPrevious: Alignment.centerLeft,
-        alignNext: Alignment.centerRight,
-        alignSkip: Alignment.topRight,
+        alignPrevious: alignPrevious,
+        alignNext: alignNext,
+        alignSkip: alignSkip,
         paddingFocus: 10,
         opacityShadow: 0.8, finish: () {
       print("finish");
     }, clickTarget: (target) {
       print(target);
+    }, currentTarget: (target) {
+      if (target.keyTarget != null && target.keyTarget == keyButton4) {
+        alignPrevious.add(Alignment.topLeft);
+      } else {
+        alignPrevious.add(Alignment.centerLeft);
+      }
     }, clickSkip: () {
       print("skip");
     })

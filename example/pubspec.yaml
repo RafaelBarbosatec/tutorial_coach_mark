@@ -23,6 +23,9 @@ dependencies:
   tutorial_coach_mark:
     path: ".."
 
+  # Useful for Reactive Programming
+  rxdart: ^0.22.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
