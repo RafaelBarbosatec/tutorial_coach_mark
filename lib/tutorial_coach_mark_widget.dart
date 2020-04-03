@@ -202,9 +202,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
               child: InkWell(
                 onTap: () {
                   widget.finish();
-                  if (widget.clickSkip != null) {
-                    widget.clickSkip();
-                  }
+                  widget.clickSkip();
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),

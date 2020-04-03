@@ -3,6 +3,7 @@ library tutorial_coach_mark;
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/target_focus.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark_widget.dart';
+
 export 'package:tutorial_coach_mark/content_target.dart';
 export 'package:tutorial_coach_mark/target_focus.dart';
 
@@ -43,7 +44,7 @@ class TutorialCoachMark {
         targets: targets,
         clickTarget: clickTarget,
         paddingFocus: paddingFocus,
-        clickSkip: clickSkip,
+        clickSkip: skip,
         alignSkip: alignSkip,
         textSkip: textSkip,
         textStyleSkip: textStyleSkip,
@@ -66,6 +67,15 @@ class TutorialCoachMark {
 
   void hide() {
     if (finish != null) finish();
+    _removeOverlay();
+  }
+
+  void skip() {
+    if (clickSkip != null) clickSkip();
+    _removeOverlay();
+  }
+
+  void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry = null;
   }
