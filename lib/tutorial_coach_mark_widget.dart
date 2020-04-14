@@ -8,18 +8,6 @@ import 'package:tutorial_coach_mark/target_position.dart';
 import 'package:tutorial_coach_mark/util.dart';
 
 class TutorialCoachMarkWidget extends StatefulWidget {
-  final List<TargetFocus> targets;
-  final Function(TargetFocus) clickTarget;
-  final Function() finish;
-  final Color colorShadow;
-  final double opacityShadow;
-  final double paddingFocus;
-  final Function() clickSkip;
-  final AlignmentGeometry alignSkip;
-  final String textSkip;
-  final TextStyle textStyleSkip;
-  final bool hideSkip;
-
   const TutorialCoachMarkWidget(
       {Key key,
       this.targets,
@@ -34,6 +22,18 @@ class TutorialCoachMarkWidget extends StatefulWidget {
       this.textStyleSkip = const TextStyle(color: Colors.white),
       this.hideSkip})
       : super(key: key);
+
+  final List<TargetFocus> targets;
+  final Function(TargetFocus) clickTarget;
+  final Function() finish;
+  final Color colorShadow;
+  final double opacityShadow;
+  final double paddingFocus;
+  final Function() clickSkip;
+  final AlignmentGeometry alignSkip;
+  final String textSkip;
+  final TextStyle textStyleSkip;
+  final bool hideSkip;
 
   @override
   _TutorialCoachMarkWidgetState createState() =>
@@ -77,7 +77,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
     );
   }
 
-  _buildContents() {
+  StreamBuilder _buildContents() {
     return StreamBuilder(
       stream: _controllerFade.stream,
       initialData: 0.0,
@@ -95,7 +95,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
     );
   }
 
-  _buildPositionedsContents() {
+  Widget _buildPositionedsContents() {
     if (currentTarget == null) {
       return Container();
     }
@@ -159,6 +159,14 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             weight = MediaQuery.of(context).size.width - left;
           }
           break;
+        case AlignContent.custom:
+          {
+            left = i.customPosition.left;
+            top = i.customPosition.top;
+            bottom = i.customPosition.bottom;
+            weight = MediaQuery.of(context).size.width;
+          }
+          break;
       }
 
       return Positioned(
@@ -185,7 +193,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
     );
   }
 
-  _buildSkip() {
+  Widget _buildSkip() {
     if (widget.hideSkip) {
       return Container();
     }
