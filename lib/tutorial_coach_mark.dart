@@ -1,5 +1,6 @@
 library tutorial_coach_mark;
 
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/target_focus.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark_widget.dart';
@@ -61,6 +62,7 @@ class TutorialCoachMark {
     if (_overlayEntry == null) {
       _overlayEntry = _buildOverlay();
       Overlay.of(_context).insert(_overlayEntry);
+      BackButtonInterceptor.add(_backButtonInterceptor);
     }
   }
 
@@ -68,5 +70,11 @@ class TutorialCoachMark {
     if (finish != null) finish();
     _overlayEntry?.remove();
     _overlayEntry = null;
+    BackButtonInterceptor.remove(_backButtonInterceptor);
+  }
+
+  bool _backButtonInterceptor(bool stopDefaultButtonEvent) {
+    hide();
+    return true;
   }
 }

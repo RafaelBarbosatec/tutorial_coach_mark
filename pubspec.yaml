@@ -8,6 +8,7 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  back_button_interceptor: ^4.2.4
   flutter:
     sdk: flutter
 
