@@ -27,6 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<TargetFocus> targets = List();
 
   GlobalKey keyButton = GlobalKey();
+  GlobalKey keyButton1 = GlobalKey();
   GlobalKey keyButton2 = GlobalKey();
   GlobalKey keyButton3 = GlobalKey();
   GlobalKey keyButton4 = GlobalKey();
@@ -42,6 +43,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            key: keyButton1,
+            icon: Icon(Icons.add),
+            onPressed: () {},
+          )
+        ],
+      ),
       body: Container(
         color: Colors.white,
         child: Stack(
@@ -128,37 +138,72 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void initTargets() {
-    targets.add(TargetFocus(
-      identify: "Target 1",
-      keyTarget: keyButton,
-      contents: [
-        ContentTarget(
-            align: AlignContent.bottom,
-            child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Titulo lorem ipsum",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20.0),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                      style: TextStyle(color: Colors.white),
+    targets.add(
+      TargetFocus(
+        identify: "Target 0",
+        keyTarget: keyButton1,
+        contents: [
+          ContentTarget(
+              align: AlignContent.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Titulo lorem ipsum",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 20.0),
                     ),
-                  )
-                ],
-              ),
-            ))
-      ],
-      shape: ShapeLightFocus.RRect,
-    ));
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "Target 1",
+        keyTarget: keyButton,
+        contents: [
+          ContentTarget(
+              align: AlignContent.bottom,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Titulo lorem ipsum",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 20.0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              ))
+        ],
+        shape: ShapeLightFocus.RRect,
+        radius: 5,
+      ),
+    );
     targets.add(TargetFocus(
       identify: "Target 2",
       keyTarget: keyButton4,

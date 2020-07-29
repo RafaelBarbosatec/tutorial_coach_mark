@@ -21,7 +21,6 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.opacityShadow = 0.8,
     this.textStyleSkip = const TextStyle(color: Colors.white),
     this.hideSkip,
-    this.radiusShapeRRect = 15,
   }) : super(key: key);
 
   final List<TargetFocus> targets;
@@ -35,7 +34,6 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final String textSkip;
   final TextStyle textStyleSkip;
   final bool hideSkip;
-  final double radiusShapeRRect;
 
   @override
   _TutorialCoachMarkWidgetState createState() =>
@@ -60,7 +58,6 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             paddingFocus: widget.paddingFocus,
             colorShadow: widget.colorShadow,
             opacityShadow: widget.opacityShadow,
-            radiusShapeRRect: widget.radiusShapeRRect,
             clickTarget: (target) {
               if (widget.clickTarget != null) widget.clickTarget(target);
             },
