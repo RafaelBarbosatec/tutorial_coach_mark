@@ -1,3 +1,9 @@
+## [0.4.0] - 29/07/2020.
+
+* Add `radius` and `Color` in TargetFocus;
+* Add custom align in `ContentTarget`;
+* Click to progress only in target;
+
 ## [0.3.0] - 18/10/2019.
 
 * Fix Issue #14
