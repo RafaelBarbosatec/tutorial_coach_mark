@@ -208,12 +208,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
               opacity: snapshot.data,
               duration: Duration(milliseconds: 300),
               child: InkWell(
-                onTap: () {
-                  widget.finish();
-                  if (widget.clickSkip != null) {
-                    widget.clickSkip();
-                  }
-                },
+                onTap: widget.clickSkip,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
