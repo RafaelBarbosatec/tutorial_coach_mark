@@ -174,6 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
       TargetFocus(
         identify: "Target 1",
         keyTarget: keyButton,
+        color: Colors.purple,
         contents: [
           ContentTarget(
               align: AlignContent.bottom,

@@ -11,6 +11,7 @@ class TargetFocus {
     this.contents,
     this.shape,
     this.radius,
+    this.color,
   }) : assert(keyTarget != null || targetPosition != null);
 
   final dynamic identify;
@@ -19,6 +20,7 @@ class TargetFocus {
   final List<ContentTarget> contents;
   final ShapeLightFocus shape;
   final double radius;
+  final Color color;
 
   @override
   String toString() {

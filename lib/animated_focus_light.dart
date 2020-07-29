@@ -44,63 +44,39 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
   TargetPosition targetPosition;
 
   double sizeCircle = 100;
-  int currentFocus = -1;
+  int currentFocus = 0;
   bool finishFocus = false;
   bool initReverse = false;
   double progressAnimated = 0;
 
   @override
   void initState() {
-    _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 600));
-    _controller
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          setState(() {
-            finishFocus = true;
-          });
-          widget?.focus(widget.targets[currentFocus]);
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 600),
+    );
 
-          _controllerPulse.forward();
-        }
-        if (status == AnimationStatus.dismissed) {
-          setState(() {
-            finishFocus = false;
-            initReverse = false;
-          });
-          _nextFocus();
-        }
+    _curvedAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.ease,
+    );
 
-        if (status == AnimationStatus.reverse) {
-          widget?.removeFocus();
-        }
-      });
+    _controllerPulse = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
 
-    _curvedAnimation = CurvedAnimation(parent: _controller, curve: Curves.ease);
+    tweenPulse = Tween(begin: 1.0, end: 0.99).animate(
+      CurvedAnimation(
+        parent: _controllerPulse,
+        curve: Curves.ease,
+      ),
+    );
 
-    _controllerPulse =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    _controllerPulse.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _controllerPulse.reverse();
-      }
+    _controller..addStatusListener(_listener);
+    _controllerPulse.addStatusListener(_listenerPulse);
 
-      if (status == AnimationStatus.dismissed) {
-        if (initReverse) {
-          setState(() {
-            finishFocus = false;
-          });
-          _controller.reverse();
-        } else if (finishFocus) {
-          _controllerPulse.forward();
-        }
-      }
-    });
-
-    tweenPulse = Tween(begin: 1.0, end: 0.99)
-        .animate(CurvedAnimation(parent: _controllerPulse, curve: Curves.ease));
-
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _runFocus());
     super.initState();
   }
 
@@ -113,34 +89,34 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
         return AnimatedBuilder(
           animation: _controllerPulse,
           builder: (_, child) {
+            TargetFocus target = widget?.targets[currentFocus];
+
             if (finishFocus) {
               progressAnimated = tweenPulse.value;
             }
-            return Container(
-              width: double.maxFinite,
-              height: double.maxFinite,
-              child: currentFocus != -1
-                  ? CustomPaint(
-                      painter: widget?.targets[currentFocus]?.shape ==
-                              ShapeLightFocus.RRect
-                          ? LightPaintRect(
-                              colorShadow: widget.colorShadow,
-                              progress: progressAnimated,
-                              offset: widget.paddingFocus,
-                              target: targetPosition,
-                              radius:
-                                  widget?.targets[currentFocus]?.radius ?? 0,
-                              opacityShadow: widget.opacityShadow,
-                            )
-                          : LightPaint(
-                              progressAnimated,
-                              positioned,
-                              sizeCircle,
-                              colorShadow: widget.colorShadow,
-                              opacityShadow: widget.opacityShadow,
-                            ),
-                    )
-                  : SizedBox.shrink(),
+            return Stack(
+              children: <Widget>[
+                Container(
+                  width: double.maxFinite,
+                  height: double.maxFinite,
+                  child: CustomPaint(
+                    painter: _getPainter(target),
+                  ),
+                ),
+                Positioned(
+                  left: (targetPosition?.offset?.dx ?? 0) - 10,
+                  top: (targetPosition?.offset?.dy ?? 0) - 10,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(5),
+                    onTap: tapHandler,
+                    child: Container(
+                      color: Colors.transparent,
+                      width: (targetPosition?.size?.width ?? 0) + 20,
+                      height: (targetPosition?.size?.height ?? 0) + 20,
+                    ),
+                  ),
+                )
+              ],
             );
           },
         );
@@ -151,11 +127,9 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
   void tapHandler() {
     setState(() {
       initReverse = true;
-      _controllerPulse.reverse(from: _controllerPulse.value);
     });
-    if (currentFocus > -1) {
-      widget?.clickTarget(widget.targets[currentFocus]);
-    }
+    _controllerPulse.reverse(from: _controllerPulse.value);
+    widget?.clickTarget(widget.targets[currentFocus]);
   }
 
   void _nextFocus() {
@@ -163,9 +137,11 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
       this._finish();
       return;
     }
-
     currentFocus++;
+    _runFocus();
+  }
 
+  void _runFocus() {
     var targetPosition = getTargetCurrent(widget.targets[currentFocus]);
     if (targetPosition == null) {
       this._finish();
@@ -193,9 +169,8 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
 
   void _finish() {
     setState(() {
-      currentFocus = -1;
+      currentFocus = 0;
     });
-
     widget.finish();
   }
 
@@ -206,7 +181,63 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
     super.dispose();
   }
 
-  void _afterLayout(Duration timeStamp) {
-    _nextFocus();
+  void _listenerPulse(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      _controllerPulse.reverse();
+    }
+
+    if (status == AnimationStatus.dismissed) {
+      if (initReverse) {
+        setState(() {
+          finishFocus = false;
+        });
+        _controller.reverse();
+      } else if (finishFocus) {
+        _controllerPulse.forward();
+      }
+    }
+  }
+
+  void _listener(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      setState(() {
+        finishFocus = true;
+      });
+      widget?.focus(widget.targets[currentFocus]);
+
+      _controllerPulse.forward();
+    }
+    if (status == AnimationStatus.dismissed) {
+      setState(() {
+        finishFocus = false;
+        initReverse = false;
+      });
+      _nextFocus();
+    }
+
+    if (status == AnimationStatus.reverse) {
+      widget?.removeFocus();
+    }
+  }
+
+  CustomPainter _getPainter(TargetFocus target) {
+    if (target?.shape == ShapeLightFocus.RRect) {
+      return LightPaintRect(
+        colorShadow: target?.color ?? widget.colorShadow,
+        progress: progressAnimated,
+        offset: widget.paddingFocus,
+        target: targetPosition,
+        radius: target?.radius ?? 0,
+        opacityShadow: widget.opacityShadow,
+      );
+    } else {
+      return LightPaint(
+        progressAnimated,
+        positioned,
+        sizeCircle,
+        colorShadow: target?.color ?? widget.colorShadow,
+        opacityShadow: widget.opacityShadow,
+      );
+    }
   }
 }

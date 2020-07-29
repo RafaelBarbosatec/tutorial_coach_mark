@@ -40,8 +40,6 @@ class TutorialCoachMarkWidget extends StatefulWidget {
 
 class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
   bool showContent = false;
-  final GlobalKey<AnimatedFocusLightState> focusLightKey = GlobalKey();
-
   TargetFocus currentTarget;
 
   @override
@@ -51,7 +49,6 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
       child: Stack(
         children: <Widget>[
           AnimatedFocusLight(
-            key: focusLightKey,
             targets: widget.targets,
             finish: widget.finish,
             paddingFocus: widget.paddingFocus,
@@ -85,16 +82,21 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
 
   Widget _buildContents() {
     if (currentTarget == null) {
-      return Container();
+      return SizedBox.shrink();
     }
 
-    List<Widget> widgtes = List();
+    List<Widget> children = List();
 
     TargetPosition target = getTargetCurrent(currentTarget);
-    var positioned = Offset(target.offset.dx + target.size.width / 2,
-        target.offset.dy + target.size.height / 2);
+
+    var positioned = Offset(
+      target.offset.dx + target.size.width / 2,
+      target.offset.dy + target.size.height / 2,
+    );
+
     double haloWidth;
     double haloHeight;
+
     if (currentTarget.shape == ShapeLightFocus.Circle) {
       haloWidth = target.size.width > target.size.height
           ? target.size.width
@@ -104,15 +106,16 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
       haloWidth = target.size.width;
       haloHeight = target.size.height;
     }
+
     haloWidth = haloWidth * 0.6 + widget.paddingFocus;
     haloHeight = haloHeight * 0.6 + widget.paddingFocus;
-    double weight = 0.0;
 
+    double weight = 0.0;
     double top;
     double bottom;
     double left;
 
-    widgtes = currentTarget.contents.map<Widget>((i) {
+    children = currentTarget.contents.map<Widget>((i) {
       switch (i.align) {
         case AlignContent.bottom:
           {
@@ -161,21 +164,18 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
         top: top,
         bottom: bottom,
         left: left,
-        child: GestureDetector(
-          onTap: () => focusLightKey?.currentState?.tapHandler(),
-          child: Container(
-            width: weight,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: i.child,
-            ),
+        child: Container(
+          width: weight,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: i.child,
           ),
         ),
       );
     }).toList();
 
     return Stack(
-      children: widgtes,
+      children: children,
     );
   }
 
