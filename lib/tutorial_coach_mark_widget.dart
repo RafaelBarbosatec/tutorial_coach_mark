@@ -8,20 +8,21 @@ import 'package:tutorial_coach_mark/target_position.dart';
 import 'package:tutorial_coach_mark/util.dart';
 
 class TutorialCoachMarkWidget extends StatefulWidget {
-  const TutorialCoachMarkWidget(
-      {Key key,
-      this.targets,
-      this.finish,
-      this.paddingFocus = 10,
-      this.clickTarget,
-      this.alignSkip = Alignment.bottomRight,
-      this.textSkip = "SKIP",
-      this.clickSkip,
-      this.colorShadow = Colors.black,
-      this.opacityShadow = 0.8,
-      this.textStyleSkip = const TextStyle(color: Colors.white),
-      this.hideSkip})
-      : super(key: key);
+  const TutorialCoachMarkWidget({
+    Key key,
+    this.targets,
+    this.finish,
+    this.paddingFocus = 10,
+    this.clickTarget,
+    this.alignSkip = Alignment.bottomRight,
+    this.textSkip = "SKIP",
+    this.clickSkip,
+    this.colorShadow = Colors.black,
+    this.opacityShadow = 0.8,
+    this.textStyleSkip = const TextStyle(color: Colors.white),
+    this.hideSkip,
+    this.radiusShapeRRect = 15,
+  }) : super(key: key);
 
   final List<TargetFocus> targets;
   final Function(TargetFocus) clickTarget;
@@ -34,6 +35,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final String textSkip;
   final TextStyle textStyleSkip;
   final bool hideSkip;
+  final double radiusShapeRRect;
 
   @override
   _TutorialCoachMarkWidgetState createState() =>
@@ -58,6 +60,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             paddingFocus: widget.paddingFocus,
             colorShadow: widget.colorShadow,
             opacityShadow: widget.opacityShadow,
+            radiusShapeRRect: widget.radiusShapeRRect,
             clickTarget: (target) {
               if (widget.clickTarget != null) widget.clickTarget(target);
             },

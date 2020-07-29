@@ -17,6 +17,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final Function removeFocus;
   final Function() finish;
   final double paddingFocus;
+  final double radiusShapeRRect;
   final Color colorShadow;
   final double opacityShadow;
   final Stream<void> streamTap;
@@ -32,6 +33,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.colorShadow = Colors.black,
     this.opacityShadow = 0.8,
     this.streamTap,
+    this.radiusShapeRRect = 15,
   }) : super(key: key);
 
   @override
@@ -142,7 +144,7 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
                                     progress: progressAnimated,
                                     offset: widget.paddingFocus,
                                     target: targetPosition,
-                                    radius: 15,
+                                    radius: widget.radiusShapeRRect,
                                     opacityShadow: widget.opacityShadow,
                                   )
                                 : LightPaint(
