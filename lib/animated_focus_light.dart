@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tutorial_coach_mark/light_paint.dart';
@@ -19,7 +17,6 @@ class AnimatedFocusLight extends StatefulWidget {
   final double paddingFocus;
   final Color colorShadow;
   final double opacityShadow;
-  final Stream<void> streamTap;
 
   const AnimatedFocusLight({
     Key key,
@@ -31,14 +28,13 @@ class AnimatedFocusLight extends StatefulWidget {
     this.paddingFocus = 10,
     this.colorShadow = Colors.black,
     this.opacityShadow = 0.8,
-    this.streamTap,
   }) : super(key: key);
 
   @override
-  _AnimatedFocusLightState createState() => _AnimatedFocusLightState();
+  AnimatedFocusLightState createState() => AnimatedFocusLightState();
 }
 
-class _AnimatedFocusLightState extends State<AnimatedFocusLight>
+class AnimatedFocusLightState extends State<AnimatedFocusLight>
     with TickerProviderStateMixin {
   AnimationController _controller;
   AnimationController _controllerPulse;
@@ -105,66 +101,54 @@ class _AnimatedFocusLightState extends State<AnimatedFocusLight>
         .animate(CurvedAnimation(parent: _controllerPulse, curve: Curves.ease));
 
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-    widget.streamTap.listen((_) {
-      _tapHandler();
-    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          _tapHandler();
-        },
-        child: AnimatedBuilder(
-            animation: _controller,
-            builder: (_, chuild) {
-              progressAnimated = _curvedAnimation.value;
-              return AnimatedBuilder(
-                animation: _controllerPulse,
-                builder: (_, child) {
-                  if (finishFocus) {
-                    progressAnimated = tweenPulse.value;
-                  }
-                  return Container(
-                    width: double.maxFinite,
-                    height: double.maxFinite,
-                    child: currentFocus != -1
-                        ? CustomPaint(
-                            painter: widget?.targets[currentFocus]?.shape ==
-                                    ShapeLightFocus.RRect
-                                ? LightPaintRect(
-                                    colorShadow: widget.colorShadow,
-                                    positioned: positioned,
-                                    progress: progressAnimated,
-                                    offset: widget.paddingFocus,
-                                    target: targetPosition,
-                                    radius:
-                                        widget?.targets[currentFocus]?.radius ??
-                                            0,
-                                    opacityShadow: widget.opacityShadow,
-                                  )
-                                : LightPaint(
-                                    progressAnimated,
-                                    positioned,
-                                    sizeCircle,
-                                    colorShadow: widget.colorShadow,
-                                    opacityShadow: widget.opacityShadow,
-                                  ),
-                          )
-                        : SizedBox.shrink(),
-                  );
-                },
-              );
-            }),
-      ),
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (_, child) {
+        progressAnimated = _curvedAnimation.value;
+        return AnimatedBuilder(
+          animation: _controllerPulse,
+          builder: (_, child) {
+            if (finishFocus) {
+              progressAnimated = tweenPulse.value;
+            }
+            return Container(
+              width: double.maxFinite,
+              height: double.maxFinite,
+              child: currentFocus != -1
+                  ? CustomPaint(
+                      painter: widget?.targets[currentFocus]?.shape ==
+                              ShapeLightFocus.RRect
+                          ? LightPaintRect(
+                              colorShadow: widget.colorShadow,
+                              progress: progressAnimated,
+                              offset: widget.paddingFocus,
+                              target: targetPosition,
+                              radius:
+                                  widget?.targets[currentFocus]?.radius ?? 0,
+                              opacityShadow: widget.opacityShadow,
+                            )
+                          : LightPaint(
+                              progressAnimated,
+                              positioned,
+                              sizeCircle,
+                              colorShadow: widget.colorShadow,
+                              opacityShadow: widget.opacityShadow,
+                            ),
+                    )
+                  : SizedBox.shrink(),
+            );
+          },
+        );
+      },
     );
   }
 
-  void _tapHandler() {
+  void tapHandler() {
     setState(() {
       initReverse = true;
       _controllerPulse.reverse(from: _controllerPulse.value);

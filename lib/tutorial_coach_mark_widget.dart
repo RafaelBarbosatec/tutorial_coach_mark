@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/animated_focus_light.dart';
 import 'package:tutorial_coach_mark/content_target.dart';
@@ -41,8 +39,8 @@ class TutorialCoachMarkWidget extends StatefulWidget {
 }
 
 class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
-  StreamController _controllerFade = StreamController<double>.broadcast();
-  StreamController _controllerTapChild = StreamController<void>.broadcast();
+  bool showContent = false;
+  final GlobalKey<AnimatedFocusLightState> focusLightKey = GlobalKey();
 
   TargetFocus currentTarget;
 
@@ -53,6 +51,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
       child: Stack(
         children: <Widget>[
           AnimatedFocusLight(
+            key: focusLightKey,
             targets: widget.targets,
             finish: widget.finish,
             paddingFocus: widget.paddingFocus,
@@ -62,40 +61,29 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
               if (widget.clickTarget != null) widget.clickTarget(target);
             },
             focus: (target) {
-              currentTarget = target;
-              _controllerFade.sink.add(1.0);
+              setState(() {
+                currentTarget = target;
+                showContent = true;
+              });
             },
             removeFocus: () {
-              _controllerFade.sink.add(0.0);
+              setState(() {
+                showContent = false;
+              });
             },
-            streamTap: _controllerTapChild.stream,
           ),
-          _buildContents(),
+          AnimatedOpacity(
+            opacity: showContent ? 1 : 0,
+            duration: Duration(milliseconds: 300),
+            child: _buildContents(),
+          ),
           _buildSkip()
         ],
       ),
     );
   }
 
-  StreamBuilder _buildContents() {
-    return StreamBuilder(
-      stream: _controllerFade.stream,
-      initialData: 0.0,
-      builder: (_, snapshot) {
-        try {
-          return AnimatedOpacity(
-            opacity: snapshot.data,
-            duration: Duration(milliseconds: 300),
-            child: _buildPositionedsContents(),
-          );
-        } catch (err) {
-          return Container();
-        }
-      },
-    );
-  }
-
-  Widget _buildPositionedsContents() {
+  Widget _buildContents() {
     if (currentTarget == null) {
       return Container();
     }
@@ -174,9 +162,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
         bottom: bottom,
         left: left,
         child: GestureDetector(
-          onTap: () {
-            _controllerTapChild.add(null);
-          },
+          onTap: () => focusLightKey?.currentState?.tapHandler(),
           child: Container(
             width: weight,
             child: Padding(
@@ -195,38 +181,26 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
 
   Widget _buildSkip() {
     if (widget.hideSkip) {
-      return Container();
+      return SizedBox.shrink();
     }
     return Align(
       alignment: widget.alignSkip,
       child: SafeArea(
-        child: StreamBuilder(
-          stream: _controllerFade.stream,
-          initialData: 0.0,
-          builder: (_, snapshot) {
-            return AnimatedOpacity(
-              opacity: snapshot.data,
-              duration: Duration(milliseconds: 300),
-              child: InkWell(
-                onTap: widget.clickSkip,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    widget.textSkip,
-                    style: widget.textStyleSkip,
-                  ),
-                ),
+        child: AnimatedOpacity(
+          opacity: showContent ? 1 : 0,
+          duration: Duration(milliseconds: 300),
+          child: InkWell(
+            onTap: widget.clickSkip,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                widget.textSkip,
+                style: widget.textStyleSkip,
               ),
-            );
-          },
+            ),
+          ),
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controllerFade.close();
-    super.dispose();
   }
 }

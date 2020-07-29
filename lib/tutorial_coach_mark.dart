@@ -10,10 +10,10 @@ export 'package:tutorial_coach_mark/target_focus.dart';
 class TutorialCoachMark {
   final BuildContext _context;
   final List<TargetFocus> targets;
-  final Function(TargetFocus) clickTarget;
-  final Function() finish;
+  final Function(TargetFocus) onClickTarget;
+  final Function() onFinish;
   final double paddingFocus;
-  final Function() clickSkip;
+  final Function() onClickSkip;
   final AlignmentGeometry alignSkip;
   final String textSkip;
   final TextStyle textStyleSkip;
@@ -27,10 +27,10 @@ class TutorialCoachMark {
     this._context, {
     this.targets,
     this.colorShadow = Colors.black,
-    this.clickTarget,
-    this.finish,
+    this.onClickTarget,
+    this.onFinish,
     this.paddingFocus = 10,
-    this.clickSkip,
+    this.onClickSkip,
     this.alignSkip = Alignment.bottomRight,
     this.textSkip = "SKIP",
     this.textStyleSkip = const TextStyle(color: Colors.white),
@@ -42,7 +42,7 @@ class TutorialCoachMark {
     return OverlayEntry(builder: (context) {
       return TutorialCoachMarkWidget(
         targets: targets,
-        clickTarget: clickTarget,
+        clickTarget: onClickTarget,
         paddingFocus: paddingFocus,
         clickSkip: skip,
         alignSkip: alignSkip,
@@ -51,9 +51,7 @@ class TutorialCoachMark {
         hideSkip: hideSkip,
         colorShadow: colorShadow,
         opacityShadow: opacityShadow,
-        finish: () {
-          hide();
-        },
+        finish: finish,
       );
     });
   }
@@ -65,13 +63,13 @@ class TutorialCoachMark {
     }
   }
 
-  void hide() {
-    if (finish != null) finish();
+  void finish() {
+    if (onFinish != null) onFinish();
     _removeOverlay();
   }
 
   void skip() {
-    if (clickSkip != null) clickSkip();
+    if (onClickSkip != null) onClickSkip();
     _removeOverlay();
   }
 
