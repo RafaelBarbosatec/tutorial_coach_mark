@@ -34,11 +34,11 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final bool hideSkip;
 
   @override
-  _TutorialCoachMarkWidgetState createState() =>
-      _TutorialCoachMarkWidgetState();
+  TutorialCoachMarkWidgetState createState() => TutorialCoachMarkWidgetState();
 }
 
-class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
+class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
+  final GlobalKey<AnimatedFocusLightState> _focusLightKey = GlobalKey();
   bool showContent = false;
   TargetFocus currentTarget;
 
@@ -49,6 +49,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
       child: Stack(
         children: <Widget>[
           AnimatedFocusLight(
+            key: _focusLightKey,
             targets: widget.targets,
             finish: widget.finish,
             paddingFocus: widget.paddingFocus,
@@ -203,4 +204,7 @@ class _TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
       ),
     );
   }
+
+  void next() => _focusLightKey?.currentState?.next();
+  void previous() => _focusLightKey?.currentState?.previous();
 }

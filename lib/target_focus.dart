@@ -12,6 +12,8 @@ class TargetFocus {
     this.shape,
     this.radius,
     this.color,
+    this.enableOverlayTab = false,
+    this.enableTargetTab = true,
   }) : assert(keyTarget != null || targetPosition != null);
 
   final dynamic identify;
@@ -20,6 +22,8 @@ class TargetFocus {
   final List<ContentTarget> contents;
   final ShapeLightFocus shape;
   final double radius;
+  final bool enableOverlayTab;
+  final bool enableTargetTab;
   final Color color;
 
   @override

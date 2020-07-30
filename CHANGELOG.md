@@ -1,3 +1,8 @@
+## [0.5.0] - 30/07/2020.
+
+* Add `enableOverlayTab` and `enableTargetTab` in TargetFocus;
+* Add `next`and `previous` in TutorialCoachMark;
+
 ## [0.4.0] - 29/07/2020.
 
 * Add `radius` and `Color` in TargetFocus;

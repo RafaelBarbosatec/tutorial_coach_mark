@@ -39,18 +39,22 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
   AnimationController _controller;
   AnimationController _controllerPulse;
   CurvedAnimation _curvedAnimation;
-  Animation tweenPulse;
-  Offset positioned = Offset(0.0, 0.0);
-  TargetPosition targetPosition;
+  Animation _tweenPulse;
+  Offset _positioned = Offset(0.0, 0.0);
+  TargetPosition _targetPosition;
 
-  double sizeCircle = 100;
-  int currentFocus = 0;
-  bool finishFocus = false;
-  bool initReverse = false;
-  double progressAnimated = 0;
+  double _sizeCircle = 100;
+  int _currentFocus = 0;
+  bool _finishFocus = false;
+  bool _initReverse = false;
+  double _progressAnimated = 0;
+  TargetFocus _targetFocus;
+
+  bool _goNext = true;
 
   @override
   void initState() {
+    _targetFocus = widget?.targets[_currentFocus];
     _controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 600),
@@ -66,14 +70,14 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
       duration: Duration(milliseconds: 500),
     );
 
-    tweenPulse = Tween(begin: 1.0, end: 0.99).animate(
+    _tweenPulse = Tween(begin: 1.0, end: 0.99).animate(
       CurvedAnimation(
         parent: _controllerPulse,
         curve: Curves.ease,
       ),
     );
 
-    _controller..addStatusListener(_listener);
+    _controller.addStatusListener(_listener);
     _controllerPulse.addStatusListener(_listenerPulse);
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _runFocus());
@@ -82,85 +86,101 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (_, child) {
-        progressAnimated = _curvedAnimation.value;
-        return AnimatedBuilder(
-          animation: _controllerPulse,
-          builder: (_, child) {
-            TargetFocus target = widget?.targets[currentFocus];
-
-            if (finishFocus) {
-              progressAnimated = tweenPulse.value;
-            }
-            return Stack(
-              children: <Widget>[
-                Container(
-                  width: double.maxFinite,
-                  height: double.maxFinite,
-                  child: CustomPaint(
-                    painter: _getPainter(target),
-                  ),
-                ),
-                Positioned(
-                  left: (targetPosition?.offset?.dx ?? 0) - 10,
-                  top: (targetPosition?.offset?.dy ?? 0) - 10,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(5),
-                    onTap: tapHandler,
-                    child: Container(
-                      color: Colors.transparent,
-                      width: (targetPosition?.size?.width ?? 0) + 20,
-                      height: (targetPosition?.size?.height ?? 0) + 20,
+    return InkWell(
+      onTap: _targetFocus.enableOverlayTab ? next : null,
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (_, child) {
+          _progressAnimated = _curvedAnimation.value;
+          return AnimatedBuilder(
+            animation: _controllerPulse,
+            builder: (_, child) {
+              if (_finishFocus) {
+                _progressAnimated = _tweenPulse.value;
+              }
+              return Stack(
+                children: <Widget>[
+                  Container(
+                    width: double.maxFinite,
+                    height: double.maxFinite,
+                    child: CustomPaint(
+                      painter: _getPainter(_targetFocus),
                     ),
                   ),
-                )
-              ],
-            );
-          },
-        );
-      },
+                  Positioned(
+                    left: (_targetPosition?.offset?.dx ?? 0) - 10,
+                    top: (_targetPosition?.offset?.dy ?? 0) - 10,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(5),
+                      onTap: _targetFocus.enableTargetTab ? next : null,
+                      child: Container(
+                        color: Colors.transparent,
+                        width: (_targetPosition?.size?.width ?? 0) + 20,
+                        height: (_targetPosition?.size?.height ?? 0) + 20,
+                      ),
+                    ),
+                  )
+                ],
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
-  void tapHandler() {
+  void next() => _tapHandler();
+  void previous() => _tapHandler(goNext: false);
+
+  void _tapHandler({bool goNext = true}) {
     setState(() {
-      initReverse = true;
+      _goNext = goNext;
+      _initReverse = true;
     });
     _controllerPulse.reverse(from: _controllerPulse.value);
-    widget?.clickTarget(widget.targets[currentFocus]);
+    widget?.clickTarget(_targetFocus);
   }
 
   void _nextFocus() {
-    if (currentFocus >= widget.targets.length - 1) {
+    if (_currentFocus >= widget.targets.length - 1) {
       this._finish();
       return;
     }
-    currentFocus++;
+    _currentFocus++;
+    _runFocus();
+  }
+
+  void _previousFocus() {
+    if (_currentFocus <= 0) {
+      this._finish();
+      return;
+    }
+    _currentFocus--;
     _runFocus();
   }
 
   void _runFocus() {
-    var targetPosition = getTargetCurrent(widget.targets[currentFocus]);
+    if (_currentFocus < 0) return;
+    _targetFocus = widget.targets[_currentFocus];
+    var targetPosition = getTargetCurrent(_targetFocus);
     if (targetPosition == null) {
       this._finish();
       return;
     }
 
     setState(() {
-      finishFocus = false;
-      this.targetPosition = targetPosition;
+      _finishFocus = false;
+      this._targetPosition = targetPosition;
 
-      positioned = Offset(
+      _positioned = Offset(
         targetPosition.offset.dx + (targetPosition.size.width / 2),
         targetPosition.offset.dy + (targetPosition.size.height / 2),
       );
 
       if (targetPosition.size.height > targetPosition.size.width) {
-        sizeCircle = targetPosition.size.height * 0.6 + widget.paddingFocus;
+        _sizeCircle = targetPosition.size.height * 0.6 + widget.paddingFocus;
       } else {
-        sizeCircle = targetPosition.size.width * 0.6 + widget.paddingFocus;
+        _sizeCircle = targetPosition.size.width * 0.6 + widget.paddingFocus;
       }
     });
 
@@ -169,7 +189,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
 
   void _finish() {
     setState(() {
-      currentFocus = 0;
+      _currentFocus = 0;
     });
     widget.finish();
   }
@@ -187,12 +207,12 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
     }
 
     if (status == AnimationStatus.dismissed) {
-      if (initReverse) {
+      if (_initReverse) {
         setState(() {
-          finishFocus = false;
+          _finishFocus = false;
         });
         _controller.reverse();
-      } else if (finishFocus) {
+      } else if (_finishFocus) {
         _controllerPulse.forward();
       }
     }
@@ -201,18 +221,22 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
   void _listener(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
       setState(() {
-        finishFocus = true;
+        _finishFocus = true;
       });
-      widget?.focus(widget.targets[currentFocus]);
+      widget?.focus(_targetFocus);
 
       _controllerPulse.forward();
     }
     if (status == AnimationStatus.dismissed) {
       setState(() {
-        finishFocus = false;
-        initReverse = false;
+        _finishFocus = false;
+        _initReverse = false;
       });
-      _nextFocus();
+      if (_goNext) {
+        _nextFocus();
+      } else {
+        _previousFocus();
+      }
     }
 
     if (status == AnimationStatus.reverse) {
@@ -224,17 +248,17 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
     if (target?.shape == ShapeLightFocus.RRect) {
       return LightPaintRect(
         colorShadow: target?.color ?? widget.colorShadow,
-        progress: progressAnimated,
+        progress: _progressAnimated,
         offset: widget.paddingFocus,
-        target: targetPosition,
+        target: _targetPosition,
         radius: target?.radius ?? 0,
         opacityShadow: widget.opacityShadow,
       );
     } else {
       return LightPaint(
-        progressAnimated,
-        positioned,
-        sizeCircle,
+        _progressAnimated,
+        _positioned,
+        _sizeCircle,
         colorShadow: target?.color ?? widget.colorShadow,
         opacityShadow: widget.opacityShadow,
       );

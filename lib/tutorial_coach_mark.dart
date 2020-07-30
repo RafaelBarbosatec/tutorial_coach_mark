@@ -20,6 +20,7 @@ class TutorialCoachMark {
   final bool hideSkip;
   final Color colorShadow;
   final double opacityShadow;
+  final GlobalKey<TutorialCoachMarkWidgetState> _widgetKey = GlobalKey();
 
   OverlayEntry _overlayEntry;
 
@@ -41,6 +42,7 @@ class TutorialCoachMark {
   OverlayEntry _buildOverlay() {
     return OverlayEntry(builder: (context) {
       return TutorialCoachMarkWidget(
+        key: _widgetKey,
         targets: targets,
         clickTarget: onClickTarget,
         paddingFocus: paddingFocus,
@@ -72,6 +74,9 @@ class TutorialCoachMark {
     if (onClickSkip != null) onClickSkip();
     _removeOverlay();
   }
+
+  void next() => _widgetKey?.currentState?.next();
+  void previous() => _widgetKey?.currentState?.previous();
 
   void _removeOverlay() {
     _overlayEntry?.remove();

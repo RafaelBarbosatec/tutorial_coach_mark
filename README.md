@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 void showTutorial() {
-    TutorialCoachMark(
+    TutorialCoachMark tutorial = TutorialCoachMark(
       context,
       targets: targets, // List<TargetFocus>
       colorShadow: Colors.red, // DEFAULT Colors.black
@@ -33,6 +33,11 @@ void showTutorial() {
         print("skip");
       }
     )..show();
+
+    // tutorial.skip();
+    // tutorial.finish();
+    // tutorial.next(); // call next target programmatically
+    // tutorial.previous(); // call previous target programmatically
   }
 ```
 #### WARN: Make sure your view has been rendered before calling 'show' so the lib can find the position of the widget on the screen.
@@ -52,6 +57,8 @@ Attributes:
 | `shape` | ShapeLightFocus | ShapeLightFocus.Circle or ShapeLightFocus.RRect |
 | `radius` | double | Use when shape = ShapeLightFocus.RRect |
 | `color` | Color | Custom color to target |
+| `enableOverlayTab` | bool | enable click in all screen to call next step |
+| `enableTargetTab` | bool | enable click in target to call next step |
 
 ### Creating contents (ContentTarget)
 

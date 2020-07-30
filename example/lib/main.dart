@@ -24,6 +24,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  TutorialCoachMark tutorialCoachMark;
   List<TargetFocus> targets = List();
 
   GlobalKey keyButton = GlobalKey();
@@ -300,11 +301,16 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Container(
               child: Column(
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Image.network(
-                      "https://juststickers.in/wp-content/uploads/2019/01/flutter.png",
-                      height: 200,
+                  InkWell(
+                    onTap: () {
+                      tutorialCoachMark.previous();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Image.network(
+                        "https://juststickers.in/wp-content/uploads/2019/01/flutter.png",
+                        height: 200,
+                      ),
                     ),
                   ),
                   Padding(
@@ -383,7 +389,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void showTutorial() {
-    TutorialCoachMark(context,
+    tutorialCoachMark = TutorialCoachMark(context,
         targets: targets,
         colorShadow: Colors.red,
         textSkip: "SKIP",
