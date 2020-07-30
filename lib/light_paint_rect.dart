@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:tutorial_coach_mark/target_position.dart';
 
 class LightPaintRect extends CustomPainter {

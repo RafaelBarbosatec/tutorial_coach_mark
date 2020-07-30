@@ -3,6 +3,9 @@
 * Add `radius` and `Color` in TargetFocus;
 * Add custom align in `ContentTarget`;
 * Click to progress only in target;
+* BREAKING CHANGE: rename `finish` to `onFinish`
+* BREAKING CHANGE: rename `clickSkip` to `onClickSkip`
+* BREAKING CHANGE: rename `clickTarget` to `onClickTarget`
 
 ## [0.3.0] - 18/10/2019.
 
