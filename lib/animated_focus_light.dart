@@ -250,7 +250,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
         colorShadow: target?.color ?? widget.colorShadow,
         progress: _progressAnimated,
         offset: widget.paddingFocus,
-        target: _targetPosition,
+        target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
         radius: target?.radius ?? 0,
         opacityShadow: widget.opacityShadow,
       );

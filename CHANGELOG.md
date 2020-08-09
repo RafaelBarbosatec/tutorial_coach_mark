@@ -1,3 +1,7 @@
+## [0.5.1] - 09/08/2020.
+
+* Fix issue #34
+
 ## [0.5.0] - 30/07/2020.
 
 * Add `enableOverlayTab` and `enableTargetTab` in TargetFocus;
