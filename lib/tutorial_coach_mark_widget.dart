@@ -19,6 +19,8 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.opacityShadow = 0.8,
     this.textStyleSkip = const TextStyle(color: Colors.white),
     this.hideSkip,
+    this.focusAnimationDuration,
+    this.pulseAnimationDuration,
   }) : super(key: key);
 
   final List<TargetFocus> targets;
@@ -32,6 +34,8 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final String textSkip;
   final TextStyle textStyleSkip;
   final bool hideSkip;
+  final Duration focusAnimationDuration;
+  final Duration pulseAnimationDuration;
 
   @override
   TutorialCoachMarkWidgetState createState() => TutorialCoachMarkWidgetState();
@@ -55,6 +59,8 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             paddingFocus: widget.paddingFocus,
             colorShadow: widget.colorShadow,
             opacityShadow: widget.opacityShadow,
+            focusAnimationDuration: widget.focusAnimationDuration,
+            pulseAnimationDuration: widget.pulseAnimationDuration,
             clickTarget: (target) {
               if (widget.clickTarget != null) widget.clickTarget(target);
             },
@@ -99,9 +105,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
     double haloHeight;
 
     if (currentTarget.shape == ShapeLightFocus.Circle) {
-      haloWidth = target.size.width > target.size.height
-          ? target.size.width
-          : target.size.height;
+      haloWidth = target.size.width > target.size.height ? target.size.width : target.size.height;
       haloHeight = haloWidth;
     } else {
       haloWidth = target.size.width;
@@ -131,8 +135,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             weight = MediaQuery.of(context).size.width;
             left = 0;
             top = null;
-            bottom = haloHeight +
-                (MediaQuery.of(context).size.height - positioned.dy);
+            bottom = haloHeight + (MediaQuery.of(context).size.height - positioned.dy);
           }
           break;
         case AlignContent.left:

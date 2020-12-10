@@ -21,6 +21,8 @@ class TutorialCoachMark {
   final Color colorShadow;
   final double opacityShadow;
   final GlobalKey<TutorialCoachMarkWidgetState> _widgetKey = GlobalKey();
+  final Duration focusAnimationDuration;
+  final Duration pulseAnimationDuration;
 
   OverlayEntry _overlayEntry;
 
@@ -37,25 +39,31 @@ class TutorialCoachMark {
     this.textStyleSkip = const TextStyle(color: Colors.white),
     this.hideSkip = false,
     this.opacityShadow = 0.8,
+    this.focusAnimationDuration = const Duration(milliseconds: 600),
+    this.pulseAnimationDuration = const Duration(milliseconds: 500),
   }) : assert(targets != null, opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay() {
-    return OverlayEntry(builder: (context) {
-      return TutorialCoachMarkWidget(
-        key: _widgetKey,
-        targets: targets,
-        clickTarget: onClickTarget,
-        paddingFocus: paddingFocus,
-        clickSkip: skip,
-        alignSkip: alignSkip,
-        textSkip: textSkip,
-        textStyleSkip: textStyleSkip,
-        hideSkip: hideSkip,
-        colorShadow: colorShadow,
-        opacityShadow: opacityShadow,
-        finish: finish,
-      );
-    });
+    return OverlayEntry(
+      builder: (context) {
+        return TutorialCoachMarkWidget(
+          key: _widgetKey,
+          targets: targets,
+          clickTarget: onClickTarget,
+          paddingFocus: paddingFocus,
+          clickSkip: skip,
+          alignSkip: alignSkip,
+          textSkip: textSkip,
+          textStyleSkip: textStyleSkip,
+          hideSkip: hideSkip,
+          colorShadow: colorShadow,
+          opacityShadow: opacityShadow,
+          focusAnimationDuration: focusAnimationDuration,
+          pulseAnimationDuration: pulseAnimationDuration,
+          finish: finish,
+        );
+      },
+    );
   }
 
   void show() {
@@ -66,12 +74,12 @@ class TutorialCoachMark {
   }
 
   void finish() {
-    if (onFinish != null) onFinish();
+    onFinish?.call();
     _removeOverlay();
   }
 
   void skip() {
-    if (onClickSkip != null) onClickSkip();
+    onClickSkip?.call();
     _removeOverlay();
   }
 
