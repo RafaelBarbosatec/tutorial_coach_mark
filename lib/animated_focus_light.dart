@@ -39,6 +39,7 @@ class AnimatedFocusLight extends StatefulWidget {
 }
 
 class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProviderStateMixin {
+  static const BORDER_RADIUS_DEFAULT = 10.0;
   AnimationController _controller;
   AnimationController _controllerPulse;
   CurvedAnimation _curvedAnimation;
@@ -111,15 +112,15 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
                     ),
                   ),
                   Positioned(
-                    left: (_targetPosition?.offset?.dx ?? 0) - 10,
-                    top: (_targetPosition?.offset?.dy ?? 0) - 10,
+                    left: (_targetPosition?.offset?.dx ?? 0) - _getPaddingFocus() * 2,
+                    top: (_targetPosition?.offset?.dy ?? 0) - _getPaddingFocus() * 2,
                     child: InkWell(
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: _betBorderRadiusTarget(),
                       onTap: _targetFocus.enableTargetTab ? next : null,
                       child: Container(
                         color: Colors.transparent,
-                        width: (_targetPosition?.size?.width ?? 0) + 20,
-                        height: (_targetPosition?.size?.height ?? 0) + 20,
+                        width: (_targetPosition?.size?.width ?? 0) + _getPaddingFocus() * 4,
+                        height: (_targetPosition?.size?.height ?? 0) + _getPaddingFocus() * 4,
                       ),
                     ),
                   )
@@ -181,9 +182,9 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
       );
 
       if (targetPosition.size.height > targetPosition.size.width) {
-        _sizeCircle = targetPosition.size.height * 0.6 + _getPaddingFocus(_targetFocus);
+        _sizeCircle = targetPosition.size.height * 0.6 + _getPaddingFocus();
       } else {
-        _sizeCircle = targetPosition.size.width * 0.6 + _getPaddingFocus(_targetFocus);
+        _sizeCircle = targetPosition.size.width * 0.6 + _getPaddingFocus();
       }
     });
 
@@ -252,7 +253,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
       return LightPaintRect(
         colorShadow: target?.color ?? widget.colorShadow,
         progress: _progressAnimated,
-        offset: _getPaddingFocus(_targetFocus),
+        offset: _getPaddingFocus(),
         target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
         radius: target?.radius ?? 0,
         opacityShadow: widget.opacityShadow,
@@ -268,7 +269,14 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
     }
   }
 
-  double _getPaddingFocus(TargetFocus targetFocus) {
-    return targetFocus.paddingFocus ?? widget.paddingFocus;
+  double _getPaddingFocus() {
+    return _targetFocus?.paddingFocus ?? (widget.paddingFocus ?? 10);
+  }
+
+  BorderRadius _betBorderRadiusTarget() {
+    double radius = _targetFocus?.shape == ShapeLightFocus.Circle
+        ? (_targetPosition?.size?.width ?? BORDER_RADIUS_DEFAULT)
+        : _targetFocus?.radius ?? BORDER_RADIUS_DEFAULT;
+    return BorderRadius.circular(radius);
   }
 }

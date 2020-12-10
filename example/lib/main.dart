@@ -47,9 +47,24 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
-            key: keyButton1,
+            // key: keyButton1,
             icon: Icon(Icons.add),
             onPressed: () {},
+          ),
+          PopupMenuButton(
+            key: keyButton1,
+            icon: Icon(Icons.view_list, color: Colors.white),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Text("Is this"),
+              ),
+              PopupMenuItem(
+                child: Text("What"),
+              ),
+              PopupMenuItem(
+                child: Text("You Want?"),
+              ),
+            ],
           )
         ],
       ),
