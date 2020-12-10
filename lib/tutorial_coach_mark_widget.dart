@@ -188,7 +188,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
       return SizedBox.shrink();
     }
     return Align(
-      alignment: widget.alignSkip,
+      alignment: currentTarget?.alignSkip ?? widget.alignSkip,
       child: SafeArea(
         child: AnimatedOpacity(
           opacity: showContent ? 1 : 0,

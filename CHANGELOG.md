@@ -1,6 +1,7 @@
 # 0.5.2
 
 - add `focusAnimationDuration` and `pulseAnimationDuration` to settings animations duration.
+- add `paddingFocus` and `alignSkip` in `TargetFocus`. Now you can configure Skip alignment and focus padding individually.
 
 # 0.5.1
 

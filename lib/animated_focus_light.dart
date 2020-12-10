@@ -181,9 +181,9 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
       );
 
       if (targetPosition.size.height > targetPosition.size.width) {
-        _sizeCircle = targetPosition.size.height * 0.6 + widget.paddingFocus;
+        _sizeCircle = targetPosition.size.height * 0.6 + _getPaddingFocus(_targetFocus);
       } else {
-        _sizeCircle = targetPosition.size.width * 0.6 + widget.paddingFocus;
+        _sizeCircle = targetPosition.size.width * 0.6 + _getPaddingFocus(_targetFocus);
       }
     });
 
@@ -252,7 +252,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
       return LightPaintRect(
         colorShadow: target?.color ?? widget.colorShadow,
         progress: _progressAnimated,
-        offset: widget.paddingFocus,
+        offset: _getPaddingFocus(_targetFocus),
         target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
         radius: target?.radius ?? 0,
         opacityShadow: widget.opacityShadow,
@@ -266,5 +266,9 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
         opacityShadow: widget.opacityShadow,
       );
     }
+  }
+
+  double _getPaddingFocus(TargetFocus targetFocus) {
+    return targetFocus.paddingFocus ?? widget.paddingFocus;
   }
 }
