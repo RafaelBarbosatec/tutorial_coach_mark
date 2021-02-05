@@ -1,6 +1,7 @@
 # 0.5.3
 
 - Fix issue #33. Thanks [cwyu-Ivan](https://github.com/cwyu-Ivan)
+- Fix issue #47. Thanks [percula](https://github.com/percula)
 
 # 0.5.2
 
