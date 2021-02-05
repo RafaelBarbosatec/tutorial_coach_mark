@@ -9,19 +9,17 @@ TargetPosition getTargetCurrent(TargetFocus target) {
     try {
       final RenderBox renderBoxRed = key.currentContext.findRenderObject();
       final size = renderBoxRed.size;
-      final state =
-          key.currentContext.findAncestorStateOfType<NavigatorState>();
+      final state = key.currentContext.findAncestorStateOfType<NavigatorState>();
       Offset offset;
       if (state != null) {
-        offset = renderBoxRed.localToGlobal(Offset.zero,
-            ancestor: state.context.findRenderObject());
+        offset = renderBoxRed.localToGlobal(Offset.zero, ancestor: state.context.findRenderObject());
       } else {
         offset = renderBoxRed.localToGlobal(Offset.zero);
       }
 
       return TargetPosition(size, offset);
     } catch (e) {
-      print("ERROR: Não foi possivem oter informações da KEY");
+      print("TutorialCoachMark (ERROR): It was not possible to obtain target position.");
       return null;
     }
   } else {
