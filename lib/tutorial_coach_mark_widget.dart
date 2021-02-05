@@ -64,10 +64,10 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             focusAnimationDuration: widget.focusAnimationDuration,
             pulseAnimationDuration: widget.pulseAnimationDuration,
             clickTarget: (target) {
-              if (widget.clickTarget != null) widget.clickTarget(target);
+              widget.clickTarget?.call(target);
             },
             clickOverlay: (target) {
-              if (widget.clickOverlay != null) widget.clickOverlay(target);
+              widget.clickOverlay?.call(target);
             },
             focus: (target) {
               setState(() {
