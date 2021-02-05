@@ -381,19 +381,26 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void showTutorial() {
-    tutorialCoachMark = TutorialCoachMark(context,
-        targets: targets,
-        colorShadow: Colors.red,
-        textSkip: "SKIP",
-        paddingFocus: 10,
-        opacityShadow: 0.8, onFinish: () {
-      print("finish");
-    }, onClickTarget: (target) {
-      print(target);
-    }, onClickSkip: () {
-      print("skip");
-    })
-      ..show();
+    tutorialCoachMark = TutorialCoachMark(
+      context,
+      targets: targets,
+      colorShadow: Colors.red,
+      textSkip: "SKIP",
+      paddingFocus: 10,
+      opacityShadow: 0.8,
+      onFinish: () {
+        print("finish");
+      },
+      onClickTarget: (target) {
+        print('onClickTarget: $target');
+      },
+      onClickSkip: () {
+        print("skip");
+      },
+      onClickOverlay: (target) {
+        print('onClickOverlay: $target');
+      },
+    )..show();
   }
 
   void _afterLayout(_) {
