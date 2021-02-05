@@ -1,3 +1,7 @@
+# 0.5.3
+
+- Fix issue #33. Thanks [cwyu-Ivan](https://github.com/cwyu-Ivan)
+
 # 0.5.2
 
 - add `focusAnimationDuration` and `pulseAnimationDuration` to settings animations duration.
