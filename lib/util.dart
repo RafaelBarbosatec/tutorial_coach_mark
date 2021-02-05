@@ -9,7 +9,15 @@ TargetPosition getTargetCurrent(TargetFocus target) {
     try {
       final RenderBox renderBoxRed = key.currentContext.findRenderObject();
       final size = renderBoxRed.size;
-      final offset = renderBoxRed.localToGlobal(Offset.zero);
+      final state =
+          key.currentContext.findAncestorStateOfType<NavigatorState>();
+      Offset offset;
+      if (state != null) {
+        offset = renderBoxRed.localToGlobal(Offset.zero,
+            ancestor: state.context.findRenderObject());
+      } else {
+        offset = renderBoxRed.localToGlobal(Offset.zero);
+      }
 
       return TargetPosition(size, offset);
     } catch (e) {
