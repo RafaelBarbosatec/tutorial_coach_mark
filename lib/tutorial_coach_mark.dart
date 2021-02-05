@@ -11,6 +11,7 @@ class TutorialCoachMark {
   final BuildContext _context;
   final List<TargetFocus> targets;
   final Function(TargetFocus) onClickTarget;
+  final Function(TargetFocus) onClickOverlay;
   final Function() onFinish;
   final double paddingFocus;
   final Function() onClickSkip;
@@ -31,6 +32,7 @@ class TutorialCoachMark {
     this.targets,
     this.colorShadow = Colors.black,
     this.onClickTarget,
+    this.onClickOverlay,
     this.onFinish,
     this.paddingFocus = 10,
     this.onClickSkip,
@@ -50,6 +52,7 @@ class TutorialCoachMark {
           key: _widgetKey,
           targets: targets,
           clickTarget: onClickTarget,
+          clickOverlay: onClickOverlay,
           paddingFocus: paddingFocus,
           clickSkip: skip,
           alignSkip: alignSkip,

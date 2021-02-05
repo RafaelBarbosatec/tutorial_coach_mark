@@ -12,6 +12,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.finish,
     this.paddingFocus = 10,
     this.clickTarget,
+    this.clickOverlay,
     this.alignSkip = Alignment.bottomRight,
     this.textSkip = "SKIP",
     this.clickSkip,
@@ -25,6 +26,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
 
   final List<TargetFocus> targets;
   final Function(TargetFocus) clickTarget;
+  final Function(TargetFocus) clickOverlay;
   final Function() finish;
   final Color colorShadow;
   final double opacityShadow;
@@ -63,6 +65,9 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             pulseAnimationDuration: widget.pulseAnimationDuration,
             clickTarget: (target) {
               if (widget.clickTarget != null) widget.clickTarget(target);
+            },
+            clickOverlay: (target) {
+              if (widget.clickOverlay != null) widget.clickOverlay(target);
             },
             focus: (target) {
               setState(() {
