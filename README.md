@@ -3,6 +3,8 @@
 
 # TutorialCoachMark
 
+Create a beautiful and easy tutorial for your application.
+
 Example 1             |  Example 2
 :-------------------------:|:-------------------------:
 ![](https://github.com/RafaelBarbosatec/tutorial_coach_mark/blob/master/img/exampleTutorialCoachMark.gif)  |  ![](https://github.com/RafaelBarbosatec/tutorial_coach_mark/blob/master/img/example_boleiro.gif)
