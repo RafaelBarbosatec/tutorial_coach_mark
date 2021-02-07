@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:tutorial_coach_mark/animated_focus_light.dart';
-import 'package:tutorial_coach_mark/content_target.dart';
-import 'package:tutorial_coach_mark/target_position.dart';
+import 'package:tutorial_coach_mark/src/target/target_content.dart';
+import 'package:tutorial_coach_mark/src/target/target_position.dart';
+import 'package:tutorial_coach_mark/src/util.dart';
 
 class TargetFocus {
   TargetFocus({
@@ -21,7 +21,7 @@ class TargetFocus {
   final dynamic identify;
   final GlobalKey keyTarget;
   final TargetPosition targetPosition;
-  final List<ContentTarget> contents;
+  final List<TargetContent> contents;
   final ShapeLightFocus shape;
   final double radius;
   final bool enableOverlayTab;

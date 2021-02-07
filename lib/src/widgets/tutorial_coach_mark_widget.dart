@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tutorial_coach_mark/animated_focus_light.dart';
-import 'package:tutorial_coach_mark/src/content/content_target.dart';
+import 'package:tutorial_coach_mark/src/target/target_content.dart';
 import 'package:tutorial_coach_mark/src/target/target_focus.dart';
 import 'package:tutorial_coach_mark/src/target/target_position.dart';
-import 'package:tutorial_coach_mark/util.dart';
+import 'package:tutorial_coach_mark/src/util.dart';
+import 'package:tutorial_coach_mark/src/widgets/animated_focus_light.dart';
 
 class TutorialCoachMarkWidget extends StatefulWidget {
   const TutorialCoachMarkWidget({
@@ -15,7 +15,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.clickOverlay,
     this.alignSkip = Alignment.bottomRight,
     this.textSkip = "SKIP",
-    this.clickSkip,
+    this.onClickSkip,
     this.colorShadow = Colors.black,
     this.opacityShadow = 0.8,
     this.textStyleSkip = const TextStyle(color: Colors.white),
@@ -31,7 +31,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final Color colorShadow;
   final double opacityShadow;
   final double paddingFocus;
-  final Function() clickSkip;
+  final Function() onClickSkip;
   final AlignmentGeometry alignSkip;
   final String textSkip;
   final TextStyle textStyleSkip;
@@ -127,7 +127,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
 
     children = currentTarget.contents.map<Widget>((i) {
       switch (i.align) {
-        case AlignContent.bottom:
+        case ContentAlign.bottom:
           {
             weight = MediaQuery.of(context).size.width;
             left = 0;
@@ -135,7 +135,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             bottom = null;
           }
           break;
-        case AlignContent.top:
+        case ContentAlign.top:
           {
             weight = MediaQuery.of(context).size.width;
             left = 0;
@@ -143,7 +143,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             bottom = haloHeight + (MediaQuery.of(context).size.height - positioned.dy);
           }
           break;
-        case AlignContent.left:
+        case ContentAlign.left:
           {
             weight = positioned.dx - haloWidth;
             left = 0;
@@ -151,7 +151,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             bottom = null;
           }
           break;
-        case AlignContent.right:
+        case ContentAlign.right:
           {
             left = positioned.dx + haloWidth;
             top = positioned.dy - target.size.height / 2 - haloHeight;
@@ -159,7 +159,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             weight = MediaQuery.of(context).size.width - left;
           }
           break;
-        case AlignContent.custom:
+        case ContentAlign.custom:
           {
             left = i.customPosition.left;
             top = i.customPosition.top;
@@ -199,7 +199,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
           opacity: showContent ? 1 : 0,
           duration: Duration(milliseconds: 300),
           child: InkWell(
-            onTap: widget.clickSkip,
+            onTap: widget.onClickSkip,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Text(
