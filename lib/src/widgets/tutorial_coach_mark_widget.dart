@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/animated_focus_light.dart';
-import 'package:tutorial_coach_mark/content_target.dart';
-import 'package:tutorial_coach_mark/target_focus.dart';
-import 'package:tutorial_coach_mark/target_position.dart';
+import 'package:tutorial_coach_mark/src/content/content_target.dart';
+import 'package:tutorial_coach_mark/src/target/target_focus.dart';
+import 'package:tutorial_coach_mark/src/target/target_position.dart';
 import 'package:tutorial_coach_mark/util.dart';
 
 class TutorialCoachMarkWidget extends StatefulWidget {

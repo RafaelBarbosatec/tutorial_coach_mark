@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tutorial_coach_mark/animated_focus_light.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 void main() => runApp(MyApp());
@@ -37,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     initTargets();
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    showTutorial();
     super.initState();
   }
 
@@ -159,8 +158,8 @@ class _MyHomePageState extends State<MyHomePage> {
         identify: "Target 0",
         keyTarget: keyButton1,
         contents: [
-          ContentTarget(
-              align: AlignContent.bottom,
+          TargetContent(
+              align: ContentAlign.bottom,
               child: Container(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -189,8 +188,8 @@ class _MyHomePageState extends State<MyHomePage> {
         keyTarget: keyButton,
         color: Colors.purple,
         contents: [
-          ContentTarget(
-            align: AlignContent.bottom,
+          TargetContent(
+            align: ContentAlign.bottom,
             child: Container(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -220,8 +219,8 @@ class _MyHomePageState extends State<MyHomePage> {
       identify: "Target 2",
       keyTarget: keyButton4,
       contents: [
-        ContentTarget(
-            align: AlignContent.left,
+        TargetContent(
+            align: ContentAlign.left,
             child: Container(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -241,8 +240,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             )),
-        ContentTarget(
-            align: AlignContent.top,
+        TargetContent(
+            align: ContentAlign.top,
             child: Container(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -269,8 +268,8 @@ class _MyHomePageState extends State<MyHomePage> {
       identify: "Target 3",
       keyTarget: keyButton5,
       contents: [
-        ContentTarget(
-            align: AlignContent.right,
+        TargetContent(
+            align: ContentAlign.right,
             child: Container(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -297,8 +296,8 @@ class _MyHomePageState extends State<MyHomePage> {
       identify: "Target 4",
       keyTarget: keyButton3,
       contents: [
-        ContentTarget(
-            align: AlignContent.top,
+        TargetContent(
+            align: ContentAlign.top,
             child: Container(
               child: Column(
                 children: <Widget>[
@@ -335,8 +334,8 @@ class _MyHomePageState extends State<MyHomePage> {
       identify: "Target 5",
       keyTarget: keyButton2,
       contents: [
-        ContentTarget(
-            align: AlignContent.top,
+        TargetContent(
+            align: ContentAlign.top,
             child: Container(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -355,8 +354,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             )),
-        ContentTarget(
-            align: AlignContent.bottom,
+        TargetContent(
+            align: ContentAlign.bottom,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -394,18 +393,12 @@ class _MyHomePageState extends State<MyHomePage> {
       onClickTarget: (target) {
         print('onClickTarget: $target');
       },
-      onClickSkip: () {
+      onSkip: () {
         print("skip");
       },
       onClickOverlay: (target) {
         print('onClickOverlay: $target');
       },
     )..show();
-  }
-
-  void _afterLayout(_) {
-    Future.delayed(Duration(milliseconds: 100), () {
-      showTutorial();
-    });
   }
 }

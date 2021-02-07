@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:tutorial_coach_mark/target_focus.dart';
-import 'package:tutorial_coach_mark/target_position.dart';
+import 'package:tutorial_coach_mark/src/target/target_focus.dart';
+import 'package:tutorial_coach_mark/src/target/target_position.dart';
 
 TargetPosition getTargetCurrent(TargetFocus target) {
   if (target.keyTarget != null) {
