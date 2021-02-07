@@ -1,3 +1,7 @@
+# 0.6.0+1
+
+- update README
+
 # 0.6.0
 
 - Improvements in the project structure

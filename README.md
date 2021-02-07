@@ -34,7 +34,7 @@ void showTutorial() {
       onClickTarget: (target){
         print(target);
       },
-      onClickSkip: (){
+      onSkip: (){
         print("skip");
       }
     )..show();
@@ -45,7 +45,6 @@ void showTutorial() {
     // tutorial.previous(); // call previous target programmatically
   }
 ```
-#### WARN: Make sure your view has been rendered before calling 'show' so the lib can find the position of the widget on the screen.
 
 ### Creating targets (TargetFocus)
 
@@ -77,7 +76,7 @@ Attributes:
 | --- | --- | --- |
 | `align` | AlignContent | With this attribute you determine in which region to display the content in relation to the focused widget (top,bottom,left,right) |
 | `child` | Widget | Content you want to be displayed |
-| `customPosition` | CustomTargetPosition | Add custom position when `align` is AlignContent.custom |
+| `customPosition` | CustomTargetContentPosition | Add custom position when `align` is AlignContent.custom |
 
 ### Example Complete
 
@@ -94,8 +93,8 @@ List<TargetFocus> targets = List();
             identify: "Target 1",
             keyTarget: keyButton,
             contents: [
-              ContentTarget(
-                  align: AlignContent.bottom,
+              TargetContent(
+                  align: ContentAlign.bottom,
                   child: Container(
                     child:Column(
                       mainAxisSize: MainAxisSize.min,
@@ -129,8 +128,8 @@ List<TargetFocus> targets = List();
             identify: "Target 2",
             keyTarget: keyButton4,
             contents: [
-              ContentTarget(
-                  align: AlignContent.left,
+              TargetContent(
+                  align: ContentAlign.left,
                   child: Container(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -155,8 +154,8 @@ List<TargetFocus> targets = List();
                     ),
                   )
               ),
-              ContentTarget(
-                  align: AlignContent.top,
+              TargetContent(
+                  align: ContentAlign.top,
                   child: Container(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -190,8 +189,8 @@ List<TargetFocus> targets = List();
             identify: "Target 3",
             keyTarget: keyButton5,
             contents: [
-              ContentTarget(
-                  align: AlignContent.right,
+              TargetContent(
+                  align: ContentAlign.right,
                   child: Container(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -230,15 +229,18 @@ void showTutorial() {
        // textSkip: "SKIP",
        // paddingFocus: 10,
        // opacityShadow: 0.8,
-      finish: (){
-        print("finish");
-      },
-      clickTarget: (target){
+      onClickTarget: (target){
         print(target);
       },
-      clickSkip: (){
+      onClickOverlay: (target){
+        print(target);
+      },
+      onSkip: (){
         print("skip");
-      }
+      },
+      onFinish: (){
+        print("finish");
+      },
     )..show();
   }
 ```
