@@ -7,7 +7,7 @@ class LightPaint extends CustomPainter {
   final Color colorShadow;
   final double opacityShadow;
 
-  Paint _paintFocus;
+  late Paint _paintFocus;
 
   LightPaint(
     this.progress,

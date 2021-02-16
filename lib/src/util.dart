@@ -9,22 +9,25 @@ TargetPosition getTargetCurrent(TargetFocus target) {
     var key = target.keyTarget;
 
     try {
-      final RenderBox renderBoxRed = key.currentContext.findRenderObject();
+      final RenderBox renderBoxRed =
+          key?.currentContext?.findRenderObject() as RenderBox;
       final size = renderBoxRed.size;
-      final state = key.currentContext.findAncestorStateOfType<NavigatorState>();
+      final state =
+          key?.currentContext?.findAncestorStateOfType<NavigatorState>();
       Offset offset;
       if (state != null) {
-        offset = renderBoxRed.localToGlobal(Offset.zero, ancestor: state.context.findRenderObject());
+        offset = renderBoxRed.localToGlobal(Offset.zero,
+            ancestor: state.context.findRenderObject());
       } else {
         offset = renderBoxRed.localToGlobal(Offset.zero);
       }
 
       return TargetPosition(size, offset);
     } catch (e) {
-      print("TutorialCoachMark (ERROR): It was not possible to obtain target position.");
-      return null;
+      throw ArgumentError(
+          'TutorialCoachMark (ERROR): It was not possible to obtain target position.');
     }
   } else {
-    return target.targetPosition;
+    return target.targetPosition!;
   }
 }

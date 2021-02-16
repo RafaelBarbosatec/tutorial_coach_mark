@@ -9,11 +9,11 @@ class LightPaintRect extends CustomPainter {
   final double offset;
   final double radius;
 
-  Paint _paintFocus;
+  late Paint _paintFocus;
 
   LightPaintRect({
-    this.progress,
-    this.target,
+    required this.progress,
+    required this.target,
     this.colorShadow = Colors.black,
     this.opacityShadow = 0.8,
     this.offset = 10,
@@ -28,17 +28,18 @@ class LightPaintRect extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.saveLayer(Offset.zero & size, Paint());
     canvas.drawColor(colorShadow.withOpacity(opacityShadow), BlendMode.dstATop);
-    var maxSise = size.width > size.height ? size.width : size.height;
+    var maxSize = size.width > size.height ? size.width : size.height;
 
-    double x = -maxSise / 2 * (1 - progress) + target.offset.dx - offset / 2;
+    double x = -maxSize / 2 * (1 - progress) + target.offset.dx - offset / 2;
 
-    double y = -maxSise / 2 * (1 - progress) + target.offset.dy - offset / 2;
+    double y = -maxSize / 2 * (1 - progress) + target.offset.dy - offset / 2;
 
-    double w = maxSise * (1 - progress) + target.size.width + offset;
+    double w = maxSize * (1 - progress) + target.size.width + offset;
 
-    double h = maxSise * (1 - progress) + target.size.height + offset;
+    double h = maxSize * (1 - progress) + target.size.height + offset;
 
-    RRect rrect = RRect.fromRectAndRadius(Rect.fromLTWH(x, y, w, h), Radius.circular(radius));
+    RRect rrect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, w, h), Radius.circular(radius));
     canvas.drawRRect(rrect, _paintFocus);
     canvas.restore();
   }

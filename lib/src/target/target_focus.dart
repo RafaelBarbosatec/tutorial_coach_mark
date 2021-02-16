@@ -8,7 +8,7 @@ class TargetFocus {
     this.identify,
     this.keyTarget,
     this.targetPosition,
-    this.contents,
+    required this.contents,
     this.shape,
     this.radius,
     this.color,
@@ -19,16 +19,16 @@ class TargetFocus {
   }) : assert(keyTarget != null || targetPosition != null);
 
   final dynamic identify;
-  final GlobalKey keyTarget;
-  final TargetPosition targetPosition;
+  final GlobalKey? keyTarget;
+  final TargetPosition? targetPosition;
   final List<TargetContent> contents;
-  final ShapeLightFocus shape;
-  final double radius;
+  final ShapeLightFocus? shape;
+  final double? radius;
   final bool enableOverlayTab;
   final bool enableTargetTab;
-  final Color color;
-  final AlignmentGeometry alignSkip;
-  final double paddingFocus;
+  final Color? color;
+  final AlignmentGeometry? alignSkip;
+  final double? paddingFocus;
 
   @override
   String toString() {
