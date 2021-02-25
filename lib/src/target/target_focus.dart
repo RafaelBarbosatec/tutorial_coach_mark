@@ -16,6 +16,7 @@ class TargetFocus {
     this.enableTargetTab = true,
     this.alignSkip,
     this.paddingFocus,
+    this.focusAnimationDuration,
   }) : assert(keyTarget != null || targetPosition != null);
 
   final dynamic identify;
@@ -29,6 +30,7 @@ class TargetFocus {
   final Color color;
   final AlignmentGeometry alignSkip;
   final double paddingFocus;
+  final Duration focusAnimationDuration;
 
   @override
   String toString() {

@@ -40,6 +40,7 @@ class AnimatedFocusLight extends StatefulWidget {
 
 class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProviderStateMixin {
   static const BORDER_RADIUS_DEFAULT = 10.0;
+  static const DEFAULT_FOCUS_ANIMATION_DURATION = Duration(milliseconds: 600);
   AnimationController _controller;
   AnimationController _controllerPulse;
   CurvedAnimation _curvedAnimation;
@@ -61,7 +62,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
     _targetFocus = widget?.targets[_currentFocus];
     _controller = AnimationController(
       vsync: this,
-      duration: widget.focusAnimationDuration ?? Duration(milliseconds: 600),
+      duration: _targetFocus?.focusAnimationDuration ?? widget.focusAnimationDuration ?? DEFAULT_FOCUS_ANIMATION_DURATION,
     );
 
     _curvedAnimation = CurvedAnimation(
@@ -156,6 +157,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
       return;
     }
     _currentFocus++;
+
     _runFocus();
   }
 
@@ -171,6 +173,8 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
   void _runFocus() {
     if (_currentFocus < 0) return;
     _targetFocus = widget.targets[_currentFocus];
+    _controller.duration = _targetFocus?.focusAnimationDuration ?? widget.focusAnimationDuration ?? DEFAULT_FOCUS_ANIMATION_DURATION;
+
     var targetPosition = getTargetCurrent(_targetFocus);
     if (targetPosition == null) {
       this._finish();
