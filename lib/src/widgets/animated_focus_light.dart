@@ -116,18 +116,26 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
               }
               return Stack(
                 children: <Widget>[
-                  StreamBuilder<Rect>(
-                    stream: _targetFocus.targetBounds,
-                    builder: (context, snapshot) {
-                      return Container(
+                  _targetFocus.targetBounds == null
+                    ? Container(
                         width: double.maxFinite,
                         height: double.maxFinite,
                         child: CustomPaint(
-                          painter: _getPainter(_targetFocus, snapshot.data),
+                          painter: _getPainter(_targetFocus, null),
                         ),
-                      );
-                    }
-                  ),
+                      )
+                    : StreamBuilder<Rect>(
+                      stream: _targetFocus.targetBounds,
+                      builder: (context, snapshot) {
+                        return Container(
+                          width: double.maxFinite,
+                          height: double.maxFinite,
+                          child: CustomPaint(
+                            painter: _getPainter(_targetFocus, snapshot.data),
+                          ),
+                        );
+                      }
+                    ),
                   Positioned(
                     left: (_targetPosition?.offset.dx ?? 0) -
                         _getPaddingFocus() * 2,
