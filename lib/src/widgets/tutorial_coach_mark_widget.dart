@@ -52,6 +52,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
   final GlobalKey<AnimatedFocusLightState> _focusLightKey = GlobalKey();
   bool showContent = false;
   TargetFocus? currentTarget;
+  Stream<Rect> drawBounds;
 
   @override
   Widget build(BuildContext context) {

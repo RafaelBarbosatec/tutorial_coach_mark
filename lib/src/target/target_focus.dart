@@ -18,7 +18,8 @@ class TargetFocus {
     this.paddingFocus,
     this.focusAnimationDuration,
     this.pulseVariation,
-  }) : assert(keyTarget != null || targetPosition != null);
+    this.targetBounds
+  }) : assert(keyTarget != null || targetPosition != null || targetBounds != null);
 
   final dynamic identify;
   final GlobalKey? keyTarget;
@@ -33,6 +34,7 @@ class TargetFocus {
   final double? paddingFocus;
   final Duration? focusAnimationDuration;
   final Tween<double>? pulseVariation;
+  final Stream<Rect> targetBounds;
 
   @override
   String toString() {

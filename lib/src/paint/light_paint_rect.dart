@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/src/target/target_position.dart';
 
@@ -11,6 +13,7 @@ class LightPaintRect extends CustomPainter {
   final double opacityShadow;
   final double offset;
   final double radius;
+  final Rect? bounds;
 
   LightPaintRect({
     required this.progress,
@@ -19,6 +22,7 @@ class LightPaintRect extends CustomPainter {
     this.opacityShadow = 0.8,
     this.offset = 10,
     this.radius = 10,
+    this.bounds,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   static Path _drawRectHole(
@@ -95,13 +99,21 @@ class LightPaintRect extends CustomPainter {
         max(target.size.width, target.size.height) +
         target.getBiggerSpaceBorder(size);
 
-    double x = -maxSize / 2 * (1 - progress) + target.offset.dx - offset / 2;
+    RRect rrect;
+    double x, y, w, h;
+    if (bounds == null) {
 
-    double y = -maxSize / 2 * (1 - progress) + target.offset.dy - offset / 2;
+      x = -maxSize / 2 * (1 - progress) + target.offset.dx - offset / 2;
+      y = -maxSize / 2 * (1 - progress) + target.offset.dy - offset / 2;
+      w = maxSize * (1 - progress) + target.size.width + offset;
+      h = maxSize * (1 - progress) + target.size.height + offset;
 
-    double w = maxSize * (1 - progress) + target.size.width + offset;
-
-    double h = maxSize * (1 - progress) + target.size.height + offset;
+    } else {
+      x = -maxSize / 2 * (1 - progress) + bounds.left - offset / 2;
+      y = -maxSize / 2 * (1 - progress) + bounds.top - offset / 2;
+      w = maxSize * (1 - progress) + bounds.width + offset;
+      h = maxSize * (1 - progress) + bounds.height + offset;
+    }
 
     canvas.drawPath(
       radius > 0

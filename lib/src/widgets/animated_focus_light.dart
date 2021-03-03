@@ -64,6 +64,8 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
 
   bool _goNext = true;
 
+  AnimatedFocusLightState();
+
   @override
   void initState() {
     _targetFocus = widget.targets[_currentFocus];
@@ -114,12 +116,17 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
               }
               return Stack(
                 children: <Widget>[
-                  Container(
-                    width: double.maxFinite,
-                    height: double.maxFinite,
-                    child: CustomPaint(
-                      painter: _getPainter(_targetFocus),
-                    ),
+                  StreamBuilder<Rect>(
+                    stream: _targetFocus.targetBounds,
+                    builder: (context, snapshot) {
+                      return Container(
+                        width: double.maxFinite,
+                        height: double.maxFinite,
+                        child: CustomPaint(
+                          painter: _getPainter(_targetFocus, snapshot.data),
+                        ),
+                      );
+                    }
                   ),
                   Positioned(
                     left: (_targetPosition?.offset.dx ?? 0) -
@@ -282,7 +289,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
     }
   }
 
-  CustomPainter _getPainter(TargetFocus? target) {
+  CustomPainter _getPainter(TargetFocus? target, Rect bounds) {
     if (target?.shape == ShapeLightFocus.RRect) {
       return LightPaintRect(
         colorShadow: target?.color ?? widget.colorShadow,
@@ -291,6 +298,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
         target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
         radius: target?.radius ?? 0,
         opacityShadow: widget.opacityShadow,
+        bounds: bounds,
       );
     } else {
       return LightPaint(
