@@ -121,17 +121,20 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
                         width: double.maxFinite,
                         height: double.maxFinite,
                         child: CustomPaint(
-                          painter: _getPainter(_targetFocus, null),
+                          painter: _getPainter(_targetFocus),
                         ),
                       )
                     : StreamBuilder<Rect>(
                       stream: _targetFocus.targetBounds,
                       builder: (context, snapshot) {
+                        // if (snapshot.data != null) {
+                        //   print('[tut] streambuilder: ${snapshot.data.top} -> ${snapshot.data.bottom}');
+                        // }
                         return Container(
                           width: double.maxFinite,
                           height: double.maxFinite,
                           child: CustomPaint(
-                            painter: _getPainter(_targetFocus, snapshot.data),
+                            painter: _getPainter(_targetFocus, bounds: snapshot.data),
                           ),
                         );
                       }
@@ -228,6 +231,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
         targetPosition.offset.dx + (targetPosition.size.width / 2),
         targetPosition.offset.dy + (targetPosition.size.height / 2),
       );
+      print('[tut] New target position: $_positioned');
 
       if (targetPosition.size.height > targetPosition.size.width) {
         _sizeCircle = targetPosition.size.height * 0.6 + _getPaddingFocus();
@@ -297,13 +301,13 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
     }
   }
 
-  CustomPainter _getPainter(TargetFocus? target, Rect bounds) {
+  CustomPainter _getPainter(TargetFocus? target, { Rect bounds }) {
     if (target?.shape == ShapeLightFocus.RRect) {
       return LightPaintRect(
         colorShadow: target?.color ?? widget.colorShadow,
         progress: _progressAnimated,
         offset: _getPaddingFocus(),
-        target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
+        target: _targetPosition,
         radius: target?.radius ?? 0,
         opacityShadow: widget.opacityShadow,
         bounds: bounds,
