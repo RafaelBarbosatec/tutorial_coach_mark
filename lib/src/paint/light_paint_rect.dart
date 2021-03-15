@@ -107,7 +107,7 @@ class LightPaintRect extends CustomPainter {
       double h = maxSize * (1 - progress) + bounds.height + offset;
       rrect = RRect.fromRectAndRadius(Rect.fromLTWH(x, y, w, h), Radius.circular(radius));
 
-    } else if (target.offset != null) {
+    } else if (target?.offset != null) {
       double x = -maxSize / 2 * (1 - progress) + target.offset.dx - offset / 2;
       double y = -maxSize / 2 * (1 - progress) + target.offset.dy - offset / 2;
       double w = maxSize * (1 - progress) + target.size.width + offset;
