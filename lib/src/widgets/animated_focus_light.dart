@@ -8,20 +8,20 @@ import 'package:tutorial_coach_mark/src/util.dart';
 
 class AnimatedFocusLight extends StatefulWidget {
   final List<TargetFocus> targets;
-  final Function(TargetFocus) focus;
-  final Function(TargetFocus) clickTarget;
-  final Function(TargetFocus) clickOverlay;
-  final Function removeFocus;
-  final Function() finish;
+  final Function(TargetFocus)? focus;
+  final Function(TargetFocus)? clickTarget;
+  final Function(TargetFocus)? clickOverlay;
+  final Function? removeFocus;
+  final Function()? finish;
   final double paddingFocus;
   final Color colorShadow;
   final double opacityShadow;
-  final Duration focusAnimationDuration;
-  final Duration pulseAnimationDuration;
+  final Duration? focusAnimationDuration;
+  final Duration? pulseAnimationDuration;
 
   const AnimatedFocusLight({
-    Key key,
-    this.targets,
+    Key? key,
+    required this.targets,
     this.focus,
     this.finish,
     this.removeFocus,
@@ -40,25 +40,25 @@ class AnimatedFocusLight extends StatefulWidget {
 
 class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProviderStateMixin {
   static const BORDER_RADIUS_DEFAULT = 10.0;
-  AnimationController _controller;
-  AnimationController _controllerPulse;
-  CurvedAnimation _curvedAnimation;
-  Animation _tweenPulse;
+  late AnimationController _controller;
+  late AnimationController _controllerPulse;
+  late CurvedAnimation _curvedAnimation;
+  late Animation _tweenPulse;
   Offset _positioned = Offset(0.0, 0.0);
-  TargetPosition _targetPosition;
+  TargetPosition? _targetPosition;
 
   double _sizeCircle = 100;
   int _currentFocus = 0;
   bool _finishFocus = false;
   bool _initReverse = false;
   double _progressAnimated = 0;
-  TargetFocus _targetFocus;
+  TargetFocus? _targetFocus;
 
   bool _goNext = true;
 
   @override
   void initState() {
-    _targetFocus = widget?.targets[_currentFocus];
+    _targetFocus = widget.targets[_currentFocus];
     _controller = AnimationController(
       vsync: this,
       duration: widget.focusAnimationDuration ?? Duration(milliseconds: 600),
@@ -84,14 +84,14 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
     _controller.addStatusListener(_listener);
     _controllerPulse.addStatusListener(_listenerPulse);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => _runFocus());
+    WidgetsBinding.instance!.addPostFrameCallback((_) => _runFocus());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: _targetFocus.enableOverlayTab ? () => _tapHandler(overlayTap: true) : null,
+      onTap: _targetFocus!.enableOverlayTab ? () => _tapHandler(overlayTap: true) : null,
       child: AnimatedBuilder(
         animation: _controller,
         builder: (_, child) {
@@ -112,15 +112,15 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
                     ),
                   ),
                   Positioned(
-                    left: (_targetPosition?.offset?.dx ?? 0) - _getPaddingFocus() * 2,
-                    top: (_targetPosition?.offset?.dy ?? 0) - _getPaddingFocus() * 2,
+                    left: (_targetPosition?.offset.dx ?? 0) - _getPaddingFocus() * 2,
+                    top: (_targetPosition?.offset.dy ?? 0) - _getPaddingFocus() * 2,
                     child: InkWell(
                       borderRadius: _betBorderRadiusTarget(),
-                      onTap: _targetFocus.enableTargetTab ? () => _tapHandler(targetTap: true) : null,
+                      onTap: _targetFocus!.enableTargetTab ? () => _tapHandler(targetTap: true) : null,
                       child: Container(
                         color: Colors.transparent,
-                        width: (_targetPosition?.size?.width ?? 0) + _getPaddingFocus() * 4,
-                        height: (_targetPosition?.size?.height ?? 0) + _getPaddingFocus() * 4,
+                        width: (_targetPosition?.size.width ?? 0) + _getPaddingFocus() * 4,
+                        height: (_targetPosition?.size.height ?? 0) + _getPaddingFocus() * 4,
                       ),
                     ),
                   )
@@ -142,11 +142,11 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
       _initReverse = true;
     });
     _controllerPulse.reverse(from: _controllerPulse.value);
-    if (targetTap) {
-      widget?.clickTarget(_targetFocus);
+    if (targetTap && _targetFocus != null) {
+      widget.clickTarget?.call(_targetFocus!);
     }
-    if (overlayTap) {
-      widget?.clickOverlay(_targetFocus);
+    if (overlayTap && _targetFocus != null) {
+      widget.clickOverlay?.call(_targetFocus!);
     }
   }
 
@@ -171,7 +171,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
   void _runFocus() {
     if (_currentFocus < 0) return;
     _targetFocus = widget.targets[_currentFocus];
-    var targetPosition = getTargetCurrent(_targetFocus);
+    var targetPosition = getTargetCurrent(_targetFocus!);
     if (targetPosition == null) {
       this._finish();
       return;
@@ -200,7 +200,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
     setState(() {
       _currentFocus = 0;
     });
-    widget.finish();
+    widget.finish!();
   }
 
   @override
@@ -232,7 +232,9 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
       setState(() {
         _finishFocus = true;
       });
-      widget?.focus(_targetFocus);
+      if (_targetFocus != null) {
+        widget.focus?.call(_targetFocus!);
+      }
 
       _controllerPulse.forward();
     }
@@ -249,11 +251,11 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
     }
 
     if (status == AnimationStatus.reverse) {
-      widget?.removeFocus();
+      widget.removeFocus!();
     }
   }
 
-  CustomPainter _getPainter(TargetFocus target) {
+  CustomPainter _getPainter(TargetFocus? target) {
     if (target?.shape == ShapeLightFocus.RRect) {
       return LightPaintRect(
         colorShadow: target?.color ?? widget.colorShadow,
@@ -275,12 +277,12 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight> with TickerProvi
   }
 
   double _getPaddingFocus() {
-    return _targetFocus?.paddingFocus ?? (widget.paddingFocus ?? 10);
+    return _targetFocus?.paddingFocus ?? (widget.paddingFocus);
   }
 
   BorderRadius _betBorderRadiusTarget() {
     double radius = _targetFocus?.shape == ShapeLightFocus.Circle
-        ? (_targetPosition?.size?.width ?? BORDER_RADIUS_DEFAULT)
+        ? (_targetPosition?.size.width ?? BORDER_RADIUS_DEFAULT)
         : _targetFocus?.radius ?? BORDER_RADIUS_DEFAULT;
     return BorderRadius.circular(radius);
   }

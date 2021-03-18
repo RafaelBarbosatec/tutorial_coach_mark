@@ -11,11 +11,11 @@ export 'package:tutorial_coach_mark/src/util.dart';
 class TutorialCoachMark {
   final BuildContext _context;
   final List<TargetFocus> targets;
-  final Function(TargetFocus) onClickTarget;
-  final Function(TargetFocus) onClickOverlay;
-  final Function() onFinish;
+  final Function(TargetFocus)? onClickTarget;
+  final Function(TargetFocus)? onClickOverlay;
+  final Function()? onFinish;
   final double paddingFocus;
-  final Function() onSkip;
+  final Function()? onSkip;
   final AlignmentGeometry alignSkip;
   final String textSkip;
   final TextStyle textStyleSkip;
@@ -26,11 +26,11 @@ class TutorialCoachMark {
   final Duration focusAnimationDuration;
   final Duration pulseAnimationDuration;
 
-  OverlayEntry _overlayEntry;
+  OverlayEntry? _overlayEntry;
 
   TutorialCoachMark(
     this._context, {
-    this.targets,
+    required this.targets,
     this.colorShadow = Colors.black,
     this.onClickTarget,
     this.onClickOverlay,
@@ -71,11 +71,11 @@ class TutorialCoachMark {
   }
 
   void show() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       Future.delayed(Duration.zero, () {
         if (_overlayEntry == null) {
           _overlayEntry = _buildOverlay();
-          Overlay.of(_context).insert(_overlayEntry);
+          Overlay.of(_context)!.insert(_overlayEntry!);
         }
       });
     });
