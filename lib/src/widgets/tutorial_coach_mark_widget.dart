@@ -99,7 +99,10 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
 
     List<Widget> children = <Widget>[];
 
-    TargetPosition target = getTargetCurrent(currentTarget!)!;
+    final target = getTargetCurrent(currentTarget!);
+    if (target == null) {
+      return SizedBox.shrink();
+    }
 
     var positioned = Offset(
       target.offset.dx + target.size.width / 2,
