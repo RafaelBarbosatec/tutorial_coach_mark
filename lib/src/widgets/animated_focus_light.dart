@@ -34,7 +34,8 @@ class AnimatedFocusLight extends StatefulWidget {
     this.focusAnimationDuration,
     this.pulseAnimationDuration,
     this.pulseVariation,
-  }) : super(key: key);
+  })  : assert(targets.length > 0),
+        super(key: key);
 
   @override
   AnimatedFocusLightState createState() => AnimatedFocusLightState();
