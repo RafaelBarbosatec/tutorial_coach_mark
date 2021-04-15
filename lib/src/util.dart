@@ -4,14 +4,14 @@ import 'package:tutorial_coach_mark/src/target/target_position.dart';
 
 enum ShapeLightFocus { Circle, RRect }
 
-TargetPosition getTargetCurrent(TargetFocus target) {
+TargetPosition? getTargetCurrent(TargetFocus target) {
   if (target.keyTarget != null) {
-    var key = target.keyTarget;
+    var key = target.keyTarget!;
 
     try {
-      final RenderBox renderBoxRed = key.currentContext.findRenderObject();
+      final RenderBox renderBoxRed = key.currentContext!.findRenderObject() as RenderBox;
       final size = renderBoxRed.size;
-      final state = key.currentContext.findAncestorStateOfType<NavigatorState>();
+      final state = key.currentContext!.findAncestorStateOfType<NavigatorState>();
       Offset offset;
       if (state != null) {
         offset = renderBoxRed.localToGlobal(Offset.zero, ancestor: state.context.findRenderObject());
