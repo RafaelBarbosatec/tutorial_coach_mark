@@ -6,7 +6,7 @@ class CustomTargetContentPosition {
     this.left,
     this.bottom,
   });
-  final double top, left, bottom;
+  final double? top, left, bottom;
   @override
   String toString() {
     return 'CustomTargetPosition{top: $top, left: $left, bottom: $bottom}';
@@ -18,12 +18,12 @@ enum ContentAlign { top, bottom, left, right, custom }
 class TargetContent {
   TargetContent({
     this.align = ContentAlign.bottom,
-    this.child,
+    required this.child,
     this.customPosition,
-  }) : assert(child != null && !(align == ContentAlign.custom && customPosition == null));
+  }) : assert(!(align == ContentAlign.custom && customPosition == null));
 
   final ContentAlign align;
-  final CustomTargetContentPosition customPosition;
+  final CustomTargetContentPosition? customPosition;
   final Widget child;
   @override
   String toString() {

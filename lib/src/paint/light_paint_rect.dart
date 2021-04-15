@@ -9,11 +9,11 @@ class LightPaintRect extends CustomPainter {
   final double offset;
   final double radius;
 
-  Paint _paintFocus;
+  late Paint _paintFocus;
 
   LightPaintRect({
-    this.progress,
-    this.target,
+    required this.progress,
+    required this.target,
     this.colorShadow = Colors.black,
     this.opacityShadow = 0.8,
     this.offset = 10,
