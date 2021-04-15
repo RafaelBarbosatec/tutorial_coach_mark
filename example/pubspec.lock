@@ -134,7 +134,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.6.0+1"
+    version: "1.0.0"
   typed_data:
     dependency: transitive
     description:

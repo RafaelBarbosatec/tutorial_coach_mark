@@ -82,8 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: MediaQuery.of(context).size.width - 50,
                   child: Align(
                     alignment: Alignment.center,
-                    child: RaisedButton(
-                      color: Colors.blueAccent,
+                    child: ElevatedButton(
                       child: Icon(Icons.remove_red_eye),
                       onPressed: () {
                         showTutorial();
@@ -98,9 +97,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: SizedBox(
                 width: 50,
                 height: 50,
-                child: RaisedButton(
+                child: ElevatedButton(
                   key: keyButton2,
                   onPressed: () {},
+                  child: Container(),
                 ),
               ),
             ),
@@ -111,9 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: SizedBox(
                   width: 50,
                   height: 50,
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     key: keyButton3,
                     onPressed: () {},
+                    child: Container(),
                   ),
                 ),
               ),
@@ -125,9 +126,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: SizedBox(
                   width: 50,
                   height: 50,
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     key: keyButton4,
                     onPressed: () {},
+                    child: Container(),
                   ),
                 ),
               ),
@@ -139,9 +141,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: SizedBox(
                   width: 50,
                   height: 50,
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     key: keyButton5,
                     onPressed: () {},
+                    child: Container(),
                   ),
                 ),
               ),
@@ -159,26 +162,30 @@ class _MyHomePageState extends State<MyHomePage> {
         keyTarget: keyButton1,
         contents: [
           TargetContent(
-              align: ContentAlign.bottom,
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Titulo lorem ipsum",
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
+            align: ContentAlign.bottom,
+            child: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Titulo lorem ipsum",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20.0),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                      style: TextStyle(color: Colors.white),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )
-                  ],
-                ),
-              ))
+                  )
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -197,7 +204,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Text(
                     "Titulo lorem ipsum",
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20.0),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
@@ -215,11 +225,12 @@ class _MyHomePageState extends State<MyHomePage> {
         radius: 5,
       ),
     );
-    targets.add(TargetFocus(
-      identify: "Target 2",
-      keyTarget: keyButton4,
-      contents: [
-        TargetContent(
+    targets.add(
+      TargetFocus(
+        identify: "Target 2",
+        keyTarget: keyButton4,
+        contents: [
+          TargetContent(
             align: ContentAlign.left,
             child: Container(
               child: Column(
@@ -228,7 +239,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Text(
                     "Multiples content",
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20.0),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
@@ -239,31 +253,36 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
                 ],
               ),
-            )),
-        TargetContent(
-            align: ContentAlign.top,
-            child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Multiples content",
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                      style: TextStyle(color: Colors.white),
+            ),
+          ),
+          TargetContent(
+              align: ContentAlign.top,
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Multiples content",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 20.0),
                     ),
-                  )
-                ],
-              ),
-            ))
-      ],
-      shape: ShapeLightFocus.RRect,
-    ));
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Text(
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              ))
+        ],
+        shape: ShapeLightFocus.RRect,
+      ),
+    );
     targets.add(TargetFocus(
       identify: "Target 3",
       keyTarget: keyButton5,
@@ -277,7 +296,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Text(
                     "Title lorem ipsum",
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20.0),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20.0),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
@@ -297,36 +319,40 @@ class _MyHomePageState extends State<MyHomePage> {
       keyTarget: keyButton3,
       contents: [
         TargetContent(
-            align: ContentAlign.top,
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {
-                      tutorialCoachMark.previous();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Image.network(
-                        "https://juststickers.in/wp-content/uploads/2019/01/flutter.png",
-                        height: 200,
-                      ),
+          align: ContentAlign.top,
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    tutorialCoachMark.previous();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Image.network(
+                      "https://juststickers.in/wp-content/uploads/2019/01/flutter.png",
+                      height: 200,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: Text(
-                      "Image Load network",
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: Text(
+                    "Image Load network",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0),
                   ),
-                  Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-            ))
+                ),
+                Text(
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
       shape: ShapeLightFocus.Circle,
     ));
@@ -335,25 +361,29 @@ class _MyHomePageState extends State<MyHomePage> {
       keyTarget: keyButton2,
       contents: [
         TargetContent(
-            align: ContentAlign.top,
-            child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: Text(
-                      "Multiples contents",
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
-                    ),
+          align: ContentAlign.top,
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: Text(
+                    "Multiples contents",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0),
                   ),
-                  Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-            )),
+                ),
+                Text(
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+        ),
         TargetContent(
             align: ContentAlign.bottom,
             child: Column(
@@ -363,7 +393,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.only(bottom: 20.0),
                   child: Text(
                     "Multiples contents",
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0),
                   ),
                 ),
                 Container(

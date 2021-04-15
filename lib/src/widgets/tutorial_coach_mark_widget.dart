@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/src/target/target_content.dart';
 import 'package:tutorial_coach_mark/src/target/target_focus.dart';
-import 'package:tutorial_coach_mark/src/target/target_position.dart';
 import 'package:tutorial_coach_mark/src/util.dart';
 import 'package:tutorial_coach_mark/src/widgets/animated_focus_light.dart';
 
@@ -22,6 +21,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.hideSkip,
     this.focusAnimationDuration,
     this.pulseAnimationDuration,
+    this.pulseVariation,
   }) : super(key: key);
 
   final List<TargetFocus> targets;
@@ -38,6 +38,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final bool? hideSkip;
   final Duration? focusAnimationDuration;
   final Duration? pulseAnimationDuration;
+  final Tween<double>? pulseVariation;
 
   @override
   TutorialCoachMarkWidgetState createState() => TutorialCoachMarkWidgetState();
@@ -63,6 +64,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             opacityShadow: widget.opacityShadow,
             focusAnimationDuration: widget.focusAnimationDuration,
             pulseAnimationDuration: widget.pulseAnimationDuration,
+            pulseVariation: widget.pulseVariation,
             clickTarget: (target) {
               widget.clickTarget?.call(target);
             },
@@ -113,7 +115,9 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
     double haloHeight;
 
     if (currentTarget!.shape == ShapeLightFocus.Circle) {
-      haloWidth = target.size.width > target.size.height ? target.size.width : target.size.height;
+      haloWidth = target.size.width > target.size.height
+          ? target.size.width
+          : target.size.height;
       haloHeight = haloWidth;
     } else {
       haloWidth = target.size.width;
@@ -143,7 +147,8 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
             weight = MediaQuery.of(context).size.width;
             left = 0;
             top = null;
-            bottom = haloHeight + (MediaQuery.of(context).size.height - positioned.dy);
+            bottom = haloHeight +
+                (MediaQuery.of(context).size.height - positioned.dy);
           }
           break;
         case ContentAlign.left:

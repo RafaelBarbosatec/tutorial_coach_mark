@@ -1,3 +1,9 @@
+# 1.0.0
+
+- Migrate to Null-Safety
+- Merged PR [55](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/55)
+- Merged PR [57](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/57)
+
 # 0.6.0+1
 
 - update README
