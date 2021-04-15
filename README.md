@@ -65,6 +65,7 @@ Attributes:
 | `enableTargetTab` | bool | enable click in target to call next step |
 | `alignSkip` | Alignment | use to align the skip in the target |
 | `paddingFocus` | Alignment | settings padding of the focus in target |
+| `focusAnimationDuration` | Duration | override the widget's global focus animation duration |
 
 ### Creating contents (ContentTarget)
 
