@@ -134,7 +134,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
                           width: double.maxFinite,
                           height: double.maxFinite,
                           child: CustomPaint(
-                            painter: _getPainter(_targetFocus, bounds: snapshot.data),
+                            painter: _getPainter(_targetFocus, bounds: snapshot.requireData),
                           ),
                         );
                       }
@@ -301,7 +301,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
     }
   }
 
-  CustomPainter _getPainter(TargetFocus? target, { Rect bounds }) {
+  CustomPainter _getPainter(TargetFocus? target, { Rect? bounds }) {
     if (target?.shape == ShapeLightFocus.RRect) {
       return LightPaintRect(
         colorShadow: target?.color ?? widget.colorShadow,
