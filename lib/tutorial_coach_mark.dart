@@ -59,6 +59,7 @@ class TutorialCoachMark {
           paddingFocus: paddingFocus,
           onClickSkip: skip,
           alignSkip: alignSkip,
+          skipWidget:skipWidget,
           textSkip: textSkip,
           textStyleSkip: textStyleSkip,
           hideSkip: hideSkip,
