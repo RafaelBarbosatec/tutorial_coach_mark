@@ -26,26 +26,27 @@ class TutorialCoachMark {
   final GlobalKey<TutorialCoachMarkWidgetState> _widgetKey = GlobalKey();
   final Duration focusAnimationDuration;
   final Duration pulseAnimationDuration;
+  final Widget? skipWidget;
 
   OverlayEntry? _overlayEntry;
 
-  TutorialCoachMark(
-    this._context, {
-    required this.targets,
-    this.colorShadow = Colors.black,
-    this.onClickTarget,
-    this.onClickOverlay,
-    this.onFinish,
-    this.paddingFocus = 10,
-    this.onSkip,
-    this.alignSkip = Alignment.bottomRight,
-    this.textSkip = "SKIP",
-    this.textStyleSkip = const TextStyle(color: Colors.white),
-    this.hideSkip = false,
-    this.opacityShadow = 0.8,
-    this.focusAnimationDuration = const Duration(milliseconds: 600),
-    this.pulseAnimationDuration = const Duration(milliseconds: 500),
-  }) : assert(targets != null, opacityShadow >= 0 && opacityShadow <= 1);
+  TutorialCoachMark(this._context,
+      {required this.targets,
+      this.colorShadow = Colors.black,
+      this.onClickTarget,
+      this.onClickOverlay,
+      this.onFinish,
+      this.paddingFocus = 10,
+      this.onSkip,
+      this.alignSkip = Alignment.bottomRight,
+      this.textSkip = "SKIP",
+      this.textStyleSkip = const TextStyle(color: Colors.white),
+      this.hideSkip = false,
+      this.opacityShadow = 0.8,
+      this.focusAnimationDuration = const Duration(milliseconds: 600),
+      this.pulseAnimationDuration = const Duration(milliseconds: 500),
+      this.skipWidget})
+      : assert(targets != null, opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay() {
     return OverlayEntry(
@@ -95,6 +96,7 @@ class TutorialCoachMark {
   bool get isShowing => _overlayEntry != null;
 
   void next() => _widgetKey.currentState?.next();
+
   void previous() => _widgetKey.currentState?.previous();
 
   void _removeOverlay() {
