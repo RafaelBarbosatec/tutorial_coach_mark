@@ -208,14 +208,14 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
           duration: Duration(milliseconds: 300),
           child: InkWell(
             onTap: widget.onClickSkip,
-            child: widget.skipWidget ??
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: widget.skipWidget ??
+                  Text(
                     widget.textSkip,
                     style: widget.textStyleSkip,
                   ),
-                ),
+            ),
           ),
         ),
       ),
