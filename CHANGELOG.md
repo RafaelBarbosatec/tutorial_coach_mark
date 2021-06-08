@@ -1,3 +1,7 @@
+# 1.0.1
+
+- Merged PR [72](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/72)
+
 # 1.0.0
 
 - Migrate to Null-Safety

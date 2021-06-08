@@ -46,7 +46,7 @@ class TutorialCoachMark {
       this.focusAnimationDuration = const Duration(milliseconds: 600),
       this.pulseAnimationDuration = const Duration(milliseconds: 500),
       this.skipWidget})
-      : assert(targets != null, opacityShadow >= 0 && opacityShadow <= 1);
+      : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay() {
     return OverlayEntry(
@@ -59,7 +59,7 @@ class TutorialCoachMark {
           paddingFocus: paddingFocus,
           onClickSkip: skip,
           alignSkip: alignSkip,
-          skipWidget:skipWidget,
+          skipWidget: skipWidget,
           textSkip: textSkip,
           textStyleSkip: textStyleSkip,
           hideSkip: hideSkip,

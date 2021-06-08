@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/src/target/target_position.dart';
 
@@ -39,7 +41,9 @@ class LightPaintRect extends CustomPainter {
     double h = maxSize * (1 - progress) + target.size.height + offset;
 
     RRect rrect = RRect.fromRectAndRadius(
-        Rect.fromLTWH(x, y, w, h), Radius.circular(radius));
+      Rect.fromLTWH(x, y, w, h),
+      Radius.circular(radius),
+    );
     canvas.drawRRect(rrect, _paintFocus);
     canvas.restore();
   }
