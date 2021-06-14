@@ -160,7 +160,6 @@ class _MyHomePageState extends State<MyHomePage> {
       TargetFocus(
         identify: "Target 0",
         keyTarget: keyButton1,
-        shape: ShapeLightFocus.RRect,
         contents: [
           TargetContent(
             align: ContentAlign.bottom,
