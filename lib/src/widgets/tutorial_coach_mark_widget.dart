@@ -59,37 +59,33 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
       type: MaterialType.transparency,
       child: Stack(
         children: <Widget>[
-          SizedBox(
-            width: double.maxFinite,
-            height: double.maxFinite,
-            child: AnimatedFocusLight(
-              key: _focusLightKey,
-              targets: widget.targets,
-              finish: widget.finish,
-              paddingFocus: widget.paddingFocus,
-              colorShadow: widget.colorShadow,
-              opacityShadow: widget.opacityShadow,
-              focusAnimationDuration: widget.focusAnimationDuration,
-              pulseAnimationDuration: widget.pulseAnimationDuration,
-              pulseVariation: widget.pulseVariation,
-              clickTarget: (target) {
-                widget.clickTarget?.call(target);
-              },
-              clickOverlay: (target) {
-                widget.clickOverlay?.call(target);
-              },
-              focus: (target) {
-                setState(() {
-                  currentTarget = target;
-                  showContent = true;
-                });
-              },
-              removeFocus: () {
-                setState(() {
-                  showContent = false;
-                });
-              },
-            ),
+          AnimatedFocusLight(
+            key: _focusLightKey,
+            targets: widget.targets,
+            finish: widget.finish,
+            paddingFocus: widget.paddingFocus,
+            colorShadow: widget.colorShadow,
+            opacityShadow: widget.opacityShadow,
+            focusAnimationDuration: widget.focusAnimationDuration,
+            pulseAnimationDuration: widget.pulseAnimationDuration,
+            pulseVariation: widget.pulseVariation,
+            clickTarget: (target) {
+              widget.clickTarget?.call(target);
+            },
+            clickOverlay: (target) {
+              widget.clickOverlay?.call(target);
+            },
+            focus: (target) {
+              setState(() {
+                currentTarget = target;
+                showContent = true;
+              });
+            },
+            removeFocus: () {
+              setState(() {
+                showContent = false;
+              });
+            },
           ),
           AnimatedOpacity(
             opacity: showContent ? 1 : 0,

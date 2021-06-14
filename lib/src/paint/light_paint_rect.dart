@@ -11,7 +11,6 @@ class LightPaintRect extends CustomPainter {
   final double opacityShadow;
   final double offset;
   final double radius;
-  final double? maxSize;
 
   late Paint _paintFocus;
 
@@ -22,7 +21,6 @@ class LightPaintRect extends CustomPainter {
     this.opacityShadow = 0.8,
     this.offset = 10,
     this.radius = 10,
-    this.maxSize,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1) {
     _paintFocus = Paint()
       ..color = Colors.transparent
@@ -34,7 +32,8 @@ class LightPaintRect extends CustomPainter {
     canvas.saveLayer(Offset.zero & size, Paint());
     canvas.drawColor(colorShadow.withOpacity(opacityShadow), BlendMode.dstATop);
 
-    var maxSize = this.maxSize ?? max(size.width, size.height);
+    var maxSize = max(size.width, size.height) +
+        max(target.size.width, target.size.height);
 
     double x = -maxSize / 2 * (1 - progress) + target.offset.dx - offset / 2;
 

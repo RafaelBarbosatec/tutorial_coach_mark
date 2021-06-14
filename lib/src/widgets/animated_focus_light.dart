@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tutorial_coach_mark/src/paint/light_paint.dart';
@@ -285,8 +283,6 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
   }
 
   CustomPainter _getPainter(TargetFocus? target) {
-    final size = MediaQuery.of(context).size;
-    final maxSize = max(size.height, size.width);
     if (target?.shape == ShapeLightFocus.RRect) {
       return LightPaintRect(
         colorShadow: target?.color ?? widget.colorShadow,
@@ -295,7 +291,6 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
         target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
         radius: target?.radius ?? 0,
         opacityShadow: widget.opacityShadow,
-        maxSize: maxSize,
       );
     } else {
       return LightPaint(
@@ -304,7 +299,6 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
         _sizeCircle,
         colorShadow: target?.color ?? widget.colorShadow,
         opacityShadow: widget.opacityShadow,
-        maxSize: maxSize,
       );
     }
   }
