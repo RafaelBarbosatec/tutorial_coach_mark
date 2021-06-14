@@ -29,6 +29,7 @@ class LightPaintRect extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (target.offset == Offset.zero) return;
     canvas.saveLayer(Offset.zero & size, Paint());
     canvas.drawColor(colorShadow.withOpacity(opacityShadow), BlendMode.dstATop);
 
