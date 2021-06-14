@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -28,9 +29,12 @@ class LightPaintRect extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (target.offset == Offset.zero) return;
     canvas.saveLayer(Offset.zero & size, Paint());
     canvas.drawColor(colorShadow.withOpacity(opacityShadow), BlendMode.dstATop);
-    var maxSize = size.width > size.height ? size.width : size.height;
+
+    var maxSize = max(size.width, size.height) +
+        max(target.size.width, target.size.height);
 
     double x = -maxSize / 2 * (1 - progress) + target.offset.dx - offset / 2;
 

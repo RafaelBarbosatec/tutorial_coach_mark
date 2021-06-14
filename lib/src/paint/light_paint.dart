@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class LightPaint extends CustomPainter {
@@ -26,7 +28,7 @@ class LightPaint extends CustomPainter {
     canvas.saveLayer(Offset.zero & size, Paint());
     canvas.drawColor(colorShadow.withOpacity(opacityShadow), BlendMode.dstATop);
 
-    var maxSize = size.width > size.height ? size.width : size.height;
+    var maxSize = max(size.width, size.height);
 
     double radius = maxSize * (1 - progress) + sizeCircle;
 
