@@ -47,7 +47,8 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   TutorialCoachMarkWidgetState createState() => TutorialCoachMarkWidgetState();
 }
 
-class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
+class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
+    implements TutorialCoachMarkController {
   final GlobalKey<AnimatedFocusLightState> _focusLightKey = GlobalKey();
   bool showContent = false;
   TargetFocus? currentTarget;
@@ -55,36 +56,40 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      type: MaterialType.transparency,
       child: Stack(
         children: <Widget>[
-          AnimatedFocusLight(
-            key: _focusLightKey,
-            targets: widget.targets,
-            finish: widget.finish,
-            paddingFocus: widget.paddingFocus,
-            colorShadow: widget.colorShadow,
-            opacityShadow: widget.opacityShadow,
-            focusAnimationDuration: widget.focusAnimationDuration,
-            pulseAnimationDuration: widget.pulseAnimationDuration,
-            pulseVariation: widget.pulseVariation,
-            clickTarget: (target) {
-              widget.clickTarget?.call(target);
-            },
-            clickOverlay: (target) {
-              widget.clickOverlay?.call(target);
-            },
-            focus: (target) {
-              setState(() {
-                currentTarget = target;
-                showContent = true;
-              });
-            },
-            removeFocus: () {
-              setState(() {
-                showContent = false;
-              });
-            },
+          SizedBox(
+            width: double.maxFinite,
+            height: double.maxFinite,
+            child: AnimatedFocusLight(
+              key: _focusLightKey,
+              targets: widget.targets,
+              finish: widget.finish,
+              paddingFocus: widget.paddingFocus,
+              colorShadow: widget.colorShadow,
+              opacityShadow: widget.opacityShadow,
+              focusAnimationDuration: widget.focusAnimationDuration,
+              pulseAnimationDuration: widget.pulseAnimationDuration,
+              pulseVariation: widget.pulseVariation,
+              clickTarget: (target) {
+                widget.clickTarget?.call(target);
+              },
+              clickOverlay: (target) {
+                widget.clickOverlay?.call(target);
+              },
+              focus: (target) {
+                setState(() {
+                  currentTarget = target;
+                  showContent = true;
+                });
+              },
+              removeFocus: () {
+                setState(() {
+                  showContent = false;
+                });
+              },
+            ),
           ),
           AnimatedOpacity(
             opacity: showContent ? 1 : 0,
@@ -188,7 +193,9 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
           width: weight,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: i.child,
+            child: i.builder != null
+                ? i.builder?.call(context, this)
+                : (i.child ?? SizedBox.shrink()),
           ),
         ),
       );
@@ -210,20 +217,24 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> {
           opacity: showContent ? 1 : 0,
           duration: Duration(milliseconds: 300),
           child: InkWell(
-            onTap: widget.onClickSkip,
+            onTap: skip,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: widget.skipWidget ??
-                  Text(
-                    widget.textSkip,
-                    style: widget.textStyleSkip,
-                  ),
+              child: IgnorePointer(
+                child: widget.skipWidget ??
+                    Text(
+                      widget.textSkip,
+                      style: widget.textStyleSkip,
+                    ),
+              ),
             ),
           ),
         ),
       ),
     );
   }
+
+  void skip() => widget.onClickSkip?.call();
 
   void next() => _focusLightKey.currentState?.next();
 

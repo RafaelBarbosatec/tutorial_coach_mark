@@ -79,6 +79,7 @@ Attributes:
 | --- | --- | --- |
 | `align` | AlignContent | With this attribute you determine in which region to display the content in relation to the focused widget (top,bottom,left,right) |
 | `child` | Widget | Content you want to be displayed |
+| `builder` | Widget | Content you want to be displayed |
 | `customPosition` | CustomTargetContentPosition | Add custom position when `align` is AlignContent.custom |
 
 ### Example Complete

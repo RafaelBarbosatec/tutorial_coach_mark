@@ -32,3 +32,9 @@ TargetPosition? getTargetCurrent(TargetFocus target) {
     return target.targetPosition;
   }
 }
+
+abstract class TutorialCoachMarkController {
+  void next();
+  void previous();
+  void skip();
+}

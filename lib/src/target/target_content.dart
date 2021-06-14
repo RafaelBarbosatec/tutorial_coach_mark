@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 
+import '../../tutorial_coach_mark.dart';
+
 class CustomTargetContentPosition {
   CustomTargetContentPosition({
     this.top,
@@ -15,16 +17,23 @@ class CustomTargetContentPosition {
 
 enum ContentAlign { top, bottom, left, right, custom }
 
+typedef TargetContentBuilder = Widget Function(
+  BuildContext context,
+  TutorialCoachMarkController controller,
+);
+
 class TargetContent {
   TargetContent({
     this.align = ContentAlign.bottom,
-    required this.child,
+    this.child,
     this.customPosition,
+    this.builder,
   }) : assert(!(align == ContentAlign.custom && customPosition == null));
 
   final ContentAlign align;
   final CustomTargetContentPosition? customPosition;
-  final Widget child;
+  final Widget? child;
+  final TargetContentBuilder? builder;
   @override
   String toString() {
     return 'ContentTarget{align: $align, child: $child}';
