@@ -74,13 +74,11 @@ class TutorialCoachMark {
   }
 
   void show() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      Future.delayed(Duration.zero, () {
-        if (_overlayEntry == null) {
-          _overlayEntry = _buildOverlay();
-          Overlay.of(_context)!.insert(_overlayEntry!);
-        }
-      });
+    Future.delayed(Duration.zero, () {
+      if (_overlayEntry == null) {
+        _overlayEntry = _buildOverlay();
+        Overlay.of(_context)!.insert(_overlayEntry!);
+      }
     });
   }
 

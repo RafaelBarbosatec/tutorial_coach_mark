@@ -224,7 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {
                         controller.previous();
                       },
-                      child: Icon(Icons.add),
+                      child: Icon(Icons.chevron_left),
                     ),
                   ],
                 ),
