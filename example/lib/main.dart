@@ -35,8 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    initTargets();
-    showTutorial();
+    Future.delayed(Duration.zero, showTutorial);
     super.initState();
   }
 
@@ -156,6 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void initTargets() {
+    targets.clear();
     targets.add(
       TargetFocus(
         identify: "Target 0",
@@ -424,6 +424,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void showTutorial() {
+    initTargets();
     tutorialCoachMark = TutorialCoachMark(
       context,
       targets: targets,
