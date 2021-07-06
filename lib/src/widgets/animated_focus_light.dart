@@ -134,7 +134,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
                           width: double.maxFinite,
                           height: double.maxFinite,
                           child: CustomPaint(
-                            painter: _getPainter(_targetFocus, bounds: snapshot.requireData),
+                            painter: _getPainter(_targetFocus, bounds: snapshot.data),
                           ),
                         );
                       }
