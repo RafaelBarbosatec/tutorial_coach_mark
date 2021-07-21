@@ -23,13 +23,23 @@ class LightPaint extends CustomPainter {
 
     double radius = maxSize * (1 - progress) + sizeCircle;
 
+    // There is some weirdness here.  On mobile, using arcTo with `sweepAngle: 2 * pi`
+    // gives the equivalent of `sweepAngle: 0`.  I couldn't find any documentation
+    // of the expected behavior here, so instead I just call arcTo twice (two
+    // semi-circles) to outline the full hole.
     final circleHole = Path()
       ..moveTo(0, 0)
       ..lineTo(0, positioned.dy)
       ..arcTo(
         Rect.fromCircle(center: positioned, radius: radius),
         pi,
-        2 * pi,
+        pi,
+        false,
+      )
+      ..arcTo(
+        Rect.fromCircle(center: positioned, radius: radius),
+        0,
+        pi,
         false,
       )
       ..lineTo(0, positioned.dy)
