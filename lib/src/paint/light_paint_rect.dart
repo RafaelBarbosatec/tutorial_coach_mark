@@ -50,35 +50,37 @@ class LightPaintRect extends CustomPainter {
     double h,
     double radius,
   ) {
+    double diameter = radius * 2;
+
     return Path()
       ..moveTo(0, 0)
-      ..lineTo(0, y + radius / 2)
+      ..lineTo(0, y + radius)
       ..arcTo(
-        Rect.fromLTWH(x, y, radius, radius),
+        Rect.fromLTWH(x, y, diameter, diameter),
         pi,
         pi / 2,
         false,
       )
       ..arcTo(
-        Rect.fromLTWH(x + w - radius, y, radius, radius),
+        Rect.fromLTWH(x + w - diameter, y, diameter, diameter),
         3 * pi / 2,
         pi / 2,
         false,
       )
       ..arcTo(
-        Rect.fromLTWH(x + w - radius, y + h - radius, radius, radius),
+        Rect.fromLTWH(x + w - diameter, y + h - diameter, diameter, diameter),
         0,
         pi / 2,
         false,
       )
       ..arcTo(
-        Rect.fromLTWH(x, y + h - radius, radius, radius),
+        Rect.fromLTWH(x, y + h - diameter, diameter, diameter),
         pi / 2,
         pi / 2,
         false,
       )
-      ..lineTo(x, y + radius / 2)
-      ..lineTo(0, y + radius / 2)
+      ..lineTo(x, y + radius)
+      ..lineTo(0, y + radius)
       ..lineTo(0, canvasSize.height)
       ..lineTo(canvasSize.width, canvasSize.height)
       ..lineTo(canvasSize.width, 0)
