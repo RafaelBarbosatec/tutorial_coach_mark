@@ -1,3 +1,7 @@
+# 1.1.0
+- Add web support! [PR #79](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/79) Thanks [Will Reppun
+](https://github.com/wreppun)
+
 # 1.0.3
 - Fix blink when start tutorial with shape `ShapeLightFocus.RRec`
 
