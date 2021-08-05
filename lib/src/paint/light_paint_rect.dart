@@ -92,7 +92,8 @@ class LightPaintRect extends CustomPainter {
     if (target.offset == Offset.zero) return;
 
     var maxSize = max(size.width, size.height) +
-        max(target.size.width, target.size.height);
+        max(target.size.width, target.size.height) +
+        target.getBiggerSpaceBorder(size);
 
     double x = -maxSize / 2 * (1 - progress) + target.offset.dx - offset / 2;
 

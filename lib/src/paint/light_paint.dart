@@ -19,6 +19,7 @@ class LightPaint extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (positioned == Offset.zero) return;
     var maxSize = max(size.width, size.height);
 
     double radius = maxSize * (1 - progress) + sizeCircle;
