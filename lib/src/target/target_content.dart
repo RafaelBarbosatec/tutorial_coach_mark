@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../tutorial_coach_mark.dart';
@@ -25,12 +26,14 @@ typedef TargetContentBuilder = Widget Function(
 class TargetContent {
   TargetContent({
     this.align = ContentAlign.bottom,
+    this.padding = const EdgeInsets.all(20.0),
     this.child,
     this.customPosition,
     this.builder,
   }) : assert(!(align == ContentAlign.custom && customPosition == null));
 
   final ContentAlign align;
+  final EdgeInsets padding;
   final CustomTargetContentPosition? customPosition;
   final Widget? child;
   final TargetContentBuilder? builder;
