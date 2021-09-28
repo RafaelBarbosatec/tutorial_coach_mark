@@ -14,6 +14,7 @@ class TargetFocus {
     this.color,
     this.enableOverlayTab = false,
     this.enableTargetTab = true,
+    this.transparentTargetTap = false,
     this.alignSkip,
     this.paddingFocus,
     this.focusAnimationDuration,
@@ -28,6 +29,7 @@ class TargetFocus {
   final double? radius;
   final bool enableOverlayTab;
   final bool enableTargetTab;
+  final bool transparentTargetTap;
   final Color? color;
   final AlignmentGeometry? alignSkip;
   final double? paddingFocus;

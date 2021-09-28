@@ -11,6 +11,7 @@ class LightPaintRect extends CustomPainter {
   final double opacityShadow;
   final double offset;
   final double radius;
+  Path? path;
 
   LightPaintRect({
     required this.progress,
@@ -103,14 +104,21 @@ class LightPaintRect extends CustomPainter {
 
     double h = maxSize * (1 - progress) + target.size.height + offset;
 
+    path = radius > 0
+        ? _drawRRectHole(size, x, y, w, h, radius)
+        : _drawRectHole(size, x, y, w, h);
+
     canvas.drawPath(
-      radius > 0
-          ? _drawRRectHole(size, x, y, w, h, radius)
-          : _drawRectHole(size, x, y, w, h),
+      path!,
       Paint()
         ..style = PaintingStyle.fill
         ..color = colorShadow.withOpacity(opacityShadow),
     );
+  }
+
+  @override
+  bool hitTest(Offset position) {
+    return path?.contains(position) ?? false;
   }
 
   @override

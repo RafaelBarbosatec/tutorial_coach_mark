@@ -98,29 +98,28 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: _targetFocus.enableOverlayTab
-          ? () => _tapHandler(overlayTap: true)
-          : null,
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (_, child) {
-          _progressAnimated = _curvedAnimation.value;
-          return AnimatedBuilder(
-            animation: _controllerPulse,
-            builder: (_, child) {
-              if (_finishFocus) {
-                _progressAnimated = _tweenPulse.value;
-              }
-              return Stack(
-                children: <Widget>[
-                  Container(
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (_, child) {
+        _progressAnimated = _curvedAnimation.value;
+        return AnimatedBuilder(
+          animation: _controllerPulse,
+          builder: (_, child) {
+            if (_finishFocus) {
+              _progressAnimated = _tweenPulse.value;
+            }
+            return Stack(
+              children: <Widget>[
+                GestureDetector(
+                  child: Container(
                     width: double.maxFinite,
                     height: double.maxFinite,
                     child: CustomPaint(
                       painter: _getPainter(_targetFocus),
                     ),
                   ),
+                ),
+                if (!_targetFocus.transparentTargetTap)
                   Positioned(
                     left: (_targetPosition?.offset.dx ?? 0) -
                         _getPaddingFocus() * 2,
@@ -140,12 +139,11 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
                       ),
                     ),
                   )
-                ],
-              );
-            },
-          );
-        },
-      ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 
