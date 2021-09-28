@@ -68,6 +68,7 @@ Attributes:
 | `paddingFocus` | Alignment | settings padding of the focus in target |
 | `focusAnimationDuration` | Duration | override the widget's global focus animation duration |
 | `pulseVariation` | Tween | override interval pulse animation |
+| `pulseEnable` | bool | enable/disable pulse animation |
 
 ### Creating contents (ContentTarget)
 
