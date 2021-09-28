@@ -29,7 +29,7 @@ class LightPaint extends CustomPainter {
     // gives the equivalent of `sweepAngle: 0`.  I couldn't find any documentation
     // of the expected behavior here, so instead I just call arcTo twice (two
     // semi-circles) to outline the full hole.
-    final path = Path()
+    path = Path()
       ..moveTo(0, 0)
       ..lineTo(0, positioned.dy)
       ..arcTo(
@@ -51,7 +51,7 @@ class LightPaint extends CustomPainter {
       ..close();
 
     canvas.drawPath(
-      path,
+      path!,
       Paint()
         ..style = PaintingStyle.fill
         ..color = colorShadow.withOpacity(opacityShadow),
