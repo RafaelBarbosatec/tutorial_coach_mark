@@ -8,7 +8,7 @@ class LightPaint extends CustomPainter {
   final double sizeCircle;
   final Color colorShadow;
   final double opacityShadow;
-  Path? path;
+  Path? circleHole;
 
   LightPaint(
     this.progress,
@@ -29,7 +29,7 @@ class LightPaint extends CustomPainter {
     // gives the equivalent of `sweepAngle: 0`.  I couldn't find any documentation
     // of the expected behavior here, so instead I just call arcTo twice (two
     // semi-circles) to outline the full hole.
-    path = Path()
+    circleHole = Path()
       ..moveTo(0, 0)
       ..lineTo(0, positioned.dy)
       ..arcTo(
@@ -51,7 +51,7 @@ class LightPaint extends CustomPainter {
       ..close();
 
     canvas.drawPath(
-      path!,
+      circleHole!,
       Paint()
         ..style = PaintingStyle.fill
         ..color = colorShadow.withOpacity(opacityShadow),
@@ -60,7 +60,7 @@ class LightPaint extends CustomPainter {
 
   @override
   bool hitTest(Offset position) {
-    return path?.getBounds().contains(position) ?? false;
+    return circleHole?.getBounds().contains(position) ?? false;
   }
 
   @override
