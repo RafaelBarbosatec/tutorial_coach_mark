@@ -64,6 +64,7 @@ Attributes:
 | `color` | Color | Custom color to target |
 | `enableOverlayTab` | bool | enable click in all screen to call next step |
 | `enableTargetTab` | bool | enable click in target to call next step |
+| `transparentTargetTap` | bool | enable click to call real target function instead of onClickTarget|
 | `alignSkip` | Alignment | use to align the skip in the target |
 | `paddingFocus` | Alignment | settings padding of the focus in target |
 | `focusAnimationDuration` | Duration | override the widget's global focus animation duration |
