@@ -1,8 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/src/target/target_position.dart';
 
@@ -93,26 +91,26 @@ class LightPaintRect extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (target.offset == Offset.zero) return;
+    if (target == null || target?.offset == Offset.zero) return;
 
     var maxSize = max(size.width, size.height) +
-        max(target.size.width, target.size.height) +
-        target.getBiggerSpaceBorder(size);
+        max(target!.size.width, target!.size.height) +
+        target!.getBiggerSpaceBorder(size);
 
     RRect rrect;
+    double x, y, w, h;
     if (bounds != null) {
-      double x = -maxSize / 2 * (1 - progress) + bounds!.left - offset / 2;
-      double y = -maxSize / 2 * (1 - progress) + bounds!.top - offset / 2;
-      double w = maxSize * (1 - progress) + bounds!.width + offset;
-      double h = maxSize * (1 - progress) + bounds!.height + offset;
-      rrect = RRect.fromRectAndRadius(Rect.fromLTWH(x, y, w, h), Radius.circular(radius));
+      x = -maxSize / 2 * (1 - progress) + bounds!.left - offset / 2;
+      y = -maxSize / 2 * (1 - progress) + bounds!.top - offset / 2;
+      w = maxSize * (1 - progress) + bounds!.width + offset;
+      h = maxSize * (1 - progress) + bounds!.height + offset;
 
     } else {
-      double x = -maxSize / 2 * (1 - progress) + target!.offset.dx - offset / 2;
-      double y = -maxSize / 2 * (1 - progress) + target!.offset.dy - offset / 2;
-      double w = maxSize * (1 - progress) + target!.size.width + offset;
-      double h = maxSize * (1 - progress) + target!.size.height + offset;
-      rrect = RRect.fromRectAndRadius(Rect.fromLTWH(x, y, w, h), Radius.circular(radius));
+      x = -maxSize / 2 * (1 - progress) + target!.offset.dx - offset / 2;
+      y = -maxSize / 2 * (1 - progress) + target!.offset.dy - offset / 2;
+      w = maxSize * (1 - progress) + target!.size.width + offset;
+      h = maxSize * (1 - progress) + target!.size.height + offset;
+
     }
 
     canvas.drawPath(

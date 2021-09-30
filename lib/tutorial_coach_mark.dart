@@ -46,7 +46,7 @@ class TutorialCoachMark {
       this.hideSkip = false,
       this.opacityShadow = 0.8,
       this.focusAnimationDuration = const Duration(milliseconds: 600),
-      this.pulseAnimationDuration = const Duration(milliseconds: 500
+      this.pulseAnimationDuration = const Duration(milliseconds: 500),
       this.skipWidget,
       }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
