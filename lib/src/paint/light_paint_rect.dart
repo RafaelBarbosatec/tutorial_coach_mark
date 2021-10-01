@@ -117,12 +117,8 @@ class LightPaintRect extends CustomPainter {
   }
 
   @override
-  bool hitTest(Offset position) {
-    return path?.contains(position) ?? false;
-  }
+  bool hitTest(Offset position) => path!.contains(position);
 
   @override
-  bool shouldRepaint(LightPaintRect oldDelegate) {
-    return oldDelegate.progress != progress;
-  }
+  bool shouldRepaint(LightPaintRect oldDelegate) => true;
 }

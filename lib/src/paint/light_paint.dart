@@ -59,12 +59,8 @@ class LightPaint extends CustomPainter {
   }
 
   @override
-  bool hitTest(Offset position) {
-    return circleHole?.getBounds().contains(position) ?? false;
-  }
+  bool hitTest(Offset position) => circleHole!.contains(position);
 
   @override
-  bool shouldRepaint(LightPaint oldDelegate) {
-    return oldDelegate.progress != progress;
-  }
+  bool shouldRepaint(LightPaint oldDelegate) => true;
 }
