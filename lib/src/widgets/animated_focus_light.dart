@@ -111,6 +111,7 @@ class AnimatedFocusLightState extends State<AnimatedFocusLight>
             return Stack(
               children: <Widget>[
                 GestureDetector(
+                  onTap: () => _tapHandler(overlayTap: true),
                   child: Container(
                     width: double.maxFinite,
                     height: double.maxFinite,
