@@ -52,7 +52,7 @@ class LightPaint extends CustomPainter {
       ..close();
 
     final justCircleHole = Path()
-      ..moveTo(positioned.dx - radius, positioned.dy - radius)
+      ..moveTo(positioned.dx - radius, positioned.dy)
       ..arcTo(
         Rect.fromCircle(center: positioned, radius: radius),
         pi,
