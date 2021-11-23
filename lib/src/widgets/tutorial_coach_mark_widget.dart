@@ -191,7 +191,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
         child: Container(
           width: weight,
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: i.padding,
             child: i.builder != null
                 ? i.builder?.call(context, this)
                 : (i.child ?? SizedBox.shrink()),
