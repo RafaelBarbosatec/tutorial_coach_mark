@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tutorial_coach_mark/src/paint/light_paint.dart';
@@ -9,8 +11,8 @@ import 'package:tutorial_coach_mark/src/util.dart';
 class AnimatedFocusLight extends StatefulWidget {
   final List<TargetFocus> targets;
   final Function(TargetFocus)? focus;
-  final Function(TargetFocus)? clickTarget;
-  final Function(TargetFocus)? clickOverlay;
+  final FutureOr Function(TargetFocus)? clickTarget;
+  final FutureOr Function(TargetFocus)? clickOverlay;
   final Function? removeFocus;
   final Function()? finish;
   final double paddingFocus;
@@ -90,16 +92,16 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
 
   void previous() => _tapHandler(goNext: false);
 
-  void _tapHandler({
+  Future _tapHandler({
     bool goNext = true,
     bool targetTap = false,
     bool overlayTap = false,
-  }) {
+  }) async {
     if (targetTap) {
-      widget.clickTarget?.call(_targetFocus);
+      await widget.clickTarget?.call(_targetFocus);
     }
     if (overlayTap) {
-      widget.clickOverlay?.call(_targetFocus);
+      await widget.clickOverlay?.call(_targetFocus);
     }
   }
 
@@ -210,13 +212,16 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
   }
 
   @override
-  void _tapHandler({
+  Future _tapHandler({
     bool goNext = true,
     bool targetTap = false,
     bool overlayTap = false,
-  }) {
-    super._tapHandler(
-        goNext: goNext, targetTap: targetTap, overlayTap: overlayTap);
+  }) async {
+    await super._tapHandler(
+      goNext: goNext,
+      targetTap: targetTap,
+      overlayTap: overlayTap,
+    );
     setState(() => _goNext = goNext);
     _controller.reverse();
   }
@@ -391,13 +396,16 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
   }
 
   @override
-  void _tapHandler({
+  Future _tapHandler({
     bool goNext = true,
     bool targetTap = false,
     bool overlayTap = false,
-  }) {
-    super._tapHandler(
-        goNext: goNext, targetTap: targetTap, overlayTap: overlayTap);
+  }) async {
+    await super._tapHandler(
+      goNext: goNext,
+      targetTap: targetTap,
+      overlayTap: overlayTap,
+    );
     setState(() {
       _goNext = goNext;
       _initReverse = true;

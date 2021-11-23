@@ -1,5 +1,7 @@
 library tutorial_coach_mark;
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/src/target/target_focus.dart';
 import 'package:tutorial_coach_mark/src/widgets/tutorial_coach_mark_widget.dart';
@@ -12,8 +14,8 @@ export 'package:tutorial_coach_mark/src/util.dart';
 class TutorialCoachMark {
   final BuildContext _context;
   final List<TargetFocus> targets;
-  final Function(TargetFocus)? onClickTarget;
-  final Function(TargetFocus)? onClickOverlay;
+  final FutureOr Function(TargetFocus)? onClickTarget;
+  final FutureOr Function(TargetFocus)? onClickOverlay;
   final Function()? onFinish;
   final double paddingFocus;
   final Function()? onSkip;

@@ -228,11 +228,11 @@ class _MyHomePageState extends State<MyHomePage> {
       onClickTarget: (target) {
         print('onClickTarget: $target');
       },
-      onSkip: () {
-        print("skip");
-      },
       onClickOverlay: (target) {
         print('onClickOverlay: $target');
+      },
+      onSkip: () {
+        print("skip");
       },
     )..show();
   }

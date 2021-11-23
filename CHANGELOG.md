@@ -2,6 +2,7 @@
 - Add `pulseEnable` param in `TutorialCoachMark` to enable/disable pulse animation. [PR #88](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/88)
 - Add `padding` param in `TargetContent` to customize target padding. [PR #84](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/84)
 - Add optional param `rootOverlay` in `TutorialCoachMark.show()`. Suggestion date in issue [93](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/93)
+- The methods `onClickTarget` and `onClickOverlay` now they can be asynchronous and the next target will only be called after processing something added to it.
 
 # 1.1.1
 - Fiz error [issue 82](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/82)

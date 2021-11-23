@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/src/target/target_content.dart';
 import 'package:tutorial_coach_mark/src/target/target_focus.dart';
@@ -28,8 +30,8 @@ class TutorialCoachMarkWidget extends StatefulWidget {
         super(key: key);
 
   final List<TargetFocus> targets;
-  final Function(TargetFocus)? clickTarget;
-  final Function(TargetFocus)? clickOverlay;
+  final FutureOr Function(TargetFocus)? clickTarget;
+  final FutureOr Function(TargetFocus)? clickOverlay;
   final Function()? finish;
   final Color colorShadow;
   final double opacityShadow;
@@ -73,10 +75,10 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             pulseVariation: widget.pulseVariation,
             pulseEnable: widget.pulseEnable,
             clickTarget: (target) {
-              widget.clickTarget?.call(target);
+              return widget.clickTarget?.call(target);
             },
             clickOverlay: (target) {
-              widget.clickOverlay?.call(target);
+              return widget.clickOverlay?.call(target);
             },
             focus: (target) {
               setState(() {
