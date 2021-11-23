@@ -11,6 +11,7 @@ class TargetFocus {
     this.contents,
     this.shape,
     this.radius,
+    this.borderSide,
     this.color,
     this.enableOverlayTab = false,
     this.enableTargetTab = true,
@@ -26,6 +27,7 @@ class TargetFocus {
   final List<TargetContent>? contents;
   final ShapeLightFocus? shape;
   final double? radius;
+  final BorderSide? borderSide;
   final bool enableOverlayTab;
   final bool enableTargetTab;
   final Color? color;

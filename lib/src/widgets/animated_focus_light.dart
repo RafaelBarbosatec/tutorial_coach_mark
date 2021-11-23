@@ -141,6 +141,7 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
         offset: _getPaddingFocus(),
         target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
         radius: target?.radius ?? 0,
+        borderSide: target?.borderSide,
         opacityShadow: widget.opacityShadow,
       );
     } else {
@@ -149,6 +150,7 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
         _positioned,
         _sizeCircle,
         colorShadow: target?.color ?? widget.colorShadow,
+        borderSide: target?.borderSide,
         opacityShadow: widget.opacityShadow,
       );
     }
