@@ -1,6 +1,6 @@
 name: tutorial_coach_mark
 description: Guide that helps you to present your app and its features in a beautiful, simple and customizable way.
-version: 1.1.1
+version: 1.2.0
 homepage: https://github.com/RafaelBarbosatec/tutorial_coach_mark
 
 environment:

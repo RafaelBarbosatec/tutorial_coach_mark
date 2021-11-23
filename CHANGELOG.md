@@ -1,3 +1,7 @@
+# 1.2.0
+- Add `pulseEnable` param in `TutorialCoachMark` to enable/disable pulse animation. [PR #88](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/88)
+- Add `padding` param in `TargetContent` to customize target padding. [PR #84](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/84)
+
 # 1.1.1
 - Fiz error [issue 82](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/82)
 
