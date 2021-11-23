@@ -331,8 +331,7 @@ class _MyHomePageState extends State<MyHomePage> {
         keyTarget: keyButton1,
         contents: [
           TargetContent(
-            align: ContentAlign.bottom
-      padding: ,
+            align: ContentAlign.bottom,
             builder: (context, controller) {
               return Container(
                 child: Column(

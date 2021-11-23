@@ -76,11 +76,11 @@ class TutorialCoachMark {
     );
   }
 
-  void show() {
+  void show({bool rootOverlay = false}) {
     Future.delayed(Duration.zero, () {
       if (_overlayEntry == null) {
         _overlayEntry = _buildOverlay();
-        Overlay.of(_context)?.insert(_overlayEntry!);
+        Overlay.of(_context, rootOverlay: rootOverlay)?.insert(_overlayEntry!);
       }
     });
   }
