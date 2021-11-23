@@ -14,8 +14,8 @@ export 'package:tutorial_coach_mark/src/util.dart';
 class TutorialCoachMark {
   final BuildContext _context;
   final List<TargetFocus> targets;
-  final FutureOr Function(TargetFocus)? onClickTarget;
-  final FutureOr Function(TargetFocus)? onClickOverlay;
+  final FutureOr<void> Function(TargetFocus)? onClickTarget;
+  final FutureOr<void> Function(TargetFocus)? onClickOverlay;
   final Function()? onFinish;
   final double paddingFocus;
   final Function()? onSkip;
