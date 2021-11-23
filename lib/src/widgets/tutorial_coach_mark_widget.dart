@@ -22,6 +22,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.focusAnimationDuration,
     this.pulseAnimationDuration,
     this.pulseVariation,
+    this.pulseEnable = true,
     this.skipWidget,
   })  : assert(targets.length > 0),
         super(key: key);
@@ -41,6 +42,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final Duration? focusAnimationDuration;
   final Duration? pulseAnimationDuration;
   final Tween<double>? pulseVariation;
+  final bool pulseEnable;
   final Widget? skipWidget;
 
   @override
@@ -69,6 +71,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             focusAnimationDuration: widget.focusAnimationDuration,
             pulseAnimationDuration: widget.pulseAnimationDuration,
             pulseVariation: widget.pulseVariation,
+            pulseEnable: widget.pulseEnable,
             clickTarget: (target) {
               widget.clickTarget?.call(target);
             },
