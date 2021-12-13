@@ -7,12 +7,15 @@ class CustomTargetContentPosition {
   CustomTargetContentPosition({
     this.top,
     this.left,
+    this.right,
     this.bottom,
   });
-  final double? top, left, bottom;
+
+  final double? top, left, right, bottom;
+
   @override
   String toString() {
-    return 'CustomTargetPosition{top: $top, left: $left, bottom: $bottom}';
+    return 'CustomTargetPosition{top: $top, left: $left, right: $right, bottom: $bottom}';
   }
 }
 
@@ -37,6 +40,7 @@ class TargetContent {
   final CustomTargetContentPosition? customPosition;
   final Widget? child;
   final TargetContentBuilder? builder;
+
   @override
   String toString() {
     return 'ContentTarget{align: $align, child: $child}';
