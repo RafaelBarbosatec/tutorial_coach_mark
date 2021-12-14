@@ -140,6 +140,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
     double? top;
     double? bottom;
     double? left;
+    double? right;
 
     children = currentTarget!.contents!.map<Widget>((i) {
       switch (i.align) {
@@ -179,6 +180,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
         case ContentAlign.custom:
           {
             left = i.customPosition!.left;
+            right = i.customPosition!.right;
             top = i.customPosition!.top;
             bottom = i.customPosition!.bottom;
             weight = MediaQuery.of(context).size.width;
@@ -190,6 +192,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
         top: top,
         bottom: bottom,
         left: left,
+        right: right,
         child: Container(
           width: weight,
           child: Padding(
