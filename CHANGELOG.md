@@ -1,3 +1,7 @@
+# 1.2.1
+- Add `BorderSide` param in `TargetFocus`. [PR #96](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/96)
+- Added right property for custom alignment. [PR #101](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/101)
+
 # 1.2.0
 - Add `pulseEnable` param in `TutorialCoachMark` to enable/disable pulse animation. [PR #88](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/88)
 - Add `padding` param in `TargetContent` to customize target padding. [PR #84](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/84)
