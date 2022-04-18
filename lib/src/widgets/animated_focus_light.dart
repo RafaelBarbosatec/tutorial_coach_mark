@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:tutorial_coach_mark/src/paint/light_paint.dart';
 import 'package:tutorial_coach_mark/src/paint/light_paint_rect.dart';
 import 'package:tutorial_coach_mark/src/target/target_focus.dart';
@@ -192,7 +191,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
               ),
               Positioned(
                 left:
-                (_targetPosition?.offset.dx ?? 0) - _getPaddingFocus() * 2,
+                    (_targetPosition?.offset.dx ?? 0) - _getPaddingFocus() * 2,
                 top: (_targetPosition?.offset.dy ?? 0) - _getPaddingFocus() * 2,
                 child: InkWell(
                   borderRadius: _betBorderRadiusTarget(),
