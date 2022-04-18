@@ -1,3 +1,7 @@
+# next
+- Add unfocus animation duration. [PR #111](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/111)
+- Update Build gradle, kotlin, fix manifest. [PR #110](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/110)
+
 # 1.2.1
 - Add `BorderSide` param in `TargetFocus`. [PR #96](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/96)
 - Added right property for custom alignment. [PR #101](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/101)
