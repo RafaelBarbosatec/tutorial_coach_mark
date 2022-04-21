@@ -18,6 +18,7 @@ class TargetFocus {
     this.alignSkip,
     this.paddingFocus,
     this.focusAnimationDuration,
+    this.unFocusAnimationDuration,
     this.pulseVariation,
   }) : assert(keyTarget != null || targetPosition != null);
 
@@ -34,6 +35,7 @@ class TargetFocus {
   final AlignmentGeometry? alignSkip;
   final double? paddingFocus;
   final Duration? focusAnimationDuration;
+  final Duration? unFocusAnimationDuration;
   final Tween<double>? pulseVariation;
 
   @override
