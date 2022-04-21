@@ -93,6 +93,30 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
 
   void previous() => _tapHandler(goNext: false);
 
+  void refresh() {
+    var targetPosition = getTargetCurrent(_targetFocus);
+
+    if (targetPosition == null) {
+      _finish();
+      return;
+    }
+
+    setState(() {
+      _targetPosition = getTargetCurrent(_targetFocus);
+
+      _positioned = Offset(
+        targetPosition.offset.dx + (targetPosition.size.width / 2),
+        targetPosition.offset.dy + (targetPosition.size.height / 2),
+      );
+
+      if (targetPosition.size.height > targetPosition.size.width) {
+        _sizeCircle = targetPosition.size.height * 0.6 + _getPaddingFocus();
+      } else {
+        _sizeCircle = targetPosition.size.width * 0.6 + _getPaddingFocus();
+      }
+    });
+  }
+
   Future _tapHandler({
     bool goNext = true,
     bool targetTap = false,
