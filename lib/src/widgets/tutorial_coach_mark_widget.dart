@@ -23,6 +23,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.textStyleSkip = const TextStyle(color: Colors.white),
     this.hideSkip,
     this.focusAnimationDuration,
+    this.unFocusAnimationDuration,
     this.pulseAnimationDuration,
     this.pulseVariation,
     this.pulseEnable = true,
@@ -44,6 +45,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final TextStyle textStyleSkip;
   final bool? hideSkip;
   final Duration? focusAnimationDuration;
+  final Duration? unFocusAnimationDuration;
   final Duration? pulseAnimationDuration;
   final Tween<double>? pulseVariation;
   final bool pulseEnable;
@@ -72,6 +74,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> implem
             colorShadow: widget.colorShadow,
             opacityShadow: widget.opacityShadow,
             focusAnimationDuration: widget.focusAnimationDuration,
+            unFocusAnimationDuration: widget.unFocusAnimationDuration,
             pulseAnimationDuration: widget.pulseAnimationDuration,
             pulseVariation: widget.pulseVariation,
             pulseEnable: widget.pulseEnable,

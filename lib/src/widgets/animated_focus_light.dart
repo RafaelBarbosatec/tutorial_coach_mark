@@ -19,6 +19,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final Color colorShadow;
   final double opacityShadow;
   final Duration? focusAnimationDuration;
+  final Duration? unFocusAnimationDuration;
   final Duration? pulseAnimationDuration;
   final Tween<double>? pulseVariation;
   final bool pulseEnable;
@@ -36,6 +37,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.colorShadow = Colors.black,
     this.opacityShadow = 0.8,
     this.focusAnimationDuration,
+    this.unFocusAnimationDuration,
     this.pulseAnimationDuration,
     this.pulseVariation,
     this.pulseEnable = true,
@@ -265,6 +267,10 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
     });
 
     _controller.forward();
+    _controller.duration = widget.unFocusAnimationDuration ??
+        _targetFocus.focusAnimationDuration ??
+        widget.focusAnimationDuration ??
+        defaultFocusAnimationDuration;
   }
 
   @override
@@ -394,6 +400,10 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
     });
 
     _controller.forward();
+    _controller.duration = widget.unFocusAnimationDuration ??
+        _targetFocus.focusAnimationDuration ??
+        widget.focusAnimationDuration ??
+        defaultFocusAnimationDuration;
   }
 
   @override
