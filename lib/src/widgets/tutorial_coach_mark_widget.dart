@@ -13,6 +13,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.finish,
     this.paddingFocus = 10,
     this.clickTarget,
+    this.onClickTargetWithTapPosition,
     this.clickOverlay,
     this.alignSkip = Alignment.bottomRight,
     this.textSkip = "SKIP",
@@ -31,6 +32,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
 
   final List<TargetFocus> targets;
   final FutureOr Function(TargetFocus)? clickTarget;
+  final FutureOr Function(TargetFocus, TapDownDetails)? onClickTargetWithTapPosition;
   final FutureOr Function(TargetFocus)? clickOverlay;
   final Function()? finish;
   final Color colorShadow;
@@ -51,8 +53,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   TutorialCoachMarkWidgetState createState() => TutorialCoachMarkWidgetState();
 }
 
-class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
-    implements TutorialCoachMarkController {
+class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> implements TutorialCoachMarkController {
   final GlobalKey<AnimatedFocusLightState> _focusLightKey = GlobalKey();
   bool showContent = false;
   TargetFocus? currentTarget;
@@ -76,6 +77,9 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             pulseEnable: widget.pulseEnable,
             clickTarget: (target) {
               return widget.clickTarget?.call(target);
+            },
+            clickTargetWithTapPosition: (target, tapDetails) {
+              return widget.onClickTargetWithTapPosition?.call(target, tapDetails);
             },
             clickOverlay: (target) {
               return widget.clickOverlay?.call(target);
@@ -124,9 +128,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
     double haloHeight;
 
     if (currentTarget!.shape == ShapeLightFocus.Circle) {
-      haloWidth = target.size.width > target.size.height
-          ? target.size.width
-          : target.size.height;
+      haloWidth = target.size.width > target.size.height ? target.size.width : target.size.height;
       haloHeight = haloWidth;
     } else {
       haloWidth = target.size.width;
@@ -157,8 +159,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             weight = MediaQuery.of(context).size.width;
             left = 0;
             top = null;
-            bottom = haloHeight +
-                (MediaQuery.of(context).size.height - positioned.dy);
+            bottom = haloHeight + (MediaQuery.of(context).size.height - positioned.dy);
           }
           break;
         case ContentAlign.left:
@@ -197,9 +198,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
           width: weight,
           child: Padding(
             padding: i.padding,
-            child: i.builder != null
-                ? i.builder?.call(context, this)
-                : (i.child ?? SizedBox.shrink()),
+            child: i.builder != null ? i.builder?.call(context, this) : (i.child ?? SizedBox.shrink()),
           ),
         ),
       );
