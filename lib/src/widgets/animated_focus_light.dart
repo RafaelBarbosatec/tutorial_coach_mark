@@ -195,7 +195,11 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
                   onTapDown: (details) {
                     _tapHandlerForPosition(details);
                   },
-                  onTap: _targetFocus.enableTargetTab ? () => _tapHandler(targetTap: true) : null,
+                  onTap: _targetFocus.enableTargetTab
+                      ? () => _tapHandler(targetTap: true)
+
+                      /// Essential for collecting [TapDownDetails]. Do not make [null]
+                      : () {},
                   child: Container(
                     color: Colors.transparent,
                     width: (_targetPosition?.size.width ?? 0) + _getPaddingFocus() * 4,
@@ -332,7 +336,11 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
                     top: (_targetPosition?.offset.dy ?? 0) - _getPaddingFocus() * 2,
                     child: InkWell(
                       borderRadius: _betBorderRadiusTarget(),
-                      onTap: _targetFocus.enableTargetTab ? () => _tapHandler(targetTap: true) : null,
+                      onTap: _targetFocus.enableTargetTab
+                          ? () => _tapHandler(targetTap: true)
+
+                          /// Essential for collecting [TapDownDetails]. Do not make [null]
+                          : () {},
                       onTapDown: (details) {
                         _tapHandlerForPosition(details);
                       },
