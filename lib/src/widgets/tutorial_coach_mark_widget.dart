@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/src/target/target_content.dart';
 import 'package:tutorial_coach_mark/src/target/target_focus.dart';
+import 'package:tutorial_coach_mark/src/target/target_position.dart';
 import 'package:tutorial_coach_mark/src/util.dart';
 import 'package:tutorial_coach_mark/src/widgets/animated_focus_light.dart';
 
@@ -57,7 +58,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
     implements TutorialCoachMarkController {
   final GlobalKey<AnimatedFocusLightState> _focusLightKey = GlobalKey();
   bool showContent = false;
-  TargetFocus? currentTarget;
+  int? currentTarget;
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +114,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
 
     List<Widget> children = <Widget>[];
 
-    final target = getTargetCurrent(currentTarget!);
+    TargetPosition? target = getTargetCurrent(widget.targets[currentTarget!]);
     if (target == null) {
       return SizedBox.shrink();
     }
@@ -126,10 +127,8 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
     double haloWidth;
     double haloHeight;
 
-    if (currentTarget!.shape == ShapeLightFocus.Circle) {
-      haloWidth = target.size.width > target.size.height
-          ? target.size.width
-          : target.size.height;
+    if (widget.targets[currentTarget!].shape == ShapeLightFocus.Circle) {
+      haloWidth = target.size.width > target.size.height ? target.size.width : target.size.height;
       haloHeight = haloWidth;
     } else {
       haloWidth = target.size.width;
@@ -145,7 +144,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
     double? left;
     double? right;
 
-    children = currentTarget!.contents!.map<Widget>((i) {
+    children = widget.targets[currentTarget!].contents!.map<Widget>((i) {
       switch (i.align) {
         case ContentAlign.bottom:
           {
@@ -160,8 +159,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             weight = MediaQuery.of(context).size.width;
             left = 0;
             top = null;
-            bottom = haloHeight +
-                (MediaQuery.of(context).size.height - positioned.dy);
+            bottom = haloHeight + (MediaQuery.of(context).size.height - positioned.dy);
           }
           break;
         case ContentAlign.left:
@@ -200,9 +198,8 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
           width: weight,
           child: Padding(
             padding: i.padding,
-            child: i.builder != null
-                ? i.builder?.call(context, this)
-                : (i.child ?? SizedBox.shrink()),
+            child:
+                i.builder != null ? i.builder?.call(context, this) : (i.child ?? SizedBox.shrink()),
           ),
         ),
       );
@@ -218,7 +215,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
       return SizedBox.shrink();
     }
     return Align(
-      alignment: currentTarget?.alignSkip ?? widget.alignSkip,
+      alignment: widget.targets[currentTarget!]?.alignSkip ?? widget.alignSkip,
       child: SafeArea(
         child: AnimatedOpacity(
           opacity: showContent ? 1 : 0,
@@ -247,5 +244,8 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
 
   void previous() => _focusLightKey.currentState?.previous();
 
-  void refresh() => _focusLightKey.currentState?.refresh();
+  void refresh() {
+    setState(() {});
+    _focusLightKey.currentState?.refresh();
+  }
 }
