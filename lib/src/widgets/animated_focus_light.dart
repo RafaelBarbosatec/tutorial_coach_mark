@@ -127,6 +127,7 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
   }
 
   void refresh() {
+    _targetFocus = widget.targets[_currentFocus];
     var targetPosition = getTargetCurrent(_targetFocus);
 
     if (targetPosition == null) {
@@ -135,7 +136,7 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
     }
 
     setState(() {
-      _targetPosition = getTargetCurrent(_targetFocus);
+      _targetPosition = targetPosition;
 
       _positioned = Offset(
         targetPosition.offset.dx + (targetPosition.size.width / 2),
