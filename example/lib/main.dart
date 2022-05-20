@@ -228,6 +228,10 @@ class _MyHomePageState extends State<MyHomePage> {
       onClickTarget: (target) {
         print('onClickTarget: $target');
       },
+      onClickTargetWithTapPosition: (target, tapDetails) {
+        print("target: $target");
+        print("clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+      },
       onClickOverlay: (target) {
         print('onClickOverlay: $target');
       },

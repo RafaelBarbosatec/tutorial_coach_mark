@@ -11,6 +11,8 @@ class AnimatedFocusLight extends StatefulWidget {
   final List<TargetFocus> targets;
   final Function(TargetFocus)? focus;
   final FutureOr Function(TargetFocus)? clickTarget;
+  final FutureOr Function(TargetFocus, TapDownDetails)?
+      clickTargetWithTapPosition;
   final FutureOr Function(TargetFocus)? clickOverlay;
   final Function? removeFocus;
   final Function()? finish;
@@ -30,6 +32,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.finish,
     this.removeFocus,
     this.clickTarget,
+    this.clickTargetWithTapPosition,
     this.clickOverlay,
     this.paddingFocus = 10,
     this.colorShadow = Colors.black,
@@ -80,7 +83,7 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
       curve: Curves.ease,
     );
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) => _runFocus());
+    Future.delayed(Duration.zero, _runFocus);
   }
 
   @override
@@ -104,6 +107,10 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
     if (overlayTap) {
       await widget.clickOverlay?.call(_targetFocus);
     }
+  }
+
+  Future _tapHandlerForPosition(TapDownDetails tapDetails) async {
+    await widget.clickTargetWithTapPosition?.call(_targetFocus, tapDetails);
   }
 
   void _runFocus();
@@ -195,9 +202,14 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
                 top: (_targetPosition?.offset.dy ?? 0) - _getPaddingFocus() * 2,
                 child: InkWell(
                   borderRadius: _betBorderRadiusTarget(),
+                  onTapDown: (details) {
+                    _tapHandlerForPosition(details);
+                  },
                   onTap: _targetFocus.enableTargetTab
                       ? () => _tapHandler(targetTap: true)
-                      : null,
+
+                      /// Essential for collecting [TapDownDetails]. Do not make [null]
+                      : () {},
                   child: Container(
                     color: Colors.transparent,
                     width: (_targetPosition?.size.width ?? 0) +
@@ -227,6 +239,11 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
     );
     setState(() => _goNext = goNext);
     _controller.reverse();
+  }
+
+  @override
+  Future _tapHandlerForPosition(TapDownDetails tapDetails) async {
+    await super._tapHandlerForPosition(tapDetails);
   }
 
   @override
@@ -344,7 +361,12 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
                       borderRadius: _betBorderRadiusTarget(),
                       onTap: _targetFocus.enableTargetTab
                           ? () => _tapHandler(targetTap: true)
-                          : null,
+
+                          /// Essential for collecting [TapDownDetails]. Do not make [null]
+                          : () {},
+                      onTapDown: (details) {
+                        _tapHandlerForPosition(details);
+                      },
                       child: Container(
                         color: Colors.transparent,
                         width: (_targetPosition?.size.width ?? 0) +
@@ -422,6 +444,11 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
       _initReverse = true;
     });
     _controllerPulse.reverse(from: _controllerPulse.value);
+  }
+
+  @override
+  Future _tapHandlerForPosition(TapDownDetails tapDetails) async {
+    await super._tapHandlerForPosition(tapDetails);
   }
 
   @override

@@ -27,10 +27,15 @@ void showTutorial() {
        // textSkip: "SKIP",
        // paddingFocus: 10,
        // focusAnimationDuration: Duration(milliseconds: 500),
+       // unFocusAnimationDuration: Duration(millisconds: 500),
        // pulseAnimationDuration: Duration(milliseconds: 500),
        // pulseVariation: Tween(begin: 1.0, end: 0.99),
       onFinish: (){
         print("finish");
+      },
+      onClickTargetWithTapPosition: (target, tapDetails) {
+        print("target: $target");
+        print("clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
       },
       onClickTarget: (target){
         print(target);
@@ -67,6 +72,7 @@ Attributes:
 | `alignSkip` | Alignment | use to align the skip in the target |
 | `paddingFocus` | Alignment | settings padding of the focus in target |
 | `focusAnimationDuration` | Duration | override the widget's global focus animation duration |
+| `unFocusAnimationDuration` | Duration | override the widget's global unfocus animation duration |
 | `pulseVariation` | Tween | override interval pulse animation |
 
 ### Creating contents (ContentTarget)
@@ -236,6 +242,10 @@ void showTutorial() {
        // opacityShadow: 0.8,
       onClickTarget: (target){
         print(target);
+      },
+      onClickTargetWithTapPosition: (target, tapDetails) {
+        print("target: $target");
+        print("clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
       },
       onClickOverlay: (target){
         print(target);
