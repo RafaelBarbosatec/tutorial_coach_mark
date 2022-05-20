@@ -80,7 +80,7 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
       curve: Curves.ease,
     );
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) => _runFocus());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _runFocus());
   }
 
   @override
