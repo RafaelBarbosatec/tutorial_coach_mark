@@ -106,6 +106,8 @@ class TutorialCoachMark {
 
   void previous() => _widgetKey.currentState?.previous();
 
+  void refresh() => _widgetKey.currentState?.refresh();
+
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry = null;
