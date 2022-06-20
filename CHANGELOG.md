@@ -1,5 +1,5 @@
 # [NEXT]
-- BREAKING CHANGE: moved `context` of the TutorialCoachMark to `show` method. `tutorialCoachMark.show(context:context);``
+- BREAKING CHANGE: moved `context` of the TutorialCoachMark to `show` method. `tutorialCoachMark.show(context:context);`
 
 # 1.2.3
 - Fix warn build in Flutter 3.0.
