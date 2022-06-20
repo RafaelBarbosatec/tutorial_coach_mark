@@ -12,10 +12,10 @@ export 'package:tutorial_coach_mark/src/target/target_position.dart';
 export 'package:tutorial_coach_mark/src/util.dart';
 
 class TutorialCoachMark {
-  final BuildContext _context;
   final List<TargetFocus> targets;
   final FutureOr<void> Function(TargetFocus)? onClickTarget;
-  final FutureOr<void> Function(TargetFocus, TapDownDetails)? onClickTargetWithTapPosition;
+  final FutureOr<void> Function(TargetFocus, TapDownDetails)?
+      onClickTargetWithTapPosition;
   final FutureOr<void> Function(TargetFocus)? onClickOverlay;
   final Function()? onFinish;
   final double paddingFocus;
@@ -35,26 +35,26 @@ class TutorialCoachMark {
 
   OverlayEntry? _overlayEntry;
 
-  TutorialCoachMark(this._context,
-      {required this.targets,
-        this.colorShadow = Colors.black,
-        this.onClickTarget,
-        this.onClickTargetWithTapPosition,
-        this.onClickOverlay,
-        this.onFinish,
-        this.paddingFocus = 10,
-        this.onSkip,
-        this.alignSkip = Alignment.bottomRight,
-        this.textSkip = "SKIP",
-        this.textStyleSkip = const TextStyle(color: Colors.white),
-        this.hideSkip = false,
-        this.opacityShadow = 0.8,
-        this.focusAnimationDuration = const Duration(milliseconds: 600),
-        this.unFocusAnimationDuration = const Duration(milliseconds: 600),
-        this.pulseAnimationDuration = const Duration(milliseconds: 500),
-        this.pulseEnable = true,
-        this.skipWidget})
-      : assert(opacityShadow >= 0 && opacityShadow <= 1);
+  TutorialCoachMark({
+    required this.targets,
+    this.colorShadow = Colors.black,
+    this.onClickTarget,
+    this.onClickTargetWithTapPosition,
+    this.onClickOverlay,
+    this.onFinish,
+    this.paddingFocus = 10,
+    this.onSkip,
+    this.alignSkip = Alignment.bottomRight,
+    this.textSkip = "SKIP",
+    this.textStyleSkip = const TextStyle(color: Colors.white),
+    this.hideSkip = false,
+    this.opacityShadow = 0.8,
+    this.focusAnimationDuration = const Duration(milliseconds: 600),
+    this.unFocusAnimationDuration = const Duration(milliseconds: 600),
+    this.pulseAnimationDuration = const Duration(milliseconds: 500),
+    this.pulseEnable = true,
+    this.skipWidget,
+  }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay() {
     return OverlayEntry(
@@ -84,11 +84,11 @@ class TutorialCoachMark {
     );
   }
 
-  void show({bool rootOverlay = false}) {
+  void show({required BuildContext context, bool rootOverlay = false}) {
     Future.delayed(Duration.zero, () {
       if (_overlayEntry == null) {
         _overlayEntry = _buildOverlay();
-        Overlay.of(_context, rootOverlay: rootOverlay)?.insert(_overlayEntry!);
+        Overlay.of(context, rootOverlay: rootOverlay)?.insert(_overlayEntry!);
       }
     });
   }

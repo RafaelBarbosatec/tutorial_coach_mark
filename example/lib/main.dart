@@ -39,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    createTutorial();
     Future.delayed(Duration.zero, showTutorial);
     super.initState();
   }
@@ -214,34 +215,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void showTutorial() {
-    initTargets();
-    tutorialCoachMark = TutorialCoachMark(
-      context,
-      targets: targets,
-      colorShadow: Colors.red,
-      textSkip: "SKIP",
-      paddingFocus: 10,
-      opacityShadow: 0.8,
-      onFinish: () {
-        print("finish");
-      },
-      onClickTarget: (target) {
-        print('onClickTarget: $target');
-      },
-      onClickTargetWithTapPosition: (target, tapDetails) {
-        print("target: $target");
-        print("clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
-      },
-      onClickOverlay: (target) {
-        print('onClickOverlay: $target');
-      },
-      onSkip: () {
-        print("skip");
-      },
-    )..show();
+    tutorialCoachMark.show(context: context);
   }
 
-  void initTargets() {
+  void createTutorial() {
     targets.clear();
     targets.add(
       TargetFocus(
@@ -594,5 +571,30 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
       shape: ShapeLightFocus.Circle,
     ));
+
+    tutorialCoachMark = TutorialCoachMark(
+      targets: targets,
+      colorShadow: Colors.red,
+      textSkip: "SKIP",
+      paddingFocus: 10,
+      opacityShadow: 0.8,
+      onFinish: () {
+        print("finish");
+      },
+      onClickTarget: (target) {
+        print('onClickTarget: $target');
+      },
+      onClickTargetWithTapPosition: (target, tapDetails) {
+        print("target: $target");
+        print(
+            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+      },
+      onClickOverlay: (target) {
+        print('onClickOverlay: $target');
+      },
+      onSkip: () {
+        print("skip");
+      },
+    );
   }
 }
