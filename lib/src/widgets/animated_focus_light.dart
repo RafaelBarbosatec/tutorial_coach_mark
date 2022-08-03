@@ -135,7 +135,7 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
   }
 
   void _finish() {
-    setState(() => _currentFocus = 0);
+    safeSetState(() => _currentFocus = 0);
     widget.finish!();
   }
 
@@ -237,7 +237,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
       targetTap: targetTap,
       overlayTap: overlayTap,
     );
-    setState(() => _goNext = goNext);
+    safeSetState(() => _goNext = goNext);
     _controller.reverse();
   }
 
@@ -262,7 +262,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
       return;
     }
 
-    setState(() {
+    safeSetState(() {
       _targetPosition = targetPosition;
 
       _positioned = Offset(
@@ -405,7 +405,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
       return;
     }
 
-    setState(() {
+    safeSetState(() {
       _finishFocus = false;
       _targetPosition = targetPosition;
 
@@ -439,10 +439,13 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
       targetTap: targetTap,
       overlayTap: overlayTap,
     );
-    setState(() {
-      _goNext = goNext;
-      _initReverse = true;
-    });
+    if (mounted) {
+      safeSetState(() {
+        _goNext = goNext;
+        _initReverse = true;
+      });
+    }
+
     _controllerPulse.reverse(from: _controllerPulse.value);
   }
 
@@ -460,14 +463,14 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
   @override
   void _listener(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
-      setState(() => _finishFocus = true);
+      safeSetState(() => _finishFocus = true);
 
       widget.focus?.call(_targetFocus);
 
       _controllerPulse.forward();
     }
     if (status == AnimationStatus.dismissed) {
-      setState(() {
+      safeSetState(() {
         _finishFocus = false;
         _initReverse = false;
       });
@@ -490,7 +493,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
 
     if (status == AnimationStatus.dismissed) {
       if (_initReverse) {
-        setState(() => _finishFocus = false);
+        safeSetState(() => _finishFocus = false);
         _controller.reverse();
       } else if (_finishFocus) {
         _controllerPulse.forward();
