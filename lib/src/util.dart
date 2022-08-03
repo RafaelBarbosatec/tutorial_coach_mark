@@ -38,3 +38,12 @@ abstract class TutorialCoachMarkController {
   void previous();
   void skip();
 }
+
+extension StateExt on State {
+  void safeSetState(VoidCallback call) {
+    if (mounted) {
+      // ignore: invalid_use_of_protected_member
+      setState(call);
+    }
+  }
+}
