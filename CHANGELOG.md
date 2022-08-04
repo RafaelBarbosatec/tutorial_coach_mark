@@ -1,3 +1,7 @@
+# 1.2.4
+- BREAKING CHANGE: moved `context` of the TutorialCoachMark to `show` method. `tutorialCoachMark.show(context:context);`
+- Resolve issue [#125](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/125)
+
 # 1.2.3
 - Fix warn build in Flutter 3.0.
 - Collect target tap position. [PR #116](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/116)

@@ -24,7 +24,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late TutorialCoachMark tutorialCoachMark;
-  List<TargetFocus> targets = <TargetFocus>[];
 
   GlobalKey keyButton = GlobalKey();
   GlobalKey keyButton1 = GlobalKey();
@@ -39,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    createTutorial();
     Future.delayed(Duration.zero, showTutorial);
     super.initState();
   }
@@ -214,10 +214,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void showTutorial() {
-    initTargets();
+    tutorialCoachMark.show(context: context);
+  }
+
+  void createTutorial() {
     tutorialCoachMark = TutorialCoachMark(
-      context,
-      targets: targets,
+      targets: _createTargets(),
       colorShadow: Colors.red,
       textSkip: "SKIP",
       paddingFocus: 10,
@@ -230,7 +232,8 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       onClickTargetWithTapPosition: (target, tapDetails) {
         print("target: $target");
-        print("clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
+        print(
+            "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
       },
       onClickOverlay: (target) {
         print('onClickOverlay: $target');
@@ -238,11 +241,11 @@ class _MyHomePageState extends State<MyHomePage> {
       onSkip: () {
         print("skip");
       },
-    )..show();
+    );
   }
 
-  void initTargets() {
-    targets.clear();
+  List<TargetFocus> _createTargets() {
+    List<TargetFocus> targets = [];
     targets.add(
       TargetFocus(
         identify: "keyBottomNavigation1",
@@ -594,5 +597,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
       shape: ShapeLightFocus.Circle,
     ));
+
+    return targets;
   }
 }

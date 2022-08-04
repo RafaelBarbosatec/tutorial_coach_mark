@@ -20,7 +20,6 @@ import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 void showTutorial() {
     TutorialCoachMark tutorial = TutorialCoachMark(
-      context,
       targets: targets, // List<TargetFocus>
       colorShadow: Colors.red, // DEFAULT Colors.black
        // alignSkip: Alignment.bottomRight,
@@ -43,7 +42,7 @@ void showTutorial() {
       onSkip: (){
         print("skip");
       }
-    )..show();
+    )..show(context:context);
 
     // tutorial.skip();
     // tutorial.finish();
@@ -256,7 +255,7 @@ void showTutorial() {
       onFinish: (){
         print("finish");
       },
-    )..show();
+    )..show(context:context);
   }
 ```
 
