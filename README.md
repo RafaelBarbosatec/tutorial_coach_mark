@@ -26,7 +26,7 @@ void showTutorial() {
        // textSkip: "SKIP",
        // paddingFocus: 10,
        // focusAnimationDuration: Duration(milliseconds: 500),
-       // unFocusAnimationDuration: Duration(millisconds: 500),
+       // unFocusAnimationDuration: Duration(milliseconds: 500),
        // pulseAnimationDuration: Duration(milliseconds: 500),
        // pulseVariation: Tween(begin: 1.0, end: 0.99),
       onFinish: (){
