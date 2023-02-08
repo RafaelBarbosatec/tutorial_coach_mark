@@ -99,8 +99,13 @@ class TutorialCoachMark {
   }
 
   void skip() {
-    onSkip?.call();
-    _removeOverlay();
+	//when onSkip not null, do what user wants
+	//else call default onSkip
+    if(onSkip != null) {
+      onSkip?.call();
+    } else {
+      _removeOverlay();
+    }
   }
 
   bool get isShowing => _overlayEntry != null;
