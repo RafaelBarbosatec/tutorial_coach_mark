@@ -56,7 +56,7 @@ class TutorialCoachMark {
     this.skipWidget,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
-  OverlayEntry _buildOverlay() {
+  OverlayEntry _buildOverlay({bool rootOverlay = false}) {
     return OverlayEntry(
       builder: (context) {
         return TutorialCoachMarkWidget(
@@ -79,6 +79,7 @@ class TutorialCoachMark {
           pulseAnimationDuration: pulseAnimationDuration,
           pulseEnable: pulseEnable,
           finish: finish,
+          rootOverlay: rootOverlay,
         );
       },
     );
@@ -87,7 +88,7 @@ class TutorialCoachMark {
   void show({required BuildContext context, bool rootOverlay = false}) {
     Future.delayed(Duration.zero, () {
       if (_overlayEntry == null) {
-        _overlayEntry = _buildOverlay();
+        _overlayEntry = _buildOverlay(rootOverlay: rootOverlay);
         Overlay.of(context, rootOverlay: rootOverlay)?.insert(_overlayEntry!);
       }
     });

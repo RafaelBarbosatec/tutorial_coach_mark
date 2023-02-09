@@ -24,6 +24,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final Duration? pulseAnimationDuration;
   final Tween<double>? pulseVariation;
   final bool pulseEnable;
+  final bool rootOverlay;
 
   const AnimatedFocusLight({
     Key? key,
@@ -42,6 +43,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.pulseAnimationDuration,
     this.pulseVariation,
     this.pulseEnable = true,
+    this.rootOverlay = false,
   })  : assert(targets.length > 0),
         super(key: key);
 
@@ -255,7 +257,10 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
         widget.focusAnimationDuration ??
         defaultFocusAnimationDuration;
 
-    var targetPosition = getTargetCurrent(_targetFocus);
+    var targetPosition = getTargetCurrent(
+      _targetFocus,
+      rootOverlay: widget.rootOverlay,
+    );
 
     if (targetPosition == null) {
       _finish();
@@ -398,7 +403,10 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
         widget.pulseVariation ??
         defaultPulseVariation);
 
-    var targetPosition = getTargetCurrent(_targetFocus);
+    var targetPosition = getTargetCurrent(
+      _targetFocus,
+      rootOverlay: widget.rootOverlay,
+    );
 
     if (targetPosition == null) {
       _finish();
