@@ -1,3 +1,7 @@
+# 1.2.5
+- Fixed target global position when using rootOverlay and inner navigator (#142)[https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/142]. Thanks (Guillaume)[https://github.com/guildem]!
+
+
 # 1.2.4
 - BREAKING CHANGE: moved `context` of the TutorialCoachMark to `show` method. `tutorialCoachMark.show(context:context);`
 - Resolve issue [#125](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/125)
