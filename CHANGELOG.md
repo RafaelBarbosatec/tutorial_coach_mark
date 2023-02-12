@@ -1,4 +1,4 @@
-# NEXT
+# 1.2.6
 - Improvements in `AnimatedFocusLight`;
 - Adds again `unFocusAnimationDuration` in `TargetFocus`;
 - Adds `NotFoundTargeException`;
