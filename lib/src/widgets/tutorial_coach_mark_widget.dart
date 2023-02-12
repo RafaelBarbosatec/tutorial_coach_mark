@@ -28,6 +28,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.pulseVariation,
     this.pulseEnable = true,
     this.skipWidget,
+    this.rootOverlay = false,
   })  : assert(targets.length > 0),
         super(key: key);
 
@@ -50,6 +51,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final Tween<double>? pulseVariation;
   final bool pulseEnable;
   final Widget? skipWidget;
+  final bool rootOverlay;
 
   @override
   TutorialCoachMarkWidgetState createState() => TutorialCoachMarkWidgetState();
@@ -78,6 +80,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> implem
             pulseAnimationDuration: widget.pulseAnimationDuration,
             pulseVariation: widget.pulseVariation,
             pulseEnable: widget.pulseEnable,
+            rootOverlay: widget.rootOverlay,
             clickTarget: (target) {
               return widget.clickTarget?.call(target);
             },
@@ -117,7 +120,10 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget> implem
 
     List<Widget> children = <Widget>[];
 
-    final target = getTargetCurrent(currentTarget!);
+    final target = getTargetCurrent(
+      currentTarget!,
+      rootOverlay: widget.rootOverlay,
+    );
     if (target == null) {
       return SizedBox.shrink();
     }
