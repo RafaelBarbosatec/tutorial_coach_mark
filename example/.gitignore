@@ -107,6 +107,9 @@ unlinked_spec.ds
 **/macos/Flutter/ephemeral
 **/xcuserdata/
 
+# Web
+**/web
+
 # Windows
 **/windows/flutter/generated_plugin_registrant.cc
 **/windows/flutter/generated_plugin_registrant.h
