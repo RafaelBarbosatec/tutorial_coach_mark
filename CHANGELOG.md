@@ -1,5 +1,5 @@
 # 1.2.5
-- Fixed target global position when using rootOverlay and inner navigator (#142)[https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/142]. Thanks (Guillaume)[https://github.com/guildem]!
+- Fixed target global position when using rootOverlay and inner navigator [#142](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/142). Thanks [Guillaume](https://github.com/guildem)
 - Adds `flutter_lints`
 - Update `README`
 
