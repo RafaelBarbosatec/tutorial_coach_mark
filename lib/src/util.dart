@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:tutorial_coach_mark/src/target/target_focus.dart';
 import 'package:tutorial_coach_mark/src/target/target_position.dart';
 
+// ignore: constant_identifier_names
 enum ShapeLightFocus { Circle, RRect }
 
 TargetPosition? getTargetCurrent(
@@ -38,6 +39,7 @@ TargetPosition? getTargetCurrent(
 
       return TargetPosition(size, offset);
     } catch (e) {
+      // ignore: avoid_print
       print(
           "TutorialCoachMark (ERROR): It was not possible to obtain target position.");
       return null;

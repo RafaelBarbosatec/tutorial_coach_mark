@@ -48,6 +48,7 @@ class AnimatedFocusLight extends StatefulWidget {
         super(key: key);
 
   @override
+  // ignore: no_logic_in_create_state
   AnimatedFocusLightState createState() => pulseEnable
       ? AnimatedPulseFocusLightState()
       : AnimatedStaticFocusLightState();
@@ -56,12 +57,12 @@ class AnimatedFocusLight extends StatefulWidget {
 abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
     with TickerProviderStateMixin {
   final borderRadiusDefault = 10.0;
-  final defaultFocusAnimationDuration = Duration(milliseconds: 600);
+  final defaultFocusAnimationDuration = const Duration(milliseconds: 600);
   late AnimationController _controller;
   late CurvedAnimation _curvedAnimation;
 
   late TargetFocus _targetFocus;
-  Offset _positioned = Offset(0.0, 0.0);
+  Offset _positioned = const Offset(0.0, 0.0);
   TargetPosition? _targetPosition;
 
   double _sizeCircle = 100;
@@ -179,6 +180,17 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
 }
 
 class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
+  double get left => (_targetPosition?.offset.dx ?? 0) - _getPaddingFocus() * 2;
+  double get top => (_targetPosition?.offset.dy ?? 0) - _getPaddingFocus() * 2;
+
+  double get width {
+    return (_targetPosition?.size.width ?? 0) + _getPaddingFocus() * 4;
+  }
+
+  double get height {
+    return (_targetPosition?.size.height ?? 0) + _getPaddingFocus() * 4;
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -191,7 +203,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
           _progressAnimated = _curvedAnimation.value;
           return Stack(
             children: <Widget>[
-              Container(
+              SizedBox(
                 width: double.maxFinite,
                 height: double.maxFinite,
                 child: CustomPaint(
@@ -199,14 +211,11 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
                 ),
               ),
               Positioned(
-                left:
-                    (_targetPosition?.offset.dx ?? 0) - _getPaddingFocus() * 2,
-                top: (_targetPosition?.offset.dy ?? 0) - _getPaddingFocus() * 2,
+                left: left,
+                top: top,
                 child: InkWell(
                   borderRadius: _betBorderRadiusTarget(),
-                  onTapDown: (details) {
-                    _tapHandlerForPosition(details);
-                  },
+                  onTapDown: _tapHandlerForPosition,
                   onTap: _targetFocus.enableTargetTab
                       ? () => _tapHandler(targetTap: true)
 
@@ -214,10 +223,8 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
                       : () {},
                   child: Container(
                     color: Colors.transparent,
-                    width: (_targetPosition?.size.width ?? 0) +
-                        _getPaddingFocus() * 4,
-                    height: (_targetPosition?.size.height ?? 0) +
-                        _getPaddingFocus() * 4,
+                    width: width,
+                    height: height,
                   ),
                 ),
               )
@@ -241,11 +248,6 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
     );
     safeSetState(() => _goNext = goNext);
     _controller.reverse();
-  }
-
-  @override
-  Future _tapHandlerForPosition(TapDownDetails tapDetails) async {
-    await super._tapHandlerForPosition(tapDetails);
   }
 
   @override
@@ -309,13 +311,21 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
 }
 
 class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
-  final defaultPulseAnimationDuration = Duration(milliseconds: 500);
+  final defaultPulseAnimationDuration = const Duration(milliseconds: 500);
   final defaultPulseVariation = Tween(begin: 1.0, end: 0.99);
   late AnimationController _controllerPulse;
   late Animation _tweenPulse;
 
   bool _finishFocus = false;
   bool _initReverse = false;
+
+  get left => (_targetPosition?.offset.dx ?? 0) - _getPaddingFocus() * 2;
+
+  get top => (_targetPosition?.offset.dy ?? 0) - _getPaddingFocus() * 2;
+
+  get width => (_targetPosition?.size.width ?? 0) + _getPaddingFocus() * 4;
+
+  get height => (_targetPosition?.size.height ?? 0) + _getPaddingFocus() * 4;
 
   @override
   void initState() {
@@ -350,7 +360,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
               }
               return Stack(
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                     width: double.maxFinite,
                     height: double.maxFinite,
                     child: CustomPaint(
@@ -358,10 +368,8 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
                     ),
                   ),
                   Positioned(
-                    left: (_targetPosition?.offset.dx ?? 0) -
-                        _getPaddingFocus() * 2,
-                    top: (_targetPosition?.offset.dy ?? 0) -
-                        _getPaddingFocus() * 2,
+                    left: left,
+                    top: top,
                     child: InkWell(
                       borderRadius: _betBorderRadiusTarget(),
                       onTap: _targetFocus.enableTargetTab
@@ -374,10 +382,8 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
                       },
                       child: Container(
                         color: Colors.transparent,
-                        width: (_targetPosition?.size.width ?? 0) +
-                            _getPaddingFocus() * 4,
-                        height: (_targetPosition?.size.height ?? 0) +
-                            _getPaddingFocus() * 4,
+                        width: width,
+                        height: height,
                       ),
                     ),
                   )

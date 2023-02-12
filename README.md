@@ -26,7 +26,6 @@ void showTutorial() {
        // textSkip: "SKIP",
        // paddingFocus: 10,
        // focusAnimationDuration: Duration(milliseconds: 500),
-       // unFocusAnimationDuration: Duration(milliseconds: 500),
        // pulseAnimationDuration: Duration(milliseconds: 500),
        // pulseVariation: Tween(begin: 1.0, end: 0.99),
       onFinish: (){
@@ -65,13 +64,13 @@ Attributes:
 | `contents` | ContentTarget[] | Content list you want to display after focusing widget |
 | `shape` | ShapeLightFocus | ShapeLightFocus.Circle or ShapeLightFocus.RRect |
 | `radius` | double | Use when shape = ShapeLightFocus.RRect |
+| `borderSide` | BorderSide |  |
 | `color` | Color | Custom color to target |
 | `enableOverlayTab` | bool | enable click in all screen to call next step |
 | `enableTargetTab` | bool | enable click in target to call next step |
 | `alignSkip` | Alignment | use to align the skip in the target |
 | `paddingFocus` | Alignment | settings padding of the focus in target |
 | `focusAnimationDuration` | Duration | override the widget's global focus animation duration |
-| `unFocusAnimationDuration` | Duration | override the widget's global unfocus animation duration |
 | `pulseVariation` | Tween | override interval pulse animation |
 
 ### Creating contents (ContentTarget)
