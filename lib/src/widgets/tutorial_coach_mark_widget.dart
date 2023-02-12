@@ -226,7 +226,14 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
   }
 
   Widget _buildSkip() {
-    if (widget.hideSkip!) {
+    bool isLastTarget = false;
+
+    if (currentTarget != null) {
+      isLastTarget =
+          widget.targets.indexOf(currentTarget!) == widget.targets.length - 1;
+    }
+
+    if (widget.hideSkip! || isLastTarget) {
       return const SizedBox.shrink();
     }
     return Align(

@@ -375,9 +375,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
 
                           /// Essential for collecting [TapDownDetails]. Do not make [null]
                           : () {},
-                      onTapDown: (details) {
-                        _tapHandlerForPosition(details);
-                      },
+                      onTapDown: _tapHandlerForPosition,
                       child: Container(
                         color: Colors.transparent,
                         width: width,
@@ -422,11 +420,6 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
     }
 
     _controllerPulse.reverse(from: _controllerPulse.value);
-  }
-
-  @override
-  Future _tapHandlerForPosition(TapDownDetails tapDetails) async {
-    await super._tapHandlerForPosition(tapDetails);
   }
 
   @override
