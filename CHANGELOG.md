@@ -1,3 +1,9 @@
+# 1.2.6
+- Improvements in `AnimatedFocusLight`;
+- Adds again `unFocusAnimationDuration` in `TargetFocus`;
+- Adds `NotFoundTargeException`;
+- Fix issue [#103](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/103)
+
 # 1.2.5
 - Fixed target global position when using rootOverlay and inner navigator [#142](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/142). Thanks [Guillaume](https://github.com/guildem)
 - Adds `flutter_lints`
