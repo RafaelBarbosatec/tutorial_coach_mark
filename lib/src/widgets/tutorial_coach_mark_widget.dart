@@ -29,6 +29,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.pulseEnable = true,
     this.skipWidget,
     this.rootOverlay = false,
+    this.showSkipInLastTarget = false,
   })  : assert(targets.length > 0),
         super(key: key);
 
@@ -53,6 +54,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final bool pulseEnable;
   final Widget? skipWidget;
   final bool rootOverlay;
+  final bool showSkipInLastTarget;
 
   @override
   TutorialCoachMarkWidgetState createState() => TutorialCoachMarkWidgetState();
@@ -233,7 +235,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
           widget.targets.indexOf(currentTarget!) == widget.targets.length - 1;
     }
 
-    if (widget.hideSkip || isLastTarget) {
+    if (widget.hideSkip || (isLastTarget && !widget.showSkipInLastTarget)) {
       return const SizedBox.shrink();
     }
 

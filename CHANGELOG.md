@@ -1,3 +1,6 @@
+# next
+- Adds `showSkipInLastTarget`.
+
 # 1.2.6
 - Improvements in `AnimatedFocusLight`;
 - Adds again `unFocusAnimationDuration` in `TargetFocus`;
