@@ -1,4 +1,4 @@
-# next
+# 1.2.7
 - Adds `showSkipInLastTarget`.
 - Catch `NotFoundTargetException` to prevent the app being left in unusable state
 
