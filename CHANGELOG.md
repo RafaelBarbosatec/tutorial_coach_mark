@@ -1,5 +1,6 @@
 # next
 - Adds `showSkipInLastTarget`.
+- Catch `NotFoundTargetException` to prevent the app being left in unusable state
 
 # 1.2.6
 - Improvements in `AnimatedFocusLight`;
