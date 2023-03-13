@@ -531,34 +531,14 @@ class MyHomePageState extends State<MyHomePage> {
       ],
       shape: ShapeLightFocus.Circle,
     ));
-    targets.add(TargetFocus(
-      identify: "Target 5",
-      keyTarget: keyButton2,
-      contents: [
-        TargetContent(
-          align: ContentAlign.top,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const <Widget>[
-              Padding(
-                padding: EdgeInsets.only(bottom: 20.0),
-                child: Text(
-                  "Multiples contents",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0),
-                ),
-              ),
-              Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
-                style: TextStyle(color: Colors.white),
-              ),
-            ],
-          ),
-        ),
-        TargetContent(
-            align: ContentAlign.bottom,
+    targets.add(
+      TargetFocus(
+        identify: "Target 5",
+        keyTarget: keyButton2,
+        shape: ShapeLightFocus.Circle,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: const <Widget>[
@@ -577,10 +557,32 @@ class MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(color: Colors.white),
                 ),
               ],
-            ))
-      ],
-      shape: ShapeLightFocus.Circle,
-    ));
+            ),
+          ),
+          TargetContent(
+              align: ContentAlign.bottom,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20.0),
+                    child: Text(
+                      "Multiples contents",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                  Text(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pulvinar tortor eget maximus iaculis.",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ))
+        ],
+      ),
+    );
 
     return targets;
   }
