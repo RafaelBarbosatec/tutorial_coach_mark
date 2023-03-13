@@ -1,3 +1,7 @@
+# 1.2.7
+- Adds `showSkipInLastTarget`.
+- Catch `NotFoundTargetException` to prevent the app being left in unusable state
+
 # 1.2.6
 - Improvements in `AnimatedFocusLight`;
 - Adds again `unFocusAnimationDuration` in `TargetFocus`;
