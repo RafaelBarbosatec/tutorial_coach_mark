@@ -1,3 +1,7 @@
+# 1.2.8
+- Adds Method 'insert' cannot be called on 'OverlayState?' because it is potentially null. Called using ?. instead.
+
+
 # 1.2.7
 - Adds `showSkipInLastTarget`.
 - Catch `NotFoundTargetException` to prevent the app being left in unusable state
