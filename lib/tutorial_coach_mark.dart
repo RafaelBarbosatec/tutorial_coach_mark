@@ -55,7 +55,7 @@ class TutorialCoachMark {
     this.pulseAnimationDuration = const Duration(milliseconds: 500),
     this.pulseEnable = true,
     this.skipWidget,
-    this.showSkipInLastTarget = false,
+    this.showSkipInLastTarget = true,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay({bool rootOverlay = false}) {
