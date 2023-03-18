@@ -92,7 +92,7 @@ class TutorialCoachMark {
     Future.delayed(Duration.zero, () {
       if (_overlayEntry == null) {
         _overlayEntry = _buildOverlay(rootOverlay: rootOverlay);
-        Overlay.of(context, rootOverlay: rootOverlay).insert(_overlayEntry!);
+        Overlay.of(context, rootOverlay: rootOverlay)?.insert(_overlayEntry!);
       }
     });
   }
