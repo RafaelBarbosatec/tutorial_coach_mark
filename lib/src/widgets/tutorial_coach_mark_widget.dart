@@ -14,6 +14,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.finish,
     this.paddingFocus = 10,
     this.clickTarget,
+    this.onVerticalDragTargetEnd,
     this.onClickTargetWithTapPosition,
     this.clickOverlay,
     this.alignSkip = Alignment.bottomRight,
@@ -36,6 +37,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
 
   final List<TargetFocus> targets;
   final FutureOr Function(TargetFocus)? clickTarget;
+  final FutureOr Function(TargetFocus)? onVerticalDragTargetEnd;
   final FutureOr Function(TargetFocus, TapDownDetails)?
       onClickTargetWithTapPosition;
   final FutureOr Function(TargetFocus)? clickOverlay;
@@ -88,6 +90,9 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             rootOverlay: widget.rootOverlay,
             clickTarget: (target) {
               return widget.clickTarget?.call(target);
+            },
+            onVerticalDragTargetEnd: (target) {
+              return widget.onVerticalDragTargetEnd?.call(target);
             },
             clickTargetWithTapPosition: (target, tapDetails) {
               return widget.onClickTargetWithTapPosition
