@@ -112,6 +112,8 @@ class TutorialCoachMark {
 
   bool get isShowing => _overlayEntry != null;
 
+  GlobalKey<TutorialCoachMarkWidgetState> get widgetKey => _widgetKey;
+
   void next() => _widgetKey.currentState?.next();
 
   void previous() => _widgetKey.currentState?.previous();
