@@ -1,3 +1,6 @@
+# 1.2.9
+- Adds option to show the tutorial without context.
+
 # 1.2.8
 - Adds Method 'insert' cannot be called on 'OverlayState?' because it is potentially null. Called using ?. instead.
 
