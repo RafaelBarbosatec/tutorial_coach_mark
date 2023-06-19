@@ -229,7 +229,7 @@ class MyHomePageState extends State<MyHomePage> {
       colorShadow: Colors.red,
       textSkip: "SKIP",
       paddingFocus: 10,
-      opacityShadow: 0.8,
+      opacityShadow: 0.5,
       onFinish: () {
         print("finish");
       },
