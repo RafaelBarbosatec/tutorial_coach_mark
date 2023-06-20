@@ -160,12 +160,12 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
       }
     });
 
-    _controller.forward();
     _controller.duration = _targetFocus.unFocusAnimationDuration ??
         widget.unFocusAnimationDuration ??
         _targetFocus.focusAnimationDuration ??
         widget.focusAnimationDuration ??
         defaultFocusAnimationDuration;
+    _controller.forward();
   }
 
   void _nextFocus() {
@@ -345,9 +345,11 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
       duration: widget.pulseAnimationDuration ?? defaultPulseAnimationDuration,
     );
 
-    _tweenPulse = _createTweenAnimation(_targetFocus.pulseVariation ??
-        widget.pulseVariation ??
-        defaultPulseVariation);
+    _tweenPulse = _createTweenAnimation(
+      _targetFocus.pulseVariation ??
+          widget.pulseVariation ??
+          defaultPulseVariation,
+    );
 
     _controllerPulse.addStatusListener(_listenerPulse);
   }
@@ -400,9 +402,11 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
 
   @override
   void _runFocus() {
-    _tweenPulse = _createTweenAnimation(_targetFocus.pulseVariation ??
-        widget.pulseVariation ??
-        defaultPulseVariation);
+    _tweenPulse = _createTweenAnimation(
+      _targetFocus.pulseVariation ??
+          widget.pulseVariation ??
+          defaultPulseVariation,
+    );
     _finishFocus = false;
     super._runFocus();
   }
@@ -456,7 +460,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
     }
 
     if (status == AnimationStatus.reverse) {
-      widget.removeFocus!();
+      widget.removeFocus?.call();
     }
   }
 
@@ -487,24 +491,22 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
         clipper: _getClipper(targetFocus.shape),
         child: BackdropFilter(
           filter: widget.imageFilter!,
-          child: SizedBox(
-            width: double.maxFinite,
-            height: double.maxFinite,
-            child: CustomPaint(
-              painter: _getPainter(targetFocus),
-            ),
-          ),
+          child: _getSizedPainter(targetFocus),
         ),
       );
     } else {
-      return SizedBox(
-        width: double.maxFinite,
-        height: double.maxFinite,
-        child: CustomPaint(
-          painter: _getPainter(targetFocus),
-        ),
-      );
+      return _getSizedPainter(targetFocus);
     }
+  }
+
+  SizedBox _getSizedPainter(TargetFocus targetFocus) {
+    return SizedBox(
+      width: double.maxFinite,
+      height: double.maxFinite,
+      child: CustomPaint(
+        painter: _getPainter(targetFocus),
+      ),
+    );
   }
 
   CustomClipper<Path> _getClipper(ShapeLightFocus? shape) {
