@@ -27,7 +27,6 @@ class LightPaint extends CustomPainter {
 
     double radius = maxSize * (1 - progress) + sizeCircle;
 
-    
     final circleHole = CircleClipper.circleHolePath(size, positioned, radius);
 
     final justCircleHole = Path()
