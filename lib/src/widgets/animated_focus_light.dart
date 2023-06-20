@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tutorial_coach_mark/src/clipper/circle_clipper.dart';
+import 'package:tutorial_coach_mark/src/clipper/rect_clipper.dart';
 import 'package:tutorial_coach_mark/src/paint/light_paint.dart';
 import 'package:tutorial_coach_mark/src/paint/light_paint_rect.dart';
 import 'package:tutorial_coach_mark/src/target/target_focus.dart';
@@ -27,6 +28,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final Tween<double>? pulseVariation;
   final bool pulseEnable;
   final bool rootOverlay;
+  final ImageFilter? imageFilter;
 
   const AnimatedFocusLight({
     Key? key,
@@ -44,6 +46,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.unFocusAnimationDuration,
     this.pulseAnimationDuration,
     this.pulseVariation,
+    this.imageFilter,
     this.pulseEnable = true,
     this.rootOverlay = false,
   })  : assert(targets.length > 0),
@@ -191,15 +194,15 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
 
   void _listener(AnimationStatus status);
 
-  CustomPainter _getPainter(TargetFocus? target) {
-    if (target?.shape == ShapeLightFocus.RRect) {
+  CustomPainter _getPainter(TargetFocus target) {
+    if (target.shape == ShapeLightFocus.RRect) {
       return LightPaintRect(
-        colorShadow: target?.color ?? widget.colorShadow,
+        colorShadow: target.color ?? widget.colorShadow,
         progress: _progressAnimated,
         offset: _getPaddingFocus(),
         target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
-        radius: target?.radius ?? 0,
-        borderSide: target?.borderSide,
+        radius: target.radius ?? 0,
+        borderSide: target.borderSide,
         opacityShadow: widget.opacityShadow,
       );
     } else {
@@ -207,8 +210,8 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
         _progressAnimated,
         _positioned,
         _sizeCircle,
-        colorShadow: target?.color ?? widget.colorShadow,
-        borderSide: target?.borderSide,
+        colorShadow: target.color ?? widget.colorShadow,
+        borderSide: target.borderSide,
         opacityShadow: widget.opacityShadow,
       );
     }
@@ -367,33 +370,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
               }
               return Stack(
                 children: <Widget>[
-                  ClipPath(
-                    clipper: _targetFocus.shape == ShapeLightFocus.RRect
-                        ? MyRectClipper(
-                            progress: _progressAnimated,
-                            offset: _getPaddingFocus(),
-                            target: _targetPosition ??
-                                TargetPosition(Size.zero, Offset.zero),
-                            radius: _targetFocus.radius ?? 0,
-                            borderSide: _targetFocus.borderSide,
-                          )
-                        : MyCircleClipper(
-                            _progressAnimated,
-                            _positioned,
-                            _sizeCircle,
-                            _targetFocus.borderSide,
-                          ),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                      child: SizedBox(
-                        width: double.maxFinite,
-                        height: double.maxFinite,
-                        child: CustomPaint(
-                          painter: _getPainter(_targetFocus),
-                        ),
-                      ),
-                    ),
-                  ),
+                  _getLightPaint(_targetFocus),
                   Positioned(
                     left: left,
                     top: top,
@@ -503,102 +480,47 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
       CurvedAnimation(parent: _controllerPulse, curve: Curves.ease),
     );
   }
-}
 
-class MyCircleClipper extends CustomClipper<Path> {
-  final double progress;
-  final Offset positioned;
-  final double sizeCircle;
-  final BorderSide? borderSide;
-
-  MyCircleClipper(
-    this.progress,
-    this.positioned,
-    this.sizeCircle,
-    this.borderSide,
-  );
-
-  @override
-  Path getClip(Size size) {
-    if (positioned == Offset.zero) return Path();
-    var maxSize = max(size.width, size.height);
-
-    double radius = maxSize * (1 - progress) + sizeCircle;
-    final circleHole = Path()
-      ..moveTo(0, 0)
-      ..lineTo(0, positioned.dy)
-      ..arcTo(
-        Rect.fromCircle(center: positioned, radius: radius),
-        pi,
-        pi,
-        false,
-      )
-      ..arcTo(
-        Rect.fromCircle(center: positioned, radius: radius),
-        0,
-        pi,
-        false,
-      )
-      ..lineTo(0, positioned.dy)
-      ..lineTo(0, size.height)
-      ..lineTo(size.width, size.height)
-      ..lineTo(size.width, 0)
-      ..close();
-    return circleHole;
+  Widget _getLightPaint(TargetFocus targetFocus) {
+    if (widget.imageFilter != null) {
+      return ClipPath(
+        clipper: _getClipper(targetFocus.shape),
+        child: BackdropFilter(
+          filter: widget.imageFilter!,
+          child: SizedBox(
+            width: double.maxFinite,
+            height: double.maxFinite,
+            child: CustomPaint(
+              painter: _getPainter(targetFocus),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return SizedBox(
+        width: double.maxFinite,
+        height: double.maxFinite,
+        child: CustomPaint(
+          painter: _getPainter(targetFocus),
+        ),
+      );
+    }
   }
 
-  @override
-  bool shouldReclip(covariant MyCircleClipper oldClipper) {
-    return progress != oldClipper.progress;
-  }
-}
-
-class MyRectClipper extends CustomClipper<Path> {
-  final double progress;
-  final TargetPosition target;
-  final double offset;
-  final double radius;
-  final BorderSide? borderSide;
-
-  MyRectClipper({
-    required this.progress,
-    required this.target,
-    required this.offset,
-    required this.radius,
-    this.borderSide,
-  });
-
-  @override
-  Path getClip(Size size) {
-    if (target.offset == Offset.zero) return Path();
-
-    var maxSize = max(size.width, size.height) +
-        max(target.size.width, target.size.height) +
-        target.getBiggerSpaceBorder(size);
-
-    double x = -maxSize / 2 * (1 - progress) + target.offset.dx - offset / 2;
-
-    double y = -maxSize / 2 * (1 - progress) + target.offset.dy - offset / 2;
-
-    double w = maxSize * (1 - progress) + target.size.width + offset;
-
-    double h = maxSize * (1 - progress) + target.size.height + offset;
-    return Path()
-      ..moveTo(0, 0)
-      ..lineTo(0, y)
-      ..lineTo(x + w, y)
-      ..lineTo(x + w, y + h)
-      ..lineTo(x, y + h)
-      ..lineTo(x, y)
-      ..lineTo(0, y)
-      ..lineTo(0, size.height)
-      ..lineTo(size.width, size.height)
-      ..lineTo(size.width, 0)
-      ..close();
-  }
-
-  @override
-  bool shouldReclip(covariant MyRectClipper oldClipper) {
-    return progress != oldClipper.progress;
+  CustomClipper<Path> _getClipper(ShapeLightFocus? shape) {
+    return shape == ShapeLightFocus.RRect
+        ? RectClipper(
+            progress: _progressAnimated,
+            offset: _getPaddingFocus(),
+            target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
+            radius: _targetFocus.radius ?? 0,
+            borderSide: _targetFocus.borderSide,
+          )
+        : CircleClipper(
+            _progressAnimated,
+            _positioned,
+            _sizeCircle,
+            _targetFocus.borderSide,
+          );
   }
 }
