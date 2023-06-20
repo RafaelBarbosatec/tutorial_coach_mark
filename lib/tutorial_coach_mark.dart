@@ -102,8 +102,11 @@ class TutorialCoachMark {
     });
   }
 
-  void showWithoutContext({required GlobalKey<NavigatorState> navigatorKey, bool rootOverlay = false}) {
-    // `navigatorKey` needs to be the one that you passed to MaterialApp.navigatorKey
+  // `navigatorKey` needs to be the one that you passed to MaterialApp.navigatorKey
+  void showWithNavigatorStateKey({
+    required GlobalKey<NavigatorState> navigatorKey,
+    bool rootOverlay = false,
+  }) {
     Future.delayed(Duration.zero, () {
       if (_overlayEntry == null) {
         _overlayEntry = _buildOverlay(rootOverlay: rootOverlay);
