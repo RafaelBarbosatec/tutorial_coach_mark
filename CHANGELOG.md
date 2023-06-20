@@ -1,7 +1,7 @@
 # next
 - set `ignoringSemantics` false in `skip` button
 - adds `ImageFilter`. Now is possible apply blur in the shadow.
-- Adds option to show the tutorial without context.
+- Adds option to show the tutorial without context. `showWithNavigatorStateKey`
 
 # 1.2.8
 - Adds Method 'insert' cannot be called on 'OverlayState?' because it is potentially null. Called using ?. instead.
