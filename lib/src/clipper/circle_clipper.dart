@@ -21,7 +21,20 @@ class CircleClipper extends CustomClipper<Path> {
     var maxSize = max(size.width, size.height);
 
     double radius = maxSize * (1 - progress) + sizeCircle;
-    final circleHole = Path()
+
+    return circleHolePath(size, positioned, radius);
+  }
+
+  // There is some weirdness here.  On mobile, using arcTo with `sweepAngle: 2 * pi`
+  // gives the equivalent of `sweepAngle: 0`.  I couldn't find any documentation
+  // of the expected behavior here, so instead I just call arcTo twice (two
+  // semi-circles) to outline the full hole.
+  static Path circleHolePath(
+    Size size,
+    Offset positioned,
+    double radius,
+  ) {
+    return Path()
       ..moveTo(0, 0)
       ..lineTo(0, positioned.dy)
       ..arcTo(
@@ -41,7 +54,6 @@ class CircleClipper extends CustomClipper<Path> {
       ..lineTo(size.width, size.height)
       ..lineTo(size.width, 0)
       ..close();
-    return circleHole;
   }
 
   @override

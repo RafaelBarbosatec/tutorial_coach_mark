@@ -27,15 +27,13 @@ class RectClipper extends CustomClipper<Path> {
         target.getBiggerSpaceBorder(size);
 
     double x = -maxSize / 2 * (1 - progress) + target.offset.dx - offset / 2;
-
     double y = -maxSize / 2 * (1 - progress) + target.offset.dy - offset / 2;
-
     double w = maxSize * (1 - progress) + target.size.width + offset;
-
     double h = maxSize * (1 - progress) + target.size.height + offset;
+
     return radius > 0
-        ? _drawRRectHole(size, x, y, w, h, radius)
-        : _drawRectHole(size, x, y, w, h);
+        ? rRectHolePath(size, x, y, w, h, radius)
+        : rectHolePath(size, x, y, w, h);
   }
 
   @override
@@ -43,7 +41,7 @@ class RectClipper extends CustomClipper<Path> {
     return progress != oldClipper.progress;
   }
 
-  Path _drawRectHole(
+  static Path rectHolePath(
     Size canvasSize,
     double x,
     double y,
@@ -64,7 +62,7 @@ class RectClipper extends CustomClipper<Path> {
       ..close();
   }
 
-  Path _drawRRectHole(
+  static Path rRectHolePath(
     Size canvasSize,
     double x,
     double y,
