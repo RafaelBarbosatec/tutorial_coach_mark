@@ -21,7 +21,7 @@ class TutorialCoachMark {
   final FutureOr<void> Function(TargetFocus)? onClickOverlay;
   final Function()? onFinish;
   final double paddingFocus;
-  // if onSkip return false, the overlay will not be dismissed
+  // if onSkip return false, the overlay will not be dismissed and call `next`
   final bool Function()? onSkip;
   final AlignmentGeometry alignSkip;
   final String textSkip;
@@ -140,6 +140,8 @@ class TutorialCoachMark {
     bool removeOverlay = onSkip?.call() ?? true;
     if (removeOverlay) {
       _removeOverlay();
+    } else {
+      next();
     }
   }
 
