@@ -1,6 +1,7 @@
 library tutorial_coach_mark;
 
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/src/target/target_focus.dart';
@@ -33,6 +34,7 @@ class TutorialCoachMark {
   final bool pulseEnable;
   final Widget? skipWidget;
   final bool showSkipInLastTarget;
+  final ImageFilter? imageFilter;
 
   OverlayEntry? _overlayEntry;
 
@@ -56,6 +58,7 @@ class TutorialCoachMark {
     this.pulseEnable = true,
     this.skipWidget,
     this.showSkipInLastTarget = true,
+    this.imageFilter,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay({bool rootOverlay = false}) {
@@ -83,6 +86,7 @@ class TutorialCoachMark {
           finish: finish,
           rootOverlay: rootOverlay,
           showSkipInLastTarget: showSkipInLastTarget,
+          imageFilter: imageFilter,
         );
       },
     );

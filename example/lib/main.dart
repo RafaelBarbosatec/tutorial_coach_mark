@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
@@ -229,7 +231,8 @@ class MyHomePageState extends State<MyHomePage> {
       colorShadow: Colors.red,
       textSkip: "SKIP",
       paddingFocus: 10,
-      opacityShadow: 0.8,
+      opacityShadow: 0.5,
+      imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       onFinish: () {
         print("finish");
       },

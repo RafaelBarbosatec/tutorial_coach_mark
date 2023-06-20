@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tutorial_coach_mark/src/clipper/circle_clipper.dart';
+import 'package:tutorial_coach_mark/src/clipper/rect_clipper.dart';
 import 'package:tutorial_coach_mark/src/paint/light_paint.dart';
 import 'package:tutorial_coach_mark/src/paint/light_paint_rect.dart';
 import 'package:tutorial_coach_mark/src/target/target_focus.dart';
@@ -25,6 +28,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final Tween<double>? pulseVariation;
   final bool pulseEnable;
   final bool rootOverlay;
+  final ImageFilter? imageFilter;
 
   const AnimatedFocusLight({
     Key? key,
@@ -42,6 +46,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.unFocusAnimationDuration,
     this.pulseAnimationDuration,
     this.pulseVariation,
+    this.imageFilter,
     this.pulseEnable = true,
     this.rootOverlay = false,
   })  : assert(targets.length > 0),
@@ -155,12 +160,12 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
       }
     });
 
-    _controller.forward();
     _controller.duration = _targetFocus.unFocusAnimationDuration ??
         widget.unFocusAnimationDuration ??
         _targetFocus.focusAnimationDuration ??
         widget.focusAnimationDuration ??
         defaultFocusAnimationDuration;
+    _controller.forward();
   }
 
   void _nextFocus() {
@@ -189,15 +194,15 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
 
   void _listener(AnimationStatus status);
 
-  CustomPainter _getPainter(TargetFocus? target) {
-    if (target?.shape == ShapeLightFocus.RRect) {
+  CustomPainter _getPainter(TargetFocus target) {
+    if (target.shape == ShapeLightFocus.RRect) {
       return LightPaintRect(
-        colorShadow: target?.color ?? widget.colorShadow,
+        colorShadow: target.color ?? widget.colorShadow,
         progress: _progressAnimated,
         offset: _getPaddingFocus(),
         target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
-        radius: target?.radius ?? 0,
-        borderSide: target?.borderSide,
+        radius: target.radius ?? 0,
+        borderSide: target.borderSide,
         opacityShadow: widget.opacityShadow,
       );
     } else {
@@ -205,8 +210,8 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
         _progressAnimated,
         _positioned,
         _sizeCircle,
-        colorShadow: target?.color ?? widget.colorShadow,
-        borderSide: target?.borderSide,
+        colorShadow: target.color ?? widget.colorShadow,
+        borderSide: target.borderSide,
         opacityShadow: widget.opacityShadow,
       );
     }
@@ -340,9 +345,11 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
       duration: widget.pulseAnimationDuration ?? defaultPulseAnimationDuration,
     );
 
-    _tweenPulse = _createTweenAnimation(_targetFocus.pulseVariation ??
-        widget.pulseVariation ??
-        defaultPulseVariation);
+    _tweenPulse = _createTweenAnimation(
+      _targetFocus.pulseVariation ??
+          widget.pulseVariation ??
+          defaultPulseVariation,
+    );
 
     _controllerPulse.addStatusListener(_listenerPulse);
   }
@@ -365,13 +372,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
               }
               return Stack(
                 children: <Widget>[
-                  SizedBox(
-                    width: double.maxFinite,
-                    height: double.maxFinite,
-                    child: CustomPaint(
-                      painter: _getPainter(_targetFocus),
-                    ),
-                  ),
+                  _getLightPaint(_targetFocus),
                   Positioned(
                     left: left,
                     top: top,
@@ -401,9 +402,11 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
 
   @override
   void _runFocus() {
-    _tweenPulse = _createTweenAnimation(_targetFocus.pulseVariation ??
-        widget.pulseVariation ??
-        defaultPulseVariation);
+    _tweenPulse = _createTweenAnimation(
+      _targetFocus.pulseVariation ??
+          widget.pulseVariation ??
+          defaultPulseVariation,
+    );
     _finishFocus = false;
     super._runFocus();
   }
@@ -457,7 +460,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
     }
 
     if (status == AnimationStatus.reverse) {
-      widget.removeFocus!();
+      widget.removeFocus?.call();
     }
   }
 
@@ -480,5 +483,46 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
     return tween.animate(
       CurvedAnimation(parent: _controllerPulse, curve: Curves.ease),
     );
+  }
+
+  Widget _getLightPaint(TargetFocus targetFocus) {
+    if (widget.imageFilter != null) {
+      return ClipPath(
+        clipper: _getClipper(targetFocus.shape),
+        child: BackdropFilter(
+          filter: widget.imageFilter!,
+          child: _getSizedPainter(targetFocus),
+        ),
+      );
+    } else {
+      return _getSizedPainter(targetFocus);
+    }
+  }
+
+  SizedBox _getSizedPainter(TargetFocus targetFocus) {
+    return SizedBox(
+      width: double.maxFinite,
+      height: double.maxFinite,
+      child: CustomPaint(
+        painter: _getPainter(targetFocus),
+      ),
+    );
+  }
+
+  CustomClipper<Path> _getClipper(ShapeLightFocus? shape) {
+    return shape == ShapeLightFocus.RRect
+        ? RectClipper(
+            progress: _progressAnimated,
+            offset: _getPaddingFocus(),
+            target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
+            radius: _targetFocus.radius ?? 0,
+            borderSide: _targetFocus.borderSide,
+          )
+        : CircleClipper(
+            _progressAnimated,
+            _positioned,
+            _sizeCircle,
+            _targetFocus.borderSide,
+          );
   }
 }
