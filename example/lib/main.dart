@@ -232,7 +232,7 @@ class MyHomePageState extends State<MyHomePage> {
       textSkip: "SKIP",
       paddingFocus: 10,
       opacityShadow: 0.5,
-      imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+      imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
       onFinish: () {
         print("finish");
       },

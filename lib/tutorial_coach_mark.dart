@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/src/target/target_focus.dart';
+import 'package:tutorial_coach_mark/src/util.dart';
 import 'package:tutorial_coach_mark/src/widgets/tutorial_coach_mark_widget.dart';
 
 export 'package:tutorial_coach_mark/src/target/target_content.dart';
@@ -93,12 +94,9 @@ class TutorialCoachMark {
   }
 
   void show({required BuildContext context, bool rootOverlay = false}) {
-    Future.delayed(Duration.zero, () {
-      if (_overlayEntry == null) {
-        _overlayEntry = _buildOverlay(rootOverlay: rootOverlay);
-        // ignore: invalid_null_aware_operator
-        Overlay.of(context, rootOverlay: rootOverlay)?.insert(_overlayEntry!);
-      }
+    OverlayState? overlay = Overlay.of(context, rootOverlay: rootOverlay);
+    overlay.let((it) {
+      showWithOverlayState(overlay: it, rootOverlay: rootOverlay);
     });
   }
 
@@ -107,12 +105,29 @@ class TutorialCoachMark {
     required GlobalKey<NavigatorState> navigatorKey,
     bool rootOverlay = false,
   }) {
-    Future.delayed(Duration.zero, () {
-      if (_overlayEntry == null) {
-        _overlayEntry = _buildOverlay(rootOverlay: rootOverlay);
-        navigatorKey.currentState?.overlay?.insert(_overlayEntry!);
-      }
+    navigatorKey.currentState?.overlay.let((it) {
+      showWithOverlayState(
+        overlay: it,
+        rootOverlay: rootOverlay,
+      );
     });
+  }
+
+  void showWithOverlayState({
+    required OverlayState overlay,
+    bool rootOverlay = false,
+  }) {
+    postFrame(() => _createAndShow(overlay, rootOverlay: rootOverlay));
+  }
+
+  void _createAndShow(
+    OverlayState overlay, {
+    bool rootOverlay = false,
+  }) {
+    if (_overlayEntry == null) {
+      _overlayEntry = _buildOverlay(rootOverlay: rootOverlay);
+      overlay.insert(_overlayEntry!);
+    }
   }
 
   void finish() {
