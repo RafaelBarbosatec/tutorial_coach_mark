@@ -249,6 +249,7 @@ class MyHomePageState extends State<MyHomePage> {
       },
       onSkip: () {
         print("skip");
+        return true;
       },
     );
   }
