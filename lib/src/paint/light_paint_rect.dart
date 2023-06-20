@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:tutorial_coach_mark/src/clipper/rect_clipper.dart';
 import 'package:tutorial_coach_mark/src/target/target_position.dart';
 
 class LightPaintRect extends CustomPainter {
@@ -21,72 +22,6 @@ class LightPaintRect extends CustomPainter {
     this.radius = 10,
     this.borderSide,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
-
-  static Path _drawRectHole(
-    Size canvasSize,
-    double x,
-    double y,
-    double w,
-    double h,
-  ) {
-    return Path()
-      ..moveTo(0, 0)
-      ..lineTo(0, y)
-      ..lineTo(x + w, y)
-      ..lineTo(x + w, y + h)
-      ..lineTo(x, y + h)
-      ..lineTo(x, y)
-      ..lineTo(0, y)
-      ..lineTo(0, canvasSize.height)
-      ..lineTo(canvasSize.width, canvasSize.height)
-      ..lineTo(canvasSize.width, 0)
-      ..close();
-  }
-
-  static Path _drawRRectHole(
-    Size canvasSize,
-    double x,
-    double y,
-    double w,
-    double h,
-    double radius,
-  ) {
-    double diameter = radius * 2;
-
-    return Path()
-      ..moveTo(0, 0)
-      ..lineTo(0, y + radius)
-      ..arcTo(
-        Rect.fromLTWH(x, y, diameter, diameter),
-        pi,
-        pi / 2,
-        false,
-      )
-      ..arcTo(
-        Rect.fromLTWH(x + w - diameter, y, diameter, diameter),
-        3 * pi / 2,
-        pi / 2,
-        false,
-      )
-      ..arcTo(
-        Rect.fromLTWH(x + w - diameter, y + h - diameter, diameter, diameter),
-        0,
-        pi / 2,
-        false,
-      )
-      ..arcTo(
-        Rect.fromLTWH(x, y + h - diameter, diameter, diameter),
-        pi / 2,
-        pi / 2,
-        false,
-      )
-      ..lineTo(x, y + radius)
-      ..lineTo(0, y + radius)
-      ..lineTo(0, canvasSize.height)
-      ..lineTo(canvasSize.width, canvasSize.height)
-      ..lineTo(canvasSize.width, 0)
-      ..close();
-  }
 
   static Path _drawJustHole(
     Size canvasSize,
@@ -161,8 +96,8 @@ class LightPaintRect extends CustomPainter {
 
     canvas.drawPath(
       radius > 0
-          ? _drawRRectHole(size, x, y, w, h, radius)
-          : _drawRectHole(size, x, y, w, h),
+          ? RectClipper.rRectHolePath(size, x, y, w, h, radius)
+          : RectClipper.rectHolePath(size, x, y, w, h),
       Paint()
         ..style = PaintingStyle.fill
         ..color = colorShadow.withOpacity(opacityShadow)

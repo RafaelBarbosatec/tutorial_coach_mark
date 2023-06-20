@@ -1,3 +1,8 @@
+# 1.2.9
+- set `ignoringSemantics` false in `skip` button. Reolve [#156](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/156)
+- adds `ImageFilter`. Now is possible apply blur in the shadow. [#151](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/151)
+- Adds option to show the tutorial without context. `showWithNavigatorStateKey` and `showWithOverlayState`
+
 # 1.2.8
 - Adds Method 'insert' cannot be called on 'OverlayState?' because it is potentially null. Called using ?. instead.
 
