@@ -39,7 +39,7 @@ TargetPosition? getTargetCurrent(
 
       return TargetPosition(size, offset);
     } catch (e) {
-      throw NotFoundTargetException();
+      throw NotFoundTargetException(target.identify);
     }
   } else {
     return target.targetPosition;
@@ -62,8 +62,8 @@ extension StateExt on State {
 }
 
 class NotFoundTargetException extends FormatException {
-  NotFoundTargetException()
-      : super('It was not possible to obtain target position.');
+  NotFoundTargetException(identify)
+      : super('It was not possible to obtain target position ($identify).');
 }
 
 void postFrame(VoidCallback callback) {
