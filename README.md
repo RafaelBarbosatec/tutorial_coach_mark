@@ -29,7 +29,8 @@ void showTutorial() {
        // unFocusAnimationDuration: Duration(milliseconds: 500),
        // pulseAnimationDuration: Duration(milliseconds: 500),
        // pulseVariation: Tween(begin: 1.0, end: 0.99),
-       // showSkipInLastTarget: false,
+       // showSkipInLastTarget: true,
+       // imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
       onFinish: (){
         print("finish");
       },

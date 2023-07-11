@@ -97,3 +97,7 @@ app.*.symbols
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
+
+example/pubspec.lock
+pubspec.lock
+tutorial_coach_mark.iml
