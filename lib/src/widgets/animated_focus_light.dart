@@ -422,12 +422,10 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
       targetTap: targetTap,
       overlayTap: overlayTap,
     );
-    if (mounted) {
-      safeSetState(() {
-        _goNext = goNext;
-        _initReverse = true;
-      });
-    }
+    safeSetState(() {
+      _goNext = goNext;
+      _initReverse = true;
+    });
 
     _controllerPulse.reverse(from: _controllerPulse.value);
   }
