@@ -262,7 +262,6 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: IgnorePointer(
-                ignoringSemantics: false,
                 child: widget.skipWidget ??
                     Text(
                       widget.textSkip,
