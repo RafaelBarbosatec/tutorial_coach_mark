@@ -31,6 +31,8 @@ void showTutorial() {
        // pulseVariation: Tween(begin: 1.0, end: 0.99),
        // showSkipInLastTarget: true,
        // imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+       // initialFocus: 0,
+       // useSafeArea: true,
       onFinish: (){
         print("finish");
       },
@@ -50,6 +52,7 @@ void showTutorial() {
     // tutorial.finish();
     // tutorial.next(); // call next target programmatically
     // tutorial.previous(); // call previous target programmatically
+    // tutorial.goTo(3); // call target programmatically by index
   }
 ```
 
