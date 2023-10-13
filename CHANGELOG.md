@@ -1,5 +1,6 @@
 # next
 - now `onSkip` return a bool. if onSkip return false, the overlay will not be dismissed and call `next`. [#89](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/89)
+- Able to set to use or not SafeArea widget. Thanks [devmasteripatas](https://github.com/devmasteripatas).
 
 # 1.2.9
 - set `ignoringSemantics` false in `skip` button. Reolve [#156](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/156)
