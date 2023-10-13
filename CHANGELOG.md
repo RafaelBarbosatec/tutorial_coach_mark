@@ -1,5 +1,6 @@
 # next
 - now `onSkip` return a bool. if onSkip return false, the overlay will not be dismissed and call `next`. [#89](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/89)
+- Added the functionality "currentFocus" to change the foucs of the tutorial. On setting the "currentFocus" to an int we will be able to switch to the widget of focus we want
 
 # 1.2.9
 - set `ignoringSemantics` false in `skip` button. Reolve [#156](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/156)
