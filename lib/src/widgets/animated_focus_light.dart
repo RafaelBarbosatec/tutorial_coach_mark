@@ -77,6 +77,9 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
   double _progressAnimated = 0;
   int nextIndex = 0;
 
+  Future _revertAnimation();
+  void _listener(AnimationStatus status);
+
   @override
   void initState() {
     super.initState();
@@ -128,8 +131,6 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
     }
     return _revertAnimation();
   }
-
-  Future _revertAnimation();
 
   Future _tapHandlerForPosition(TapDownDetails tapDetails) async {
     await widget.clickTargetWithTapPosition?.call(_targetFocus, tapDetails);
@@ -196,7 +197,46 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
     widget.finish!();
   }
 
-  void _listener(AnimationStatus status);
+  Widget _getLightPaint(TargetFocus targetFocus) {
+    if (widget.imageFilter != null) {
+      return ClipPath(
+        clipper: _getClipper(targetFocus.shape),
+        child: BackdropFilter(
+          filter: widget.imageFilter!,
+          child: _getSizedPainter(targetFocus),
+        ),
+      );
+    } else {
+      return _getSizedPainter(targetFocus);
+    }
+  }
+
+  SizedBox _getSizedPainter(TargetFocus targetFocus) {
+    return SizedBox(
+      width: double.maxFinite,
+      height: double.maxFinite,
+      child: CustomPaint(
+        painter: _getPainter(targetFocus),
+      ),
+    );
+  }
+
+  CustomClipper<Path> _getClipper(ShapeLightFocus? shape) {
+    return shape == ShapeLightFocus.RRect
+        ? RectClipper(
+            progress: _progressAnimated,
+            offset: _getPaddingFocus(),
+            target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
+            radius: _targetFocus.radius ?? 0,
+            borderSide: _targetFocus.borderSide,
+          )
+        : CircleClipper(
+            _progressAnimated,
+            _positioned,
+            _sizeCircle,
+            _targetFocus.borderSide,
+          );
+  }
 
   CustomPainter _getPainter(TargetFocus target) {
     if (target.shape == ShapeLightFocus.RRect) {
@@ -258,13 +298,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
           _progressAnimated = _curvedAnimation.value;
           return Stack(
             children: <Widget>[
-              SizedBox(
-                width: double.maxFinite,
-                height: double.maxFinite,
-                child: CustomPaint(
-                  painter: _getPainter(_targetFocus),
-                ),
-              ),
+              _getLightPaint(_targetFocus),
               Positioned(
                 left: left,
                 top: top,
@@ -457,46 +491,5 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
     return tween.animate(
       CurvedAnimation(parent: _controllerPulse, curve: Curves.ease),
     );
-  }
-
-  Widget _getLightPaint(TargetFocus targetFocus) {
-    if (widget.imageFilter != null) {
-      return ClipPath(
-        clipper: _getClipper(targetFocus.shape),
-        child: BackdropFilter(
-          filter: widget.imageFilter!,
-          child: _getSizedPainter(targetFocus),
-        ),
-      );
-    } else {
-      return _getSizedPainter(targetFocus);
-    }
-  }
-
-  SizedBox _getSizedPainter(TargetFocus targetFocus) {
-    return SizedBox(
-      width: double.maxFinite,
-      height: double.maxFinite,
-      child: CustomPaint(
-        painter: _getPainter(targetFocus),
-      ),
-    );
-  }
-
-  CustomClipper<Path> _getClipper(ShapeLightFocus? shape) {
-    return shape == ShapeLightFocus.RRect
-        ? RectClipper(
-            progress: _progressAnimated,
-            offset: _getPaddingFocus(),
-            target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
-            radius: _targetFocus.radius ?? 0,
-            borderSide: _targetFocus.borderSide,
-          )
-        : CircleClipper(
-            _progressAnimated,
-            _positioned,
-            _sizeCircle,
-            _targetFocus.borderSide,
-          );
   }
 }

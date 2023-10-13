@@ -1,3 +1,6 @@
+# 1.2.11
+- Fix issue [165](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/165)
+
 # 1.2.10
 - now `onSkip` return a bool. if onSkip return false, the overlay will not be dismissed and call `next`. [#89](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/89)
 - Able to set to use or not SafeArea widget. Thanks [devmasteripatas](https://github.com/devmasteripatas).
