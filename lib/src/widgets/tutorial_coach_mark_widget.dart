@@ -24,6 +24,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.opacityShadow = 0.8,
     this.textStyleSkip = const TextStyle(color: Colors.white),
     this.hideSkip = false,
+    this.useSafeArea = true,
     this.focusAnimationDuration,
     this.unFocusAnimationDuration,
     this.pulseAnimationDuration,
@@ -50,6 +51,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final String textSkip;
   final TextStyle textStyleSkip;
   final bool hideSkip;
+  final bool useSafeArea;
   final Duration? focusAnimationDuration;
   final Duration? unFocusAnimationDuration;
   final Duration? pulseAnimationDuration;
@@ -251,29 +253,31 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
       return const SizedBox.shrink();
     }
 
-    return Align(
-      alignment: currentTarget?.alignSkip ?? widget.alignSkip,
-      child: SafeArea(
-        child: AnimatedOpacity(
-          opacity: showContent ? 1 : 0,
-          duration: const Duration(milliseconds: 300),
-          child: InkWell(
-            onTap: skip,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: IgnorePointer(
-                child: widget.skipWidget ??
-                    Text(
-                      widget.textSkip,
-                      style: widget.textStyleSkip,
-                    ),
+  Widget animatedWidget = AnimatedOpacity(
+    opacity: showContent ? 1 : 0,
+    duration: const Duration(milliseconds: 300),
+    child: InkWell(
+      onTap: skip,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: IgnorePointer(
+          ignoringSemantics: false,
+          child: widget.skipWidget ??
+              Text(
+                widget.textSkip,
+                style: widget.textStyleSkip,
               ),
-            ),
-          ),
         ),
       ),
-    );
-  }
+    ),
+  );
+
+  return Align(
+    alignment: currentTarget?.alignSkip ?? widget.alignSkip,
+    child: (widget.useSafeArea)
+        ? SafeArea(child: animatedWidget)
+        : animatedWidget,
+  );
 
   @override
   void skip() => widget.onClickSkip?.call();

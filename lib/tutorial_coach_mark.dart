@@ -27,6 +27,7 @@ class TutorialCoachMark {
   final String textSkip;
   final TextStyle textStyleSkip;
   final bool hideSkip;
+  final bool useSafeArea;
   final Color colorShadow;
   final double opacityShadow;
   final GlobalKey<TutorialCoachMarkWidgetState> _widgetKey = GlobalKey();
@@ -53,6 +54,7 @@ class TutorialCoachMark {
     this.textSkip = "SKIP",
     this.textStyleSkip = const TextStyle(color: Colors.white),
     this.hideSkip = false,
+    this.useSafeArea = true,
     this.opacityShadow = 0.8,
     this.focusAnimationDuration = const Duration(milliseconds: 600),
     this.unFocusAnimationDuration = const Duration(milliseconds: 600),
@@ -79,6 +81,7 @@ class TutorialCoachMark {
           textSkip: textSkip,
           textStyleSkip: textStyleSkip,
           hideSkip: hideSkip,
+          useSafeArea: useSafeArea,
           colorShadow: colorShadow,
           opacityShadow: opacityShadow,
           focusAnimationDuration: focusAnimationDuration,
@@ -146,6 +149,8 @@ class TutorialCoachMark {
   }
 
   bool get isShowing => _overlayEntry != null;
+
+  GlobalKey<TutorialCoachMarkWidgetState> get widgetKey => _widgetKey;
 
   void next() => _widgetKey.currentState?.next();
 
