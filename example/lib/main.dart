@@ -236,6 +236,9 @@ class MyHomePageState extends State<MyHomePage> {
       onFinish: () {
         print("finish");
       },
+      onVerticalDragTargetEnd: (target) {
+        print('onDragTargetSwipeUp: $target');
+      },
       onClickTarget: (target) {
         print('onClickTarget: $target');
       },

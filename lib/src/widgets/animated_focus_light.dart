@@ -14,6 +14,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final List<TargetFocus> targets;
   final Function(TargetFocus)? focus;
   final FutureOr Function(TargetFocus)? clickTarget;
+  final FutureOr Function(TargetFocus)? onVerticalDragTargetEnd;
   final FutureOr Function(TargetFocus, TapDownDetails)?
       clickTargetWithTapPosition;
   final FutureOr Function(TargetFocus)? clickOverlay;
@@ -37,6 +38,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.finish,
     this.removeFocus,
     this.clickTarget,
+    this.onVerticalDragTargetEnd,
     this.clickTargetWithTapPosition,
     this.clickOverlay,
     this.paddingFocus = 10,
@@ -107,10 +109,14 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
   Future _tapHandler({
     bool goNext = true,
     bool targetTap = false,
+    bool targetVerticalDrag = false,
     bool overlayTap = false,
   }) async {
     if (targetTap) {
       await widget.clickTarget?.call(_targetFocus);
+    }
+    if (targetVerticalDrag) {
+      await widget.onVerticalDragTargetEnd?.call(_targetFocus);
     }
     if (overlayTap) {
       await widget.clickOverlay?.call(_targetFocus);
@@ -272,10 +278,14 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
 
                       /// Essential for collecting [TapDownDetails]. Do not make [null]
                       : () {},
-                  child: Container(
-                    color: Colors.transparent,
-                    width: width,
-                    height: height,
+                  child: GestureDetector(
+                    onVerticalDragEnd: (_) =>
+                        _tapHandler(targetVerticalDrag: true),
+                    child: Container(
+                      color: Colors.transparent,
+                      width: width,
+                      height: height,
+                    ),
                   ),
                 ),
               )
@@ -290,11 +300,13 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
   Future _tapHandler({
     bool goNext = true,
     bool targetTap = false,
+    bool targetVerticalDrag = false,
     bool overlayTap = false,
   }) async {
     await super._tapHandler(
       goNext: goNext,
       targetTap: targetTap,
+      targetVerticalDrag: targetVerticalDrag,
       overlayTap: overlayTap,
     );
     safeSetState(() => _goNext = goNext);
@@ -384,10 +396,14 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
                           /// Essential for collecting [TapDownDetails]. Do not make [null]
                           : () {},
                       onTapDown: _tapHandlerForPosition,
-                      child: Container(
-                        color: Colors.transparent,
-                        width: width,
-                        height: height,
+                      child: GestureDetector(
+                        onVerticalDragEnd: (_) =>
+                            _tapHandler(targetVerticalDrag: true),
+                        child: Container(
+                          color: Colors.transparent,
+                          width: width,
+                          height: height,
+                        ),
                       ),
                     ),
                   )
@@ -415,11 +431,13 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
   Future _tapHandler({
     bool goNext = true,
     bool targetTap = false,
+    bool targetVerticalDrag = false,
     bool overlayTap = false,
   }) async {
     await super._tapHandler(
       goNext: goNext,
       targetTap: targetTap,
+      targetVerticalDrag: targetVerticalDrag,
       overlayTap: overlayTap,
     );
     safeSetState(() {

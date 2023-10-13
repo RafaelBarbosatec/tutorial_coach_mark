@@ -16,6 +16,7 @@ export 'package:tutorial_coach_mark/src/util.dart';
 class TutorialCoachMark {
   final List<TargetFocus> targets;
   final FutureOr<void> Function(TargetFocus)? onClickTarget;
+  final FutureOr<void> Function(TargetFocus)? onVerticalDragTargetEnd;
   final FutureOr<void> Function(TargetFocus, TapDownDetails)?
       onClickTargetWithTapPosition;
   final FutureOr<void> Function(TargetFocus)? onClickOverlay;
@@ -44,6 +45,7 @@ class TutorialCoachMark {
     required this.targets,
     this.colorShadow = Colors.black,
     this.onClickTarget,
+    this.onVerticalDragTargetEnd,
     this.onClickTargetWithTapPosition,
     this.onClickOverlay,
     this.onFinish,
@@ -70,6 +72,7 @@ class TutorialCoachMark {
           key: _widgetKey,
           targets: targets,
           clickTarget: onClickTarget,
+          onVerticalDragTargetEnd: onVerticalDragTargetEnd,
           onClickTargetWithTapPosition: onClickTargetWithTapPosition,
           clickOverlay: onClickOverlay,
           paddingFocus: paddingFocus,
