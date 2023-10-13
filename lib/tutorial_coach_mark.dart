@@ -38,6 +38,7 @@ class TutorialCoachMark {
   final Widget? skipWidget;
   final bool showSkipInLastTarget;
   final ImageFilter? imageFilter;
+  final int initialFocus;
 
   OverlayEntry? _overlayEntry;
 
@@ -63,6 +64,7 @@ class TutorialCoachMark {
     this.skipWidget,
     this.showSkipInLastTarget = true,
     this.imageFilter,
+    this.initialFocus = 0,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay({bool rootOverlay = false}) {
@@ -92,6 +94,7 @@ class TutorialCoachMark {
           rootOverlay: rootOverlay,
           showSkipInLastTarget: showSkipInLastTarget,
           imageFilter: imageFilter,
+          initialFocus: initialFocus,
         );
       },
     );
@@ -155,6 +158,8 @@ class TutorialCoachMark {
   void next() => _widgetKey.currentState?.next();
 
   void previous() => _widgetKey.currentState?.previous();
+
+  void goTo(int index) => _widgetKey.currentState?.goTo(index);
 
   void _removeOverlay() {
     _overlayEntry?.remove();

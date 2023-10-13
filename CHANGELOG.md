@@ -1,6 +1,8 @@
-# next
+# 1.2.10
 - now `onSkip` return a bool. if onSkip return false, the overlay will not be dismissed and call `next`. [#89](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/89)
 - Able to set to use or not SafeArea widget. Thanks [devmasteripatas](https://github.com/devmasteripatas).
+- Adds `initialFocus` in `TutorialCoachMark` to select witch focus you want init.
+- Adds method `goTo(index)` in `TutorialCoachMark` to navigate to focus you want.
 
 # 1.2.9
 - set `ignoringSemantics` false in `skip` button. Reolve [#156](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/156)

@@ -320,15 +320,24 @@ class MyHomePageState extends State<MyHomePage> {
           TargetContent(
             align: ContentAlign.top,
             builder: (context, controller) {
-              return const Column(
+              return Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
+                  const Text(
                     "Titulo lorem ipsum",
                     style: TextStyle(
                       color: Colors.white,
                     ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      tutorialCoachMark.goTo(0);
+                    },
+                    child: const Text('Go to index 0'),
                   ),
                 ],
               );
