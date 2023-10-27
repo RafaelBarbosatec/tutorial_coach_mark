@@ -1,3 +1,6 @@
+# next
+- Fix Missing the `PulseAnimationDuration` settings from TargetFocus
+
 # 1.2.11
 - Fix issue [165](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/165)
 
