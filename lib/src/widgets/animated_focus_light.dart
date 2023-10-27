@@ -366,9 +366,11 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
     super.initState();
     _controllerPulse = AnimationController(
       vsync: this,
-      duration: widget.pulseAnimationDuration ?? defaultPulseAnimationDuration,
+      duration: _targetFocus.pulseAnimationDuration ??
+          widget.pulseAnimationDuration ??
+          defaultPulseAnimationDuration,
     );
-
+    
     _tweenPulse = _createTweenAnimation(
       _targetFocus.pulseVariation ??
           widget.pulseVariation ??
