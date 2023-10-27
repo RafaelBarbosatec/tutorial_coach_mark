@@ -370,7 +370,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
           widget.pulseAnimationDuration ??
           defaultPulseAnimationDuration,
     );
-    
+
     _tweenPulse = _createTweenAnimation(
       _targetFocus.pulseVariation ??
           widget.pulseVariation ??
