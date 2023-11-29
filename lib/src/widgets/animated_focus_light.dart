@@ -11,28 +11,9 @@ import 'package:tutorial_coach_mark/src/target/target_position.dart';
 import 'package:tutorial_coach_mark/src/util.dart';
 
 class AnimatedFocusLight extends StatefulWidget {
-  final List<TargetFocus> targets;
-  final Function(TargetFocus)? focus;
-  final FutureOr Function(TargetFocus)? clickTarget;
-  final FutureOr Function(TargetFocus, TapDownDetails)?
-      clickTargetWithTapPosition;
-  final FutureOr Function(TargetFocus)? clickOverlay;
-  final Function? removeFocus;
-  final Function()? finish;
-  final double paddingFocus;
-  final Color colorShadow;
-  final double opacityShadow;
-  final Duration? focusAnimationDuration;
-  final Duration? unFocusAnimationDuration;
-  final Duration? pulseAnimationDuration;
-  final Tween<double>? pulseVariation;
-  final bool pulseEnable;
-  final bool rootOverlay;
-  final ImageFilter? imageFilter;
-
   const AnimatedFocusLight({
-    Key? key,
     required this.targets,
+    Key? key,
     this.focus,
     this.finish,
     this.removeFocus,
@@ -51,6 +32,24 @@ class AnimatedFocusLight extends StatefulWidget {
     this.rootOverlay = false,
   })  : assert(targets.length > 0),
         super(key: key);
+  final List<TargetFocus> targets;
+  final Function(TargetFocus)? focus;
+  final FutureOr<void> Function(TargetFocus)? clickTarget;
+  final FutureOr<void> Function(TargetFocus, TapDownDetails)?
+      clickTargetWithTapPosition;
+  final FutureOr<void> Function(TargetFocus)? clickOverlay;
+  final Function? removeFocus;
+  final Function()? finish;
+  final double paddingFocus;
+  final Color colorShadow;
+  final double opacityShadow;
+  final Duration? focusAnimationDuration;
+  final Duration? unFocusAnimationDuration;
+  final Duration? pulseAnimationDuration;
+  final Tween<double>? pulseVariation;
+  final bool pulseEnable;
+  final bool rootOverlay;
+  final ImageFilter? imageFilter;
 
   @override
   // ignore: no_logic_in_create_state
@@ -67,13 +66,14 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
   late CurvedAnimation _curvedAnimation;
 
   late TargetFocus _targetFocus;
-  Offset _positioned = const Offset(0.0, 0.0);
+  Offset _positioned = Offset.zero;
   TargetPosition? _targetPosition;
 
   double _sizeCircle = 100;
   int _currentFocus = 0;
   double _progressAnimated = 0;
   bool _goNext = true;
+  bool _isAnimating = false;
 
   @override
   void initState() {
@@ -100,11 +100,11 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
     super.dispose();
   }
 
-  void next() => _tapHandler();
+  Future<void> next() async => _tapHandler();
 
-  void previous() => _tapHandler(goNext: false);
+  Future<void> previous() async => _tapHandler(goNext: false);
 
-  Future _tapHandler({
+  Future<void> _tapHandler({
     bool goNext = true,
     bool targetTap = false,
     bool overlayTap = false,
@@ -117,11 +117,11 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
     }
   }
 
-  Future _tapHandlerForPosition(TapDownDetails tapDetails) async {
+  Future<void> _tapHandlerForPosition(TapDownDetails tapDetails) async {
     await widget.clickTargetWithTapPosition?.call(_targetFocus, tapDetails);
   }
 
-  void _runFocus() {
+  Future<void> _runFocus() async {
     if (_currentFocus < 0) return;
     _targetFocus = widget.targets[_currentFocus];
 
@@ -146,6 +146,7 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
     }
 
     safeSetState(() {
+      // ignore: unnecessary_null_checks
       _targetPosition = targetPosition!;
 
       _positioned = Offset(
@@ -165,26 +166,32 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
         _targetFocus.focusAnimationDuration ??
         widget.focusAnimationDuration ??
         defaultFocusAnimationDuration;
-    _controller.forward();
+    await _controller.forward();
   }
 
-  void _nextFocus() {
+  Future<void> _nextFocus() async {
     if (_currentFocus >= widget.targets.length - 1) {
       _finish();
       return;
     }
     _currentFocus++;
 
-    _runFocus();
+    await _runFocus();
+    safeSetState(() {
+      _isAnimating = false;
+    });
   }
 
-  void _previousFocus() {
+  Future<void> _previousFocus() async {
     if (_currentFocus <= 0) {
       _finish();
       return;
     }
     _currentFocus--;
-    _runFocus();
+    await _runFocus();
+    safeSetState(() {
+      _isAnimating = false;
+    });
   }
 
   void _finish() {
@@ -222,12 +229,14 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
   }
 
   BorderRadius _betBorderRadiusTarget() {
-    double radius = _targetFocus.shape == ShapeLightFocus.Circle
+    final radius = _targetFocus.shape == ShapeLightFocus.Circle
         ? _targetPosition?.size.width ?? borderRadiusDefault
         : _targetFocus.radius ?? borderRadiusDefault;
     return BorderRadius.circular(radius);
   }
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
   double get left => (_targetPosition?.offset.dx ?? 0) - _getPaddingFocus() * 2;
@@ -268,9 +277,15 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
                   borderRadius: _betBorderRadiusTarget(),
                   onTapDown: _tapHandlerForPosition,
                   onTap: _targetFocus.enableTargetTab
-                      ? () => _tapHandler(targetTap: true)
-
-                      /// Essential for collecting [TapDownDetails]. Do not make [null]
+                      ? () async {
+                          if (_isAnimating) return;
+                          debugPrint('Is animating');
+                          safeSetState(() {
+                            _isAnimating = true;
+                          });
+                          await _tapHandler(targetTap: true);
+                          debugPrint('is no longer animating');
+                        }
                       : () {},
                   child: Container(
                     color: Colors.transparent,
@@ -278,7 +293,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
                     height: height,
                   ),
                 ),
-              )
+              ),
             ],
           );
         },
@@ -287,7 +302,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
   }
 
   @override
-  Future _tapHandler({
+  Future<void> _tapHandler({
     bool goNext = true,
     bool targetTap = false,
     bool overlayTap = false,
@@ -298,7 +313,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
       overlayTap: overlayTap,
     );
     safeSetState(() => _goNext = goNext);
-    _controller.reverse();
+    await _controller.reverse();
   }
 
   @override
@@ -320,22 +335,26 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
   final defaultPulseAnimationDuration = const Duration(milliseconds: 500);
   final defaultPulseVariation = Tween(begin: 1.0, end: 0.99);
   late AnimationController _controllerPulse;
-  late Animation _tweenPulse;
+  late Animation<double> _tweenPulse;
 
   bool _finishFocus = false;
   bool _initReverse = false;
 
-  get left => (_targetPosition?.offset.dx ?? 0) - _getPaddingFocus() * 2;
+  double get left => (_targetPosition?.offset.dx ?? 0) - _getPaddingFocus() * 2;
 
-  get top => (_targetPosition?.offset.dy ?? 0) - _getPaddingFocus() * 2;
+  double get top => (_targetPosition?.offset.dy ?? 0) - _getPaddingFocus() * 2;
 
-  get width => (_targetPosition?.size.width ?? 0) + _getPaddingFocus() * 4;
+  double get width =>
+      (_targetPosition?.size.width ?? 0) + _getPaddingFocus() * 4;
 
-  get height => (_targetPosition?.size.height ?? 0) + _getPaddingFocus() * 4;
+  double get height =>
+      (_targetPosition?.size.height ?? 0) + _getPaddingFocus() * 4;
 
   @override
   void initState() {
@@ -379,18 +398,25 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
                     child: InkWell(
                       borderRadius: _betBorderRadiusTarget(),
                       onTap: _targetFocus.enableTargetTab
-                          ? () => _tapHandler(targetTap: true)
-
-                          /// Essential for collecting [TapDownDetails]. Do not make [null]
+                          ? () async {
+                              if (_isAnimating) return;
+                              debugPrint('is animating');
+                              safeSetState(() {
+                                _isAnimating = true;
+                              });
+                              await _tapHandler(targetTap: true);
+                              debugPrint('is no longer animating');
+                            }
                           : () {},
-                      onTapDown: _tapHandlerForPosition,
+                      onTapDown: (tapDownDetails) async =>
+                          _tapHandlerForPosition(tapDownDetails),
                       child: Container(
                         color: Colors.transparent,
                         width: width,
                         height: height,
                       ),
                     ),
-                  )
+                  ),
                 ],
               );
             },
@@ -401,18 +427,18 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
   }
 
   @override
-  void _runFocus() {
+  Future<void> _runFocus() async {
     _tweenPulse = _createTweenAnimation(
       _targetFocus.pulseVariation ??
           widget.pulseVariation ??
           defaultPulseVariation,
     );
     _finishFocus = false;
-    super._runFocus();
+    await super._runFocus();
   }
 
   @override
-  Future _tapHandler({
+  Future<void> _tapHandler({
     bool goNext = true,
     bool targetTap = false,
     bool overlayTap = false,
@@ -422,14 +448,12 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
       targetTap: targetTap,
       overlayTap: overlayTap,
     );
-    if (mounted) {
-      safeSetState(() {
-        _goNext = goNext;
-        _initReverse = true;
-      });
-    }
+    safeSetState(() {
+      _goNext = goNext;
+      _initReverse = true;
+    });
 
-    _controllerPulse.reverse(from: _controllerPulse.value);
+    await _controllerPulse.reverse(from: _controllerPulse.value);
   }
 
   @override
@@ -479,7 +503,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
     }
   }
 
-  Animation _createTweenAnimation(Tween<double> tween) {
+  Animation<double> _createTweenAnimation(Tween<double> tween) {
     return tween.animate(
       CurvedAnimation(parent: _controllerPulse, curve: Curves.ease),
     );

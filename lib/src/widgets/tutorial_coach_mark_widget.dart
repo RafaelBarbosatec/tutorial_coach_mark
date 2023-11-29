@@ -10,15 +10,15 @@ import 'package:tutorial_coach_mark/src/widgets/animated_focus_light.dart';
 
 class TutorialCoachMarkWidget extends StatefulWidget {
   const TutorialCoachMarkWidget({
-    Key? key,
     required this.targets,
+    Key? key,
     this.finish,
     this.paddingFocus = 10,
     this.clickTarget,
     this.onClickTargetWithTapPosition,
     this.clickOverlay,
     this.alignSkip = Alignment.bottomRight,
-    this.textSkip = "SKIP",
+    this.textSkip = 'SKIP',
     this.onClickSkip,
     this.colorShadow = Colors.black,
     this.opacityShadow = 0.8,
@@ -33,19 +33,19 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.rootOverlay = false,
     this.showSkipInLastTarget = false,
     this.imageFilter,
-  })  : assert(targets.length > 0),
+  })  : assert(targets.length > 0, 'You need to provide at least one Target'),
         super(key: key);
 
   final List<TargetFocus> targets;
-  final FutureOr Function(TargetFocus)? clickTarget;
-  final FutureOr Function(TargetFocus, TapDownDetails)?
+  final FutureOr<void> Function(TargetFocus)? clickTarget;
+  final FutureOr<void> Function(TargetFocus, TapDownDetails)?
       onClickTargetWithTapPosition;
-  final FutureOr Function(TargetFocus)? clickOverlay;
-  final Function()? finish;
+  final FutureOr<void> Function(TargetFocus)? clickOverlay;
+  final VoidCallback? finish;
   final Color colorShadow;
   final double opacityShadow;
   final double paddingFocus;
-  final Function()? onClickSkip;
+  final VoidCallback? onClickSkip;
   final AlignmentGeometry alignSkip;
   final String textSkip;
   final TextStyle textStyleSkip;
@@ -90,13 +90,9 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             pulseEnable: widget.pulseEnable,
             rootOverlay: widget.rootOverlay,
             imageFilter: widget.imageFilter,
-            clickTarget: (target) {
-              return widget.clickTarget?.call(target);
-            },
-            clickTargetWithTapPosition: (target, tapDetails) {
-              return widget.onClickTargetWithTapPosition
-                  ?.call(target, tapDetails);
-            },
+            clickTarget: (target) async => widget.clickTarget?.call(target),
+            clickTargetWithTapPosition: (target, tapDetails) async =>
+                widget.onClickTargetWithTapPosition?.call(target, tapDetails),
             clickOverlay: (target) {
               return widget.clickOverlay?.call(target);
             },
@@ -117,7 +113,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             duration: const Duration(milliseconds: 300),
             child: _buildContents(),
           ),
-          _buildSkip()
+          _buildSkip(),
         ],
       ),
     );
@@ -128,7 +124,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
       return const SizedBox.shrink();
     }
 
-    List<Widget> children = <Widget>[];
+    var children = <Widget>[];
 
     TargetPosition? target;
     try {
@@ -145,7 +141,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
       return const SizedBox.shrink();
     }
 
-    var positioned = Offset(
+    final positioned = Offset(
       target.offset.dx + target.size.width / 2,
       target.offset.dy + target.size.height / 2,
     );
@@ -166,7 +162,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
     haloWidth = haloWidth * 0.6 + widget.paddingFocus;
     haloHeight = haloHeight * 0.6 + widget.paddingFocus;
 
-    double weight = 0.0;
+    var weight = 0.0;
     double? top;
     double? bottom;
     double? left;
@@ -240,7 +236,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
   }
 
   Widget _buildSkip() {
-    bool isLastTarget = false;
+    var isLastTarget = false;
 
     if (currentTarget != null) {
       isLastTarget =
@@ -277,11 +273,11 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
   }
 
   @override
-  void skip() => widget.onClickSkip?.call();
+  Future<void> skip() async => widget.onClickSkip?.call();
 
   @override
-  void next() => _focusLightKey.currentState?.next();
+  Future<void> next() async => _focusLightKey.currentState?.next();
 
   @override
-  void previous() => _focusLightKey.currentState?.previous();
+  Future<void> previous() async => _focusLightKey.currentState?.previous();
 }

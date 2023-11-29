@@ -19,9 +19,9 @@ class TutorialCoachMark {
   final FutureOr<void> Function(TargetFocus, TapDownDetails)?
       onClickTargetWithTapPosition;
   final FutureOr<void> Function(TargetFocus)? onClickOverlay;
-  final Function()? onFinish;
+  final VoidCallback? onFinish;
   final double paddingFocus;
-  final Function()? onSkip;
+  final VoidCallback? onSkip;
   final AlignmentGeometry alignSkip;
   final String textSkip;
   final TextStyle textStyleSkip;
@@ -142,9 +142,9 @@ class TutorialCoachMark {
 
   bool get isShowing => _overlayEntry != null;
 
-  void next() => _widgetKey.currentState?.next();
+  Future<void> next() async => _widgetKey.currentState?.next();
 
-  void previous() => _widgetKey.currentState?.previous();
+  Future<void> previous() async => _widgetKey.currentState?.previous();
 
   void _removeOverlay() {
     _overlayEntry?.remove();

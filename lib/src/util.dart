@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:tutorial_coach_mark/src/target/target_focus.dart';
 import 'package:tutorial_coach_mark/src/target/target_position.dart';
@@ -47,9 +49,9 @@ TargetPosition? getTargetCurrent(
 }
 
 abstract class TutorialCoachMarkController {
-  void next();
-  void previous();
-  void skip();
+  Future<void> next();
+  Future<void> previous();
+  Future<void> skip();
 }
 
 extension StateExt on State {
