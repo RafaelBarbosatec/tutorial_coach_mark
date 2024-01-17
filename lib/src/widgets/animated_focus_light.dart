@@ -279,12 +279,10 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
                   onTap: _targetFocus.enableTargetTab
                       ? () async {
                           if (_isAnimating) return;
-                          debugPrint('Is animating');
                           safeSetState(() {
                             _isAnimating = true;
                           });
                           await _tapHandler(targetTap: true);
-                          debugPrint('is no longer animating');
                         }
                       : () {},
                   child: Container(
@@ -400,12 +398,10 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
                       onTap: _targetFocus.enableTargetTab
                           ? () async {
                               if (_isAnimating) return;
-                              debugPrint('is animating');
                               safeSetState(() {
                                 _isAnimating = true;
                               });
                               await _tapHandler(targetTap: true);
-                              debugPrint('is no longer animating');
                             }
                           : () {},
                       onTapDown: (tapDownDetails) async =>
