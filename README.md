@@ -45,6 +45,7 @@ void showTutorial() {
       },
       onSkip: (){
         print("skip");
+        return true;
       }
     )..show(context:context);
 
@@ -256,6 +257,7 @@ void showTutorial() {
       },
       onSkip: (){
         print("skip");
+        return true;
       },
       onFinish: (){
         print("finish");
