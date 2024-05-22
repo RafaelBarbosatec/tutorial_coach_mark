@@ -171,17 +171,19 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
     haloWidth = haloWidth * 0.6 + widget.paddingFocus;
     haloHeight = haloHeight * 0.6 + widget.paddingFocus;
 
-    double weight = 0.0;
+    double width = 0.0;
     double? top;
     double? bottom;
     double? left;
     double? right;
 
+    final ancestorBox = context.findRenderObject() as RenderBox;
+
     children = currentTarget!.contents!.map<Widget>((i) {
       switch (i.align) {
         case ContentAlign.bottom:
           {
-            weight = MediaQuery.of(context).size.width;
+            width = ancestorBox.size.width;
             left = 0;
             top = positioned.dy + haloHeight;
             bottom = null;
@@ -189,16 +191,15 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
           break;
         case ContentAlign.top:
           {
-            weight = MediaQuery.of(context).size.width;
+            width = ancestorBox.size.width;
             left = 0;
             top = null;
-            bottom = haloHeight +
-                (MediaQuery.of(context).size.height - positioned.dy);
+            bottom = haloHeight + (ancestorBox.size.height - positioned.dy);
           }
           break;
         case ContentAlign.left:
           {
-            weight = positioned.dx - haloWidth;
+            width = positioned.dx - haloWidth;
             left = 0;
             top = positioned.dy - target!.size.height / 2 - haloHeight;
             bottom = null;
@@ -209,7 +210,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             left = positioned.dx + haloWidth;
             top = positioned.dy - target!.size.height / 2 - haloHeight;
             bottom = null;
-            weight = MediaQuery.of(context).size.width - left!;
+            width = ancestorBox.size.width - left!;
           }
           break;
         case ContentAlign.custom:
@@ -218,7 +219,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             right = i.customPosition!.right;
             top = i.customPosition!.top;
             bottom = i.customPosition!.bottom;
-            weight = MediaQuery.of(context).size.width;
+            width = ancestorBox.size.width;
           }
           break;
       }
@@ -229,7 +230,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
         left: left,
         right: right,
         child: SizedBox(
-          width: weight,
+          width: width,
           child: Padding(
             padding: i.padding,
             child: i.builder?.call(context, this) ??
