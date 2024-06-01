@@ -15,7 +15,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final Function(TargetFocus)? focus;
   final FutureOr Function(TargetFocus)? clickTarget;
   final FutureOr Function(TargetFocus, TapDownDetails)?
-      clickTargetWithTapPosition;
+  clickTargetWithTapPosition;
   final FutureOr Function(TargetFocus)? clickOverlay;
   final Function? removeFocus;
   final Function()? finish;
@@ -245,7 +245,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: _targetFocus.enableOverlayTab
+      onTap: _targetFocus.enableOverlayTab && !_targetFocus.mustClickOnTarget
           ? () => _tapHandler(overlayTap: true)
           : null,
       child: AnimatedBuilder(
@@ -270,7 +270,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
                   onTap: _targetFocus.enableTargetTab
                       ? () => _tapHandler(targetTap: true)
 
-                      /// Essential for collecting [TapDownDetails]. Do not make [null]
+                  /// Essential for collecting [TapDownDetails]. Do not make [null]
                       : () {},
                   child: Container(
                     color: Colors.transparent,
@@ -357,7 +357,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: _targetFocus.enableOverlayTab
+      onTap: _targetFocus.enableOverlayTab && !_targetFocus.mustClickOnTarget
           ? () => _tapHandler(overlayTap: true)
           : null,
       child: AnimatedBuilder(
@@ -381,7 +381,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
                       onTap: _targetFocus.enableTargetTab
                           ? () => _tapHandler(targetTap: true)
 
-                          /// Essential for collecting [TapDownDetails]. Do not make [null]
+                      /// Essential for collecting [TapDownDetails]. Do not make [null]
                           : () {},
                       onTapDown: _tapHandlerForPosition,
                       child: Container(
@@ -512,17 +512,17 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
   CustomClipper<Path> _getClipper(ShapeLightFocus? shape) {
     return shape == ShapeLightFocus.RRect
         ? RectClipper(
-            progress: _progressAnimated,
-            offset: _getPaddingFocus(),
-            target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
-            radius: _targetFocus.radius ?? 0,
-            borderSide: _targetFocus.borderSide,
-          )
+      progress: _progressAnimated,
+      offset: _getPaddingFocus(),
+      target: _targetPosition ?? TargetPosition(Size.zero, Offset.zero),
+      radius: _targetFocus.radius ?? 0,
+      borderSide: _targetFocus.borderSide,
+    )
         : CircleClipper(
-            _progressAnimated,
-            _positioned,
-            _sizeCircle,
-            _targetFocus.borderSide,
-          );
+      _progressAnimated,
+      _positioned,
+      _sizeCircle,
+      _targetFocus.borderSide,
+    );
   }
 }

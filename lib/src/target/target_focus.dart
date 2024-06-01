@@ -5,6 +5,7 @@ import 'package:tutorial_coach_mark/src/util.dart';
 
 class TargetFocus {
   TargetFocus({
+    this.mustClickOnTarget = false,
     this.identify,
     this.keyTarget,
     this.targetPosition,
@@ -22,6 +23,7 @@ class TargetFocus {
     this.pulseVariation,
   }) : assert(keyTarget != null || targetPosition != null);
 
+  final bool mustClickOnTarget;
   final dynamic identify;
   final GlobalKey? keyTarget;
   final TargetPosition? targetPosition;
