@@ -137,7 +137,7 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
       );
     } on NotFoundTargetException catch (e, s) {
       debugPrint(e.toString());
-      debugPrintStack(stackTrace: s);
+     // debugPrintStack(stackTrace: s);
     }
 
     if (targetPosition == null) {

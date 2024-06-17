@@ -137,8 +137,9 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
         rootOverlay: widget.rootOverlay,
       );
     } on NotFoundTargetException catch (e, s) {
-      debugPrint(e.toString());
-      debugPrintStack(stackTrace: s);
+      skip(); ///error tutorial exit
+      debugPrint("  error>>>>> e ${e.toString()}");
+      //debugPrintStack(stackTrace: s);
     }
 
     if (target == null) {
@@ -257,7 +258,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
         child: AnimatedOpacity(
           opacity: showContent ? 1 : 0,
           duration: const Duration(milliseconds: 300),
-          child: InkWell(
+          child: widget.skipWidget ?? InkWell(
             onTap: skip,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
