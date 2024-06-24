@@ -150,4 +150,9 @@ class TutorialCoachMark {
     _overlayEntry?.remove();
     _overlayEntry = null;
   }
+
+  void removeOverlayEntry() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
 }
