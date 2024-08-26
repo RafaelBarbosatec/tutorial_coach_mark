@@ -30,6 +30,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final bool rootOverlay;
   final ImageFilter? imageFilter;
   final int initialFocus;
+  final String? backgroundSemanticLabel;
 
   const AnimatedFocusLight({
     Key? key,
@@ -51,6 +52,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.pulseEnable = true,
     this.rootOverlay = false,
     this.initialFocus = 0,
+    this.backgroundSemanticLabel,
   })  : assert(targets.length > 0),
         super(key: key);
 
@@ -288,38 +290,43 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: _targetFocus.enableOverlayTab
-          ? () => _tapHandler(overlayTap: true)
-          : null,
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (_, child) {
-          _progressAnimated = _curvedAnimation.value;
-          return Stack(
-            children: <Widget>[
-              _getLightPaint(_targetFocus),
-              Positioned(
-                left: left,
-                top: top,
-                child: InkWell(
-                  borderRadius: _betBorderRadiusTarget(),
-                  onTapDown: _tapHandlerForPosition,
-                  onTap: _targetFocus.enableTargetTab
-                      ? () => _tapHandler(targetTap: true)
+    return Semantics(
+      label: widget.backgroundSemanticLabel,
+      button: true,
+      child: InkWell(
+        excludeFromSemantics: true,
+        onTap: _targetFocus.enableOverlayTab
+            ? () => _tapHandler(overlayTap: true)
+            : null,
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (_, child) {
+            _progressAnimated = _curvedAnimation.value;
+            return Stack(
+              children: <Widget>[
+                _getLightPaint(_targetFocus),
+                Positioned(
+                  left: left,
+                  top: top,
+                  child: InkWell(
+                    borderRadius: _betBorderRadiusTarget(),
+                    onTapDown: _tapHandlerForPosition,
+                    onTap: _targetFocus.enableTargetTab
+                        ? () => _tapHandler(targetTap: true)
 
-                      /// Essential for collecting [TapDownDetails]. Do not make [null]
-                      : () {},
-                  child: Container(
-                    color: Colors.transparent,
-                    width: width,
-                    height: height,
+                        /// Essential for collecting [TapDownDetails]. Do not make [null]
+                        : () {},
+                    child: Container(
+                      color: Colors.transparent,
+                      width: width,
+                      height: height,
+                    ),
                   ),
-                ),
-              )
-            ],
-          );
-        },
+                )
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -380,46 +387,51 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: _targetFocus.enableOverlayTab
-          ? () => _tapHandler(overlayTap: true)
-          : null,
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (_, child) {
-          _progressAnimated = _curvedAnimation.value;
-          return AnimatedBuilder(
-            animation: _controllerPulse,
-            builder: (_, child) {
-              if (_finishFocus) {
-                _progressAnimated = _tweenPulse.value;
-              }
-              return Stack(
-                children: <Widget>[
-                  _getLightPaint(_targetFocus),
-                  Positioned(
-                    left: left,
-                    top: top,
-                    child: InkWell(
-                      borderRadius: _betBorderRadiusTarget(),
-                      onTap: _targetFocus.enableTargetTab
-                          ? () => _tapHandler(targetTap: true)
+    return Semantics(
+      label: widget.backgroundSemanticLabel,
+      button: true,
+      child: InkWell(
+        excludeFromSemantics: true,
+        onTap: _targetFocus.enableOverlayTab
+            ? () => _tapHandler(overlayTap: true)
+            : null,
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (_, child) {
+            _progressAnimated = _curvedAnimation.value;
+            return AnimatedBuilder(
+              animation: _controllerPulse,
+              builder: (_, child) {
+                if (_finishFocus) {
+                  _progressAnimated = _tweenPulse.value;
+                }
+                return Stack(
+                  children: <Widget>[
+                    _getLightPaint(_targetFocus),
+                    Positioned(
+                      left: left,
+                      top: top,
+                      child: InkWell(
+                        borderRadius: _betBorderRadiusTarget(),
+                        onTap: _targetFocus.enableTargetTab
+                            ? () => _tapHandler(targetTap: true)
 
-                          /// Essential for collecting [TapDownDetails]. Do not make [null]
-                          : () {},
-                      onTapDown: _tapHandlerForPosition,
-                      child: Container(
-                        color: Colors.transparent,
-                        width: width,
-                        height: height,
+                            /// Essential for collecting [TapDownDetails]. Do not make [null]
+                            : () {},
+                        onTapDown: _tapHandlerForPosition,
+                        child: Container(
+                          color: Colors.transparent,
+                          width: width,
+                          height: height,
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              );
-            },
-          );
-        },
+                    )
+                  ],
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
