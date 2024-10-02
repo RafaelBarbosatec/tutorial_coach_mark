@@ -146,6 +146,10 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
       return const SizedBox.shrink();
     }
 
+    if (target.offset.dx.isNaN ||  target.offset.dy.isNaN) {
+      return const SizedBox.shrink();
+    }
+
     var positioned = Offset(
       target.offset.dx + target.size.width / 2,
       target.offset.dy + target.size.height / 2,
