@@ -13,6 +13,11 @@ export 'package:tutorial_coach_mark/src/target/target_focus.dart';
 export 'package:tutorial_coach_mark/src/target/target_position.dart';
 export 'package:tutorial_coach_mark/src/util.dart';
 
+
+GlobalKey<TutorialCoachMarkWidgetState> createNewFormKey() {
+  return GlobalKey<TutorialCoachMarkWidgetState>();
+}
+
 class TutorialCoachMark {
   final List<TargetFocus> targets;
   final FutureOr<void> Function(TargetFocus)? onClickTarget;
@@ -28,7 +33,7 @@ class TutorialCoachMark {
   final bool hideSkip;
   final Color colorShadow;
   final double opacityShadow;
-  final GlobalKey<TutorialCoachMarkWidgetState> _widgetKey = GlobalKey();
+  final GlobalKey<TutorialCoachMarkWidgetState> _widgetKey = createNewFormKey();
   final Duration focusAnimationDuration;
   final Duration unFocusAnimationDuration;
   final Duration pulseAnimationDuration;
