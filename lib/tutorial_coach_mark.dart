@@ -22,7 +22,7 @@ class TutorialCoachMark {
   final List<TargetFocus> targets;
   final FutureOr<void> Function(TargetFocus)? onClickTarget;
   final FutureOr<void> Function(TargetFocus, TapDownDetails)?
-      onClickTargetWithTapPosition;
+  onClickTargetWithTapPosition;
   final FutureOr<void> Function(TargetFocus)? onClickOverlay;
   final Function()? onFinish;
   final double paddingFocus;
@@ -33,7 +33,6 @@ class TutorialCoachMark {
   final bool hideSkip;
   final Color colorShadow;
   final double opacityShadow;
-  final GlobalKey<TutorialCoachMarkWidgetState> _widgetKey = createNewFormKey();
   final Duration focusAnimationDuration;
   final Duration unFocusAnimationDuration;
   final Duration pulseAnimationDuration;
@@ -43,6 +42,7 @@ class TutorialCoachMark {
   final ImageFilter? imageFilter;
 
   OverlayEntry? _overlayEntry;
+  GlobalKey<TutorialCoachMarkWidgetState>? _widgetKey;
 
   TutorialCoachMark({
     required this.targets,
@@ -68,6 +68,7 @@ class TutorialCoachMark {
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay({bool rootOverlay = false}) {
+    _widgetKey = GlobalKey<TutorialCoachMarkWidgetState>(); // Crear nueva instancia de la clave
     return OverlayEntry(
       builder: (context) {
         return TutorialCoachMarkWidget(
@@ -105,12 +106,11 @@ class TutorialCoachMark {
     });
   }
 
-  // `navigatorKey` needs to be the one that you passed to MaterialApp.navigatorKey
   void showWithNavigatorStateKey({
     required GlobalKey<NavigatorState> navigatorKey,
     bool rootOverlay = false,
   }) {
-    navigatorKey.currentState?.overlay.let((it) {
+    navigatorKey.currentState?.overlay?.let((it) {
       showWithOverlayState(
         overlay: it,
         rootOverlay: rootOverlay,
@@ -147,17 +147,19 @@ class TutorialCoachMark {
 
   bool get isShowing => _overlayEntry != null;
 
-  void next() => _widgetKey.currentState?.next();
+  void next() => _widgetKey?.currentState?.next();
 
-  void previous() => _widgetKey.currentState?.previous();
+  void previous() => _widgetKey?.currentState?.previous();
 
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry = null;
+    _widgetKey = null; // Limpiar la clave cuando se elimina el overlay
   }
 
   void removeOverlayEntry() {
     _overlayEntry?.remove();
     _overlayEntry = null;
+    _widgetKey = null; // Limpiar la clave cuando se elimina el overlay
   }
 }

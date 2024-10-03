@@ -18,6 +18,10 @@ class CircleClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     if (positioned == Offset.zero) return Path();
+    if (positioned.dx.isNaN || positioned.dy.isNaN) return Path();
+    if (size.width.isNaN || size.height.isNaN) {
+      return Path();
+    }
     var maxSize = max(size.width, size.height);
 
     double radius = maxSize * (1 - progress) + sizeCircle;
