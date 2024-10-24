@@ -177,12 +177,12 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
       }
     });
 
+    _controller.forward();
     _controller.duration = _targetFocus.unFocusAnimationDuration ??
         widget.unFocusAnimationDuration ??
         _targetFocus.focusAnimationDuration ??
         widget.focusAnimationDuration ??
         defaultFocusAnimationDuration;
-    _controller.forward();
   }
 
   void _goToFocus(int index) {
