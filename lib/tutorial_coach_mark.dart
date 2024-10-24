@@ -21,11 +21,14 @@ class TutorialCoachMark {
   final FutureOr<void> Function(TargetFocus)? onClickOverlay;
   final Function()? onFinish;
   final double paddingFocus;
-  final Function()? onSkip;
+
+  // if onSkip return false, the overlay will not be dismissed and call `next`
+  final bool Function()? onSkip;
   final AlignmentGeometry alignSkip;
   final String textSkip;
   final TextStyle textStyleSkip;
   final bool hideSkip;
+  final bool useSafeArea;
   final Color colorShadow;
   final double opacityShadow;
   final GlobalKey<TutorialCoachMarkWidgetState> _widgetKey = GlobalKey();
@@ -36,6 +39,8 @@ class TutorialCoachMark {
   final Widget? skipWidget;
   final bool showSkipInLastTarget;
   final ImageFilter? imageFilter;
+  final String? backgroundSemanticLabel;
+  final int initialFocus;
 
   OverlayEntry? _overlayEntry;
 
@@ -52,6 +57,7 @@ class TutorialCoachMark {
     this.textSkip = "SKIP",
     this.textStyleSkip = const TextStyle(color: Colors.white),
     this.hideSkip = false,
+    this.useSafeArea = true,
     this.opacityShadow = 0.8,
     this.focusAnimationDuration = const Duration(milliseconds: 600),
     this.unFocusAnimationDuration = const Duration(milliseconds: 600),
@@ -60,6 +66,8 @@ class TutorialCoachMark {
     this.skipWidget,
     this.showSkipInLastTarget = true,
     this.imageFilter,
+    this.initialFocus = 0,
+    this.backgroundSemanticLabel,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay({bool rootOverlay = false}) {
@@ -78,6 +86,7 @@ class TutorialCoachMark {
           textSkip: textSkip,
           textStyleSkip: textStyleSkip,
           hideSkip: hideSkip,
+          useSafeArea: useSafeArea,
           colorShadow: colorShadow,
           opacityShadow: opacityShadow,
           focusAnimationDuration: focusAnimationDuration,
@@ -88,6 +97,8 @@ class TutorialCoachMark {
           rootOverlay: rootOverlay,
           showSkipInLastTarget: showSkipInLastTarget,
           imageFilter: imageFilter,
+          initialFocus: initialFocus,
+          backgroundSemanticLabel: backgroundSemanticLabel,
         );
       },
     );
@@ -136,15 +147,23 @@ class TutorialCoachMark {
   }
 
   void skip() {
-    onSkip?.call();
-    _removeOverlay();
+    bool removeOverlay = onSkip?.call() ?? true;
+    if (removeOverlay) {
+      _removeOverlay();
+    } else {
+      next();
+    }
   }
 
   bool get isShowing => _overlayEntry != null;
 
+  GlobalKey<TutorialCoachMarkWidgetState> get widgetKey => _widgetKey;
+
   void next() => _widgetKey.currentState?.next();
 
   void previous() => _widgetKey.currentState?.previous();
+
+  void goTo(int index) => _widgetKey.currentState?.goTo(index);
 
   void _removeOverlay() {
     _overlayEntry?.remove();

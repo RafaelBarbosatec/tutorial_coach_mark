@@ -7,7 +7,7 @@ Create a beautiful and easy tutorial for your application.
 
 Example 1             |  Example 2
 :-------------------------:|:-------------------------:
-![](https://github.com/RafaelBarbosatec/tutorial_coach_mark/blob/master/img/exampleTutorialCoachMark.gif)  |  ![](https://github.com/RafaelBarbosatec/tutorial_coach_mark/blob/master/img/example_boleiro.gif)
+![](https://raw.githubusercontent.com/RafaelBarbosatec/tutorial_coach_mark/master/img/exampleTutorialCoachMark.gif)  |  ![](https://raw.githubusercontent.com/RafaelBarbosatec/tutorial_coach_mark/master/img/example_boleiro.gif)
 
 # Usage
 To use this plugin, add `tutorial_coach_mark` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
@@ -31,6 +31,8 @@ void showTutorial() {
        // pulseVariation: Tween(begin: 1.0, end: 0.99),
        // showSkipInLastTarget: true,
        // imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+       // initialFocus: 0,
+       // useSafeArea: true,
       onFinish: (){
         print("finish");
       },
@@ -43,6 +45,7 @@ void showTutorial() {
       },
       onSkip: (){
         print("skip");
+        return true;
       }
     )..show(context:context);
 
@@ -50,6 +53,7 @@ void showTutorial() {
     // tutorial.finish();
     // tutorial.next(); // call next target programmatically
     // tutorial.previous(); // call previous target programmatically
+    // tutorial.goTo(3); // call target programmatically by index
   }
 ```
 
@@ -235,7 +239,6 @@ List<TargetFocus> targets = List();
 
 void showTutorial() {
     TutorialCoachMark(
-      context,
       targets: targets, // List<TargetFocus>
       colorShadow: Colors.red, // DEFAULT Colors.black
        // alignSkip: Alignment.bottomRight,
@@ -254,6 +257,7 @@ void showTutorial() {
       },
       onSkip: (){
         print("skip");
+        return true;
       },
       onFinish: (){
         print("finish");
