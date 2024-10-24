@@ -1,3 +1,6 @@
+# 1.2.10
+- Change moment where call `_controller.forward()` occurs. That prevents the `unFocusAnimationDuration` is always called;
+
 # 1.2.9
 - set `ignoringSemantics` false in `skip` button. Reolve [#156](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/156)
 - adds `ImageFilter`. Now is possible apply blur in the shadow. [#151](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/151)
