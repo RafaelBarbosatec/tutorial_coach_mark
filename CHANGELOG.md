@@ -1,10 +1,7 @@
-# next
-
-- Update `onSkip` in `README`
-- Fix issue [192](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/192)
-
 # 1.2.12
 - Change moment where call `_controller.forward()` occurs. That prevents the `unFocusAnimationDuration` is always called;
+- Update `onSkip` in `README`
+- Fix issue [192](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/192)
 
 # 1.2.11
 - Fix issue [165](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/165)
