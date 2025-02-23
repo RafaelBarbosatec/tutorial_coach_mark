@@ -251,38 +251,44 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
   Widget _buildSkip() {
     bool isLastTarget = false;
 
-    if (currentTarget != null) {
-      isLastTarget =
-          widget.targets.indexOf(currentTarget!) == widget.targets.length - 1;
-    }
-
-    if (widget.hideSkip || (isLastTarget && !widget.showSkipInLastTarget)) {
+    if (widget.hideSkip) {
       return const SizedBox.shrink();
     }
 
-    Widget animatedWidget = AnimatedOpacity(
-      opacity: showContent ? 1 : 0,
-      duration: const Duration(milliseconds: 300),
-      child: InkWell(
-        onTap: skip,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: IgnorePointer(
-            child: widget.skipWidget ??
-                Text(
-                  widget.textSkip,
-                  style: widget.textStyleSkip,
-                ),
-          ),
-        ),
-      ),
-    );
+    if (currentTarget != null) {
+      final targetIndex = widget.targets.indexOf(currentTarget!);
+      isLastTarget = targetIndex == widget.targets.length - 1;
+    }
+
+    if (isLastTarget && !widget.showSkipInLastTarget) {
+      return const SizedBox.shrink();
+    }
 
     return Align(
       alignment: currentTarget?.alignSkip ?? widget.alignSkip,
-      child: (widget.useSafeArea)
-          ? SafeArea(child: animatedWidget)
-          : animatedWidget,
+      child: SafeArea(
+        bottom: widget.useSafeArea ? true : false,
+        top: widget.useSafeArea ? true : false,
+        left: widget.useSafeArea ? true : false,
+        right: widget.useSafeArea ? true : false,
+        child: AnimatedOpacity(
+          opacity: showContent ? 1 : 0,
+          duration: Durations.medium2,
+          child: InkWell(
+            onTap: skip,
+            child: IgnorePointer(
+              child: widget.skipWidget ??
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      widget.textSkip,
+                      style: widget.textStyleSkip,
+                    ),
+                  ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
