@@ -13,6 +13,37 @@ export 'package:tutorial_coach_mark/src/target/target_focus.dart';
 export 'package:tutorial_coach_mark/src/target/target_position.dart';
 export 'package:tutorial_coach_mark/src/util.dart';
 
+/// A controller class that manages tutorial coach marks in your Flutter application.
+///
+/// This class provides functionality to display and control interactive tutorials
+/// that guide users through your app's features. It creates an overlay with
+/// highlighted areas and explanatory content.
+///
+/// Example usage:
+/// ```dart
+/// TutorialCoachMark(
+///   targets: targets, // List<TargetFocus>
+///   colorShadow: Colors.red,
+///   onSkip: () {
+///     return true; // returning true closes the tutorial
+///   },
+/// )..show(context: context);
+/// ```
+///
+/// Key features:
+/// - Multiple target focusing
+/// - Customizable animations and styling
+/// - Skip button functionality
+/// - Support for safe area
+/// - Pulse animation effects
+/// - Custom overlay filters
+///
+/// The tutorial can be controlled programmatically using methods like:
+/// - [show] - Displays the tutorial
+/// - [next] - Moves to next target
+/// - [previous] - Returns to previous target
+/// - [skip] - Skips the tutorial
+/// - [finish] - Ends the tutorial
 class TutorialCoachMark {
   final List<TargetFocus> targets;
   final FutureOr<void> Function(TargetFocus)? onClickTarget;
