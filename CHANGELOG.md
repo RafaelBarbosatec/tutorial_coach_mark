@@ -1,3 +1,7 @@
+# 1.3.0
+- Disable tap while animate.
+
+
 # 1.2.12
 - Change moment where call `_controller.forward()` occurs. That prevents the `unFocusAnimationDuration` is always called;
 - Update `onSkip` in `README`

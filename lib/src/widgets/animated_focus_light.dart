@@ -286,6 +286,11 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
         : _targetFocus.radius ?? borderRadiusDefault;
     return BorderRadius.circular(radius);
   }
+
+  void _onTargetTap() {
+    if (!_targetFocus.enableTargetTab) return;
+    _tapHandler(targetTap: true);
+  }
 }
 
 class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
@@ -324,11 +329,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
                   child: InkWell(
                     borderRadius: _betBorderRadiusTarget(),
                     onTapDown: _tapHandlerForPosition,
-                    onTap: _targetFocus.enableTargetTab
-                        ? () => _tapHandler(targetTap: true)
-
-                        /// Essential for collecting [TapDownDetails]. Do not make [null]
-                        : () {},
+                    onTap: _onTargetTap,
                     child: Container(
                       color: Colors.transparent,
                       width: width,
@@ -427,11 +428,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
                       top: top,
                       child: InkWell(
                         borderRadius: _betBorderRadiusTarget(),
-                        onTap: _targetFocus.enableTargetTab
-                            ? () => _tapHandler(targetTap: true)
-
-                            /// Essential for collecting [TapDownDetails]. Do not make [null]
-                            : () {},
+                        onTap: _onTargetTap,
                         onTapDown: _tapHandlerForPosition,
                         child: Container(
                           color: Colors.transparent,

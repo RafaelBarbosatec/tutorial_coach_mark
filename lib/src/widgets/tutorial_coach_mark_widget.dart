@@ -20,6 +20,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.alignSkip = Alignment.bottomRight,
     this.textSkip = "SKIP",
     this.onClickSkip,
+    this.skipWidget,
     this.colorShadow = Colors.black,
     this.opacityShadow = 0.8,
     this.textStyleSkip = const TextStyle(color: Colors.white),
@@ -30,7 +31,6 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.pulseAnimationDuration,
     this.pulseVariation,
     this.pulseEnable = true,
-    this.skipWidget,
     this.rootOverlay = false,
     this.showSkipInLastTarget = false,
     this.imageFilter,
@@ -44,11 +44,11 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final FutureOr Function(TargetFocus, TapDownDetails)?
       onClickTargetWithTapPosition;
   final FutureOr Function(TargetFocus)? clickOverlay;
-  final Function()? finish;
+  final void Function()? finish;
   final Color colorShadow;
   final double opacityShadow;
   final double paddingFocus;
-  final Function()? onClickSkip;
+  final void Function()? onClickSkip;
   final AlignmentGeometry alignSkip;
   final String textSkip;
   final TextStyle textStyleSkip;
