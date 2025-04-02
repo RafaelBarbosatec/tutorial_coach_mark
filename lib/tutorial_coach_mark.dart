@@ -45,10 +45,6 @@ export 'package:tutorial_coach_mark/src/util.dart';
 /// - [skip] - Skips the tutorial
 /// - [finish] - Ends the tutorial
 
-GlobalKey<TutorialCoachMarkWidgetState> createNewFormKey() {
-  return GlobalKey<TutorialCoachMarkWidgetState>();
-}
-
 class TutorialCoachMark {
   final List<TargetFocus> targets;
   final FutureOr<void> Function(TargetFocus)? onClickTarget;
@@ -76,9 +72,11 @@ class TutorialCoachMark {
   final ImageFilter? imageFilter;
   final String? backgroundSemanticLabel;
   final int initialFocus;
+  final GlobalKey<TutorialCoachMarkWidgetState> _widgetKey = GlobalKey();
 
   OverlayEntry? _overlayEntry;
-  GlobalKey<TutorialCoachMarkWidgetState>? _widgetKey;
+  ModalRoute? _blockBackRoute; // Referencia a la ruta que bloquea el botón "Atrás"
+  BuildContext? _contextTutorial; // Almacena el contexto para usarlo después
 
   TutorialCoachMark({
     required this.targets,
@@ -107,7 +105,6 @@ class TutorialCoachMark {
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay({bool rootOverlay = false}) {
-    _widgetKey = GlobalKey<TutorialCoachMarkWidgetState>(); // Crear nueva instancia de la clave
     return OverlayEntry(
       builder: (context) {
         return TutorialCoachMarkWidget(
@@ -164,7 +161,23 @@ class TutorialCoachMark {
     required OverlayState overlay,
     bool rootOverlay = false,
   }) {
-    postFrame(() => _createAndShow(overlay, rootOverlay: rootOverlay));
+    _contextTutorial = overlay.context; // Guarda el contexto del overlay
+    postFrame((){
+      _createAndShow(overlay, rootOverlay: rootOverlay);
+      // Bloquea el botón "Atrás" mientras el tutorial está activo
+      _blockBackRoute = PageRouteBuilder(
+        opaque: false,
+        barrierDismissible: false,
+        pageBuilder: (context, _, __) {
+          return PopScope(
+            canPop: false,
+            onPopInvokedWithResult: (value, result) async => false, // Bloquea el retroceso
+            child: const SizedBox(), // No muestra nada
+          );
+        },
+      );
+      Navigator.of(_contextTutorial!).push(_blockBackRoute!);
+    });
   }
 
   void _createAndShow(
@@ -204,12 +217,21 @@ class TutorialCoachMark {
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry = null;
-    _widgetKey = null; // Limpiar la clave cuando se elimina el overlay
+    closeHiddenView();
   }
 
   void removeOverlayEntry() {
     _overlayEntry?.remove();
     _overlayEntry = null;
-    _widgetKey = null; // Limpiar la clave cuando se elimina el overlay
+    closeHiddenView();
+  }
+
+  void closeHiddenView(){
+    // Verifica si hay un contexto válido antes de intentar remover la ruta
+    if (_contextTutorial != null && _contextTutorial!.mounted && _blockBackRoute != null) {
+      Navigator.of(_contextTutorial!).removeRoute(_blockBackRoute!);
+      _blockBackRoute = null;
+    }
+    _contextTutorial = null;
   }
 }
