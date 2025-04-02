@@ -13,6 +13,37 @@ export 'package:tutorial_coach_mark/src/target/target_focus.dart';
 export 'package:tutorial_coach_mark/src/target/target_position.dart';
 export 'package:tutorial_coach_mark/src/util.dart';
 
+/// A controller class that manages tutorial coach marks in your Flutter application.
+///
+/// This class provides functionality to display and control interactive tutorials
+/// that guide users through your app's features. It creates an overlay with
+/// highlighted areas and explanatory content.
+///
+/// Example usage:
+/// ```dart
+/// TutorialCoachMark(
+///   targets: targets, // List<TargetFocus>
+///   colorShadow: Colors.red,
+///   onSkip: () {
+///     return true; // returning true closes the tutorial
+///   },
+/// )..show(context: context);
+/// ```
+///
+/// Key features:
+/// - Multiple target focusing
+/// - Customizable animations and styling
+/// - Skip button functionality
+/// - Support for safe area
+/// - Pulse animation effects
+/// - Custom overlay filters
+///
+/// The tutorial can be controlled programmatically using methods like:
+/// - [show] - Displays the tutorial
+/// - [next] - Moves to next target
+/// - [previous] - Returns to previous target
+/// - [skip] - Skips the tutorial
+/// - [finish] - Ends the tutorial
 
 GlobalKey<TutorialCoachMarkWidgetState> createNewFormKey() {
   return GlobalKey<TutorialCoachMarkWidgetState>();
@@ -22,15 +53,18 @@ class TutorialCoachMark {
   final List<TargetFocus> targets;
   final FutureOr<void> Function(TargetFocus)? onClickTarget;
   final FutureOr<void> Function(TargetFocus, TapDownDetails)?
-  onClickTargetWithTapPosition;
+      onClickTargetWithTapPosition;
   final FutureOr<void> Function(TargetFocus)? onClickOverlay;
   final Function()? onFinish;
   final double paddingFocus;
-  final Function()? onSkip;
+
+  // if onSkip return false, the overlay will not be dismissed and call `next`
+  final bool Function()? onSkip;
   final AlignmentGeometry alignSkip;
   final String textSkip;
   final TextStyle textStyleSkip;
   final bool hideSkip;
+  final bool useSafeArea;
   final Color colorShadow;
   final double opacityShadow;
   final Duration focusAnimationDuration;
@@ -40,6 +74,8 @@ class TutorialCoachMark {
   final Widget? skipWidget;
   final bool showSkipInLastTarget;
   final ImageFilter? imageFilter;
+  final String? backgroundSemanticLabel;
+  final int initialFocus;
 
   OverlayEntry? _overlayEntry;
   GlobalKey<TutorialCoachMarkWidgetState>? _widgetKey;
@@ -57,6 +93,7 @@ class TutorialCoachMark {
     this.textSkip = "SKIP",
     this.textStyleSkip = const TextStyle(color: Colors.white),
     this.hideSkip = false,
+    this.useSafeArea = true,
     this.opacityShadow = 0.8,
     this.focusAnimationDuration = const Duration(milliseconds: 600),
     this.unFocusAnimationDuration = const Duration(milliseconds: 600),
@@ -65,6 +102,8 @@ class TutorialCoachMark {
     this.skipWidget,
     this.showSkipInLastTarget = true,
     this.imageFilter,
+    this.initialFocus = 0,
+    this.backgroundSemanticLabel,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay({bool rootOverlay = false}) {
@@ -84,6 +123,7 @@ class TutorialCoachMark {
           textSkip: textSkip,
           textStyleSkip: textStyleSkip,
           hideSkip: hideSkip,
+          useSafeArea: useSafeArea,
           colorShadow: colorShadow,
           opacityShadow: opacityShadow,
           focusAnimationDuration: focusAnimationDuration,
@@ -94,6 +134,8 @@ class TutorialCoachMark {
           rootOverlay: rootOverlay,
           showSkipInLastTarget: showSkipInLastTarget,
           imageFilter: imageFilter,
+          initialFocus: initialFocus,
+          backgroundSemanticLabel: backgroundSemanticLabel,
         );
       },
     );
@@ -141,15 +183,23 @@ class TutorialCoachMark {
   }
 
   void skip() {
-    onSkip?.call();
-    _removeOverlay();
+    bool removeOverlay = onSkip?.call() ?? true;
+    if (removeOverlay) {
+      _removeOverlay();
+    } else {
+      next();
+    }
   }
 
   bool get isShowing => _overlayEntry != null;
 
-  void next() => _widgetKey?.currentState?.next();
+  GlobalKey<TutorialCoachMarkWidgetState> get widgetKey => _widgetKey;
 
-  void previous() => _widgetKey?.currentState?.previous();
+  void next() => _widgetKey.currentState?.next();
+
+  void previous() => _widgetKey.currentState?.previous();
+
+  void goTo(int index) => _widgetKey.currentState?.goTo(index);
 
   void _removeOverlay() {
     _overlayEntry?.remove();

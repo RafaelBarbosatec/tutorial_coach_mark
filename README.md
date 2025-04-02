@@ -7,7 +7,7 @@ Create a beautiful and easy tutorial for your application.
 
 Example 1             |  Example 2
 :-------------------------:|:-------------------------:
-![](https://github.com/RafaelBarbosatec/tutorial_coach_mark/blob/master/img/exampleTutorialCoachMark.gif)  |  ![](https://github.com/RafaelBarbosatec/tutorial_coach_mark/blob/master/img/example_boleiro.gif)
+![](https://raw.githubusercontent.com/RafaelBarbosatec/tutorial_coach_mark/master/img/exampleTutorialCoachMark.gif)  |  ![](https://raw.githubusercontent.com/RafaelBarbosatec/tutorial_coach_mark/master/img/example_boleiro.gif)
 
 # Usage
 To use this plugin, add `tutorial_coach_mark` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
@@ -22,15 +22,26 @@ void showTutorial() {
     TutorialCoachMark tutorial = TutorialCoachMark(
       targets: targets, // List<TargetFocus>
       colorShadow: Colors.red, // DEFAULT Colors.black
+       // opacityShadow = 0.8,
        // alignSkip: Alignment.bottomRight,
        // textSkip: "SKIP",
+       // textStyleSkip: const TextStyle(color: Colors.white),
+       // skipWidget: MyWidget(),
+       // hideSkip: false
+       // showSkipInLastTarget: true,
        // paddingFocus: 10,
        // focusAnimationDuration: Duration(milliseconds: 500),
        // unFocusAnimationDuration: Duration(milliseconds: 500),
        // pulseAnimationDuration: Duration(milliseconds: 500),
        // pulseVariation: Tween(begin: 1.0, end: 0.99),
-       // showSkipInLastTarget: true,
+       // pulseEnable: true,
        // imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+       // initialFocus: 0,
+       // useSafeArea: true,
+       // finish: (){},
+       // clickTarget: (TargetFocus) {},
+       // onClickTargetWithTapPosition: (TargetFocus, TapDownDetails) {},
+       // clickOverlay: (TargetFocus) {},
       onFinish: (){
         print("finish");
       },
@@ -43,6 +54,7 @@ void showTutorial() {
       },
       onSkip: (){
         print("skip");
+        return true;
       }
     )..show(context:context);
 
@@ -50,6 +62,7 @@ void showTutorial() {
     // tutorial.finish();
     // tutorial.next(); // call next target programmatically
     // tutorial.previous(); // call previous target programmatically
+    // tutorial.goTo(3); // call target programmatically by index
   }
 ```
 
@@ -235,7 +248,6 @@ List<TargetFocus> targets = List();
 
 void showTutorial() {
     TutorialCoachMark(
-      context,
       targets: targets, // List<TargetFocus>
       colorShadow: Colors.red, // DEFAULT Colors.black
        // alignSkip: Alignment.bottomRight,
@@ -254,6 +266,7 @@ void showTutorial() {
       },
       onSkip: (){
         print("skip");
+        return true;
       },
       onFinish: (){
         print("finish");
