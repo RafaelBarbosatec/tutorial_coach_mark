@@ -21,6 +21,10 @@ class RectClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     if (target.offset == Offset.zero) return Path();
+    if (target.offset.dx.isNaN || target.offset.dy.isNaN) return Path();
+    if (size.width.isNaN || size.height.isNaN) {
+      return Path();
+    }
 
     var maxSize = max(size.width, size.height) +
         max(target.size.width, target.size.height) +
