@@ -81,6 +81,10 @@ class LightPaintRect extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (target.offset == Offset.zero) return;
+    if (target.offset.dx.isNaN || target.offset.dy.isNaN) return;
+    if (size.width.isNaN || size.height.isNaN) {
+      return;
+    }
 
     var maxSize = max(size.width, size.height) +
         max(target.size.width, target.size.height) +

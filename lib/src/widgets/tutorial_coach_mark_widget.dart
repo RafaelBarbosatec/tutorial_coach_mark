@@ -145,11 +145,16 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
         rootOverlay: widget.rootOverlay,
       );
     } on NotFoundTargetException catch (e, s) {
-      debugPrint(e.toString());
-      debugPrintStack(stackTrace: s);
+      skip(); ///error tutorial exit
+      debugPrint("  error>>>>> e ${e.toString()}");
+      //debugPrintStack(stackTrace: s);
     }
 
     if (target == null) {
+      return const SizedBox.shrink();
+    }
+
+    if (target.offset.dx.isNaN ||  target.offset.dy.isNaN) {
       return const SizedBox.shrink();
     }
 
@@ -274,7 +279,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
         child: AnimatedOpacity(
           opacity: showContent ? 1 : 0,
           duration: Durations.medium2,
-          child: InkWell(
+          child: widget.skipWidget ?? InkWell(
             onTap: skip,
             child: IgnorePointer(
               child: widget.skipWidget ??
