@@ -144,8 +144,10 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
         currentTarget!,
         rootOverlay: widget.rootOverlay,
       );
-    } on NotFoundTargetException catch (e, s) {
-      skip(); ///error tutorial exit
+    } on NotFoundTargetException catch (e) {
+      skip();
+
+      ///error tutorial exit
       debugPrint("  error>>>>> e ${e.toString()}");
       //debugPrintStack(stackTrace: s);
     }
@@ -154,7 +156,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
       return const SizedBox.shrink();
     }
 
-    if (target.offset.dx.isNaN ||  target.offset.dy.isNaN) {
+    if (target.offset.dx.isNaN || target.offset.dy.isNaN) {
       return const SizedBox.shrink();
     }
 
@@ -279,19 +281,20 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
         child: AnimatedOpacity(
           opacity: showContent ? 1 : 0,
           duration: Durations.medium2,
-          child: widget.skipWidget ?? InkWell(
-            onTap: skip,
-            child: IgnorePointer(
-              child: widget.skipWidget ??
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      widget.textSkip,
-                      style: widget.textStyleSkip,
-                    ),
-                  ),
-            ),
-          ),
+          child: widget.skipWidget ??
+              InkWell(
+                onTap: skip,
+                child: IgnorePointer(
+                  child: widget.skipWidget ??
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          widget.textSkip,
+                          style: widget.textStyleSkip,
+                        ),
+                      ),
+                ),
+              ),
         ),
       ),
     );

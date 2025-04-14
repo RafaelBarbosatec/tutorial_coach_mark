@@ -73,9 +73,11 @@ class TutorialCoachMark {
   final String? backgroundSemanticLabel;
   final int initialFocus;
   final GlobalKey<TutorialCoachMarkWidgetState> _widgetKey = GlobalKey();
+  final bool disableBackButton;
 
   OverlayEntry? _overlayEntry;
-  ModalRoute? _blockBackRoute; // Referencia a la ruta que bloquea el botón "Atrás"
+  ModalRoute?
+      _blockBackRoute; // Referencia a la ruta que bloquea el botón "Atrás"
   BuildContext? _contextTutorial; // Almacena el contexto para usarlo después
 
   TutorialCoachMark({
@@ -102,6 +104,7 @@ class TutorialCoachMark {
     this.imageFilter,
     this.initialFocus = 0,
     this.backgroundSemanticLabel,
+    this.disableBackButton = true,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay({bool rootOverlay = false}) {
@@ -162,21 +165,24 @@ class TutorialCoachMark {
     bool rootOverlay = false,
   }) {
     _contextTutorial = overlay.context; // Guarda el contexto del overlay
-    postFrame((){
+    postFrame(() {
       _createAndShow(overlay, rootOverlay: rootOverlay);
-      // Bloquea el botón "Atrás" mientras el tutorial está activo
-      _blockBackRoute = PageRouteBuilder(
-        opaque: false,
-        barrierDismissible: false,
-        pageBuilder: (context, _, __) {
-          return PopScope(
-            canPop: false,
-            onPopInvokedWithResult: (value, result) async => false, // Bloquea el retroceso
-            child: const SizedBox(), // No muestra nada
-          );
-        },
-      );
-      Navigator.of(_contextTutorial!).push(_blockBackRoute!);
+      if (disableBackButton) {
+        // Bloquea el botón "Atrás" mientras el tutorial está activo
+        _blockBackRoute = PageRouteBuilder(
+          opaque: false,
+          barrierDismissible: false,
+          pageBuilder: (context, _, __) {
+            return PopScope(
+              canPop: false,
+              onPopInvokedWithResult: (value, result) async =>
+                  false, // Bloquea el retroceso
+              child: const SizedBox(), // No muestra nada
+            );
+          },
+        );
+        Navigator.of(_contextTutorial!).push(_blockBackRoute!);
+      }
     });
   }
 
@@ -226,9 +232,11 @@ class TutorialCoachMark {
     closeHiddenView();
   }
 
-  void closeHiddenView(){
+  void closeHiddenView() {
     // Verifica si hay un contexto válido antes de intentar remover la ruta
-    if (_contextTutorial != null && _contextTutorial!.mounted && _blockBackRoute != null) {
+    if (_contextTutorial != null &&
+        _contextTutorial!.mounted &&
+        _blockBackRoute != null) {
       Navigator.of(_contextTutorial!).removeRoute(_blockBackRoute!);
       _blockBackRoute = null;
     }
