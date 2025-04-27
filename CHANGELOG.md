@@ -1,3 +1,9 @@
+# 1.3.0
+- Hidden view, allowing you to block backspace while in the tutorial [#213](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/213) by [AngelMinga](https://github.com/AngelMinga)
+
+# 1.2.13
+- Disable tap while animate. Fix issue [#205](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/205)
+
 # 1.2.12
 - Change moment where call `_controller.forward()` occurs. That prevents the `unFocusAnimationDuration` is always called;
 - Update `onSkip` in `README`
