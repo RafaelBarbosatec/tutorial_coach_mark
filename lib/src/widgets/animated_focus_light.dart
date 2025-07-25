@@ -107,6 +107,7 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
     _controller = AnimationController(
       vsync: this,
       duration: focusDuration,
+      animationBehavior: AnimationBehavior.preserve,
     )..addStatusListener(_listener);
 
     _curvedAnimation = CurvedAnimation(

@@ -42,6 +42,7 @@ void showTutorial() {
        // clickTarget: (TargetFocus) {},
        // onClickTargetWithTapPosition: (TargetFocus, TapDownDetails) {},
        // clickOverlay: (TargetFocus) {},
+       // disableBackButton: false // If true disable native back button. 
       onFinish: (){
         print("finish");
       },

@@ -104,7 +104,7 @@ class TutorialCoachMark {
     this.imageFilter,
     this.initialFocus = 0,
     this.backgroundSemanticLabel,
-    this.disableBackButton = true,
+    this.disableBackButton = false,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
   OverlayEntry _buildOverlay({bool rootOverlay = false}) {

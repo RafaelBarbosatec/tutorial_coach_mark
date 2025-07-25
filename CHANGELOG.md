@@ -1,3 +1,7 @@
+# 1.3.1
+- Adds animationBehavior: AnimationBehavior.preserve. [#224](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/224)
+- Adds `disableBackButton` default false.
+
 # 1.3.0
 - Hidden view, allowing you to block backspace while in the tutorial [#213](https://github.com/RafaelBarbosatec/tutorial_coach_mark/pull/213) by [AngelMinga](https://github.com/AngelMinga)
 
