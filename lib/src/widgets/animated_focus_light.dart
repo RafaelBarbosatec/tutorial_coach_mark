@@ -138,6 +138,33 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
     _revertAnimation();
   }
 
+  /// Refreshes the current target position without changing focus.
+  /// Used when screen size changes to recalculate target widget positions.
+  void refreshTargetPosition() {
+    if (_currentFocus < 0) return;
+    
+    TargetPosition? targetPosition;
+    try {
+      targetPosition = getTargetCurrent(
+        _targetFocus,
+        rootOverlay: widget.rootOverlay,
+      );
+    } on NotFoundTargetException catch (e) {
+      debugPrint('Failed to refresh target position: ${e.toString()}');
+      return;
+    }
+
+    if (targetPosition != null) {
+      safeSetState(() {
+        _targetPosition = targetPosition!;
+        _positioned = Offset(
+          targetPosition.offset.dx + (targetPosition.size.width / 2),
+          targetPosition.offset.dy + (targetPosition.size.height / 2),
+        );
+      });
+    }
+  }
+
   Future _tapHandler({
     bool targetTap = false,
     bool overlayTap = false,

@@ -93,7 +93,12 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
   @override
   void didChangeMetrics() {
     super.didChangeMetrics();
-    safeSetState((){});
+    
+    // Refresh the focus area position for the currently focused target
+    _focusLightKey.currentState?.refreshTargetPosition();
+    
+    // Trigger a rebuild to recalculate content positions
+    safeSetState(() {});
   }
 
   @override

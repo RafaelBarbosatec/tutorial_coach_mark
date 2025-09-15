@@ -37,6 +37,7 @@ export 'package:tutorial_coach_mark/src/util.dart';
 /// - Support for safe area
 /// - Pulse animation effects
 /// - Custom overlay filters
+/// - Automatic screen resize and orientation handling
 ///
 /// The tutorial can be controlled programmatically using methods like:
 /// - [show] - Displays the tutorial
