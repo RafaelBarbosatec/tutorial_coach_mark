@@ -3,12 +3,14 @@ import 'package:tutorial_coach_mark/src/target/target_focus.dart';
 import 'package:tutorial_coach_mark/src/target/target_position.dart';
 
 /// Defines the shape of the focus highlight around target widgets.
-// ignore: constant_identifier_names
-enum ShapeLightFocus { 
+enum ShapeLightFocus {
   /// Circular highlight shape
-  Circle, 
+// ignore: constant_identifier_names
+  Circle,
+
   /// Rounded rectangle highlight shape
-  RRect 
+// ignore: constant_identifier_names
+  RRect
 }
 
 /// Gets the current position and size of a target widget.
@@ -72,10 +74,10 @@ TargetPosition? getTargetCurrent(
 abstract class TutorialCoachMarkController {
   /// Advances to the next step in the tutorial.
   void next();
-  
+
   /// Goes back to the previous step in the tutorial.
   void previous();
-  
+
   /// Skips the entire tutorial.
   void skip();
 }

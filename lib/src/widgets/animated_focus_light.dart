@@ -142,7 +142,7 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
   /// Used when screen size changes to recalculate target widget positions.
   void refreshTargetPosition() {
     if (_currentFocus < 0) return;
-    
+
     TargetPosition? targetPosition;
     try {
       targetPosition = getTargetCurrent(

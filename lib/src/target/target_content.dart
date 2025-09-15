@@ -25,13 +25,13 @@ class CustomTargetContentPosition {
 
   /// Distance from the top edge of the screen.
   final double? top;
-  
+
   /// Distance from the left edge of the screen.
   final double? left;
-  
+
   /// Distance from the right edge of the screen.
   final double? right;
-  
+
   /// Distance from the bottom edge of the screen.
   final double? bottom;
 
@@ -42,17 +42,21 @@ class CustomTargetContentPosition {
 }
 
 /// Defines where the content should be positioned relative to the target widget.
-enum ContentAlign { 
+enum ContentAlign {
   /// Position content above the target widget.
-  top, 
+  top,
+
   /// Position content below the target widget.
-  bottom, 
+  bottom,
+
   /// Position content to the left of the target widget.
-  left, 
+  left,
+
   /// Position content to the right of the target widget.
-  right, 
+  right,
+
   /// Use custom positioning with [CustomTargetContentPosition].
-  custom 
+  custom
 }
 
 /// Builder function for creating dynamic tutorial content.
