@@ -71,10 +71,30 @@ class TutorialCoachMarkWidget extends StatefulWidget {
 }
 
 class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
+    with WidgetsBindingObserver
     implements TutorialCoachMarkController {
   final GlobalKey<AnimatedFocusLightState> _focusLightKey = GlobalKey();
   bool showContent = false;
   TargetFocus? currentTarget;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  /// Called when screen metrics change (orientation, size, etc.)
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    safeSetState((){});
+  }
 
   @override
   Widget build(BuildContext context) {
