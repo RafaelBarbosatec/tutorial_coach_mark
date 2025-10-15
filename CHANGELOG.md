@@ -1,3 +1,6 @@
+# 1.3.2
+- Adds before focus function so that something can be run before focusing on the next target
+
 # 1.3.1
 - Adds animationBehavior: AnimationBehavior.preserve. [#224](https://github.com/RafaelBarbosatec/tutorial_coach_mark/issues/224)
 - Adds `disableBackButton` default false.
