@@ -18,6 +18,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.finish,
     this.removeFocus,
     this.clickTarget,
+    this.beforeFocus,
     this.clickTargetWithTapPosition,
     this.clickOverlay,
     this.paddingFocus = 10,
@@ -41,6 +42,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final FutureOr Function(TargetFocus, TapDownDetails)?
       clickTargetWithTapPosition;
   final FutureOr Function(TargetFocus)? clickOverlay;
+  final FutureOr<void> Function(TargetFocus)? beforeFocus;
   final Function? removeFocus;
   final Function()? finish;
   final double paddingFocus;
@@ -163,6 +165,10 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
     _targetFocus = widget.targets[_currentFocus];
 
     _controller.duration = focusDuration;
+
+    if (widget.beforeFocus != null) {
+      await widget.beforeFocus!(_targetFocus);
+    }
 
     TargetPosition? targetPosition;
     try {
