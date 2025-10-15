@@ -19,6 +19,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.clickOverlay,
     this.alignSkip = Alignment.bottomRight,
     this.textSkip = "SKIP",
+    this.beforeFocus,
     this.onClickSkip,
     this.skipWidget,
     this.colorShadow = Colors.black,
@@ -40,6 +41,7 @@ class TutorialCoachMarkWidget extends StatefulWidget {
         super(key: key);
 
   final List<TargetFocus> targets;
+  final FutureOr<void> Function(TargetFocus)? beforeFocus;
   final FutureOr Function(TargetFocus)? clickTarget;
   final FutureOr Function(TargetFocus, TapDownDetails)?
       onClickTargetWithTapPosition;
@@ -88,6 +90,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             targets: widget.targets,
             finish: widget.finish,
             paddingFocus: widget.paddingFocus,
+            beforeFocus: widget.beforeFocus,
             colorShadow: widget.colorShadow,
             opacityShadow: widget.opacityShadow,
             focusAnimationDuration: widget.focusAnimationDuration,
