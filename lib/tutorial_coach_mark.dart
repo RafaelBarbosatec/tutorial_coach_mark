@@ -49,6 +49,9 @@ export 'package:tutorial_coach_mark/src/util.dart';
 class TutorialCoachMark {
   /// List of targets to focus during the tutorial sequence.
   final List<TargetFocus> targets;
+  
+  /// Callback executed before focus
+  final FutureOr<void> Function(TargetFocus)? beforeFocus;
 
   /// Callback executed when a target area is tapped.
   final FutureOr<void> Function(TargetFocus)? onClickTarget;
@@ -160,6 +163,7 @@ class TutorialCoachMark {
     required this.targets,
     this.colorShadow = Colors.black,
     this.onClickTarget,
+    this.beforeFocus,
     this.onClickTargetWithTapPosition,
     this.onClickOverlay,
     this.onFinish,
@@ -190,6 +194,7 @@ class TutorialCoachMark {
           key: _widgetKey,
           targets: targets,
           clickTarget: onClickTarget,
+          beforeFocus: beforeFocus,
           onClickTargetWithTapPosition: onClickTargetWithTapPosition,
           clickOverlay: onClickOverlay,
           paddingFocus: paddingFocus,
