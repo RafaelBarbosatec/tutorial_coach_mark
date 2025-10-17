@@ -284,20 +284,21 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
         child: AnimatedOpacity(
           opacity: showContent ? 1 : 0,
           duration: Durations.medium2,
-          child: widget.skipWidget ??
-              InkWell(
-                onTap: skip,
-                child: IgnorePointer(
-                  child: widget.skipWidget ??
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text(
-                          widget.textSkip,
-                          style: widget.textStyleSkip,
-                        ),
-                      ),
-                ),
+          child: widget.skipWidget != null
+              ? InkWell(
+            onTap: skip,
+            child: widget.skipWidget,
+          )
+              : InkWell(
+            onTap: skip,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                widget.textSkip,
+                style: widget.textStyleSkip,
               ),
+            ),
+          ),
         ),
       ),
     );
