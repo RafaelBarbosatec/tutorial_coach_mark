@@ -1,3 +1,6 @@
+# 1.3.3
+- Fix: Custom skipWidget not triggering tutorial skip action #222
+
 # 1.3.2
 - Adds before focus function so that something can be run before focusing on the next target
 
