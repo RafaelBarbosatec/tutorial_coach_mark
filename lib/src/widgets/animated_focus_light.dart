@@ -228,6 +228,15 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
       }
     });
 
+    // _runFocus runs asynchronously (Future.delayed in initState, plus an
+    // optional `await widget.beforeFocus`), so this State can be disposed before
+    // reaching this line — e.g. the host overlay is removed (removeOverlayEntry /
+    // route pop) mid-presentation. Calling forward() on a disposed controller
+    // dereferences a null `_ticker`; in release the assert in
+    // AnimationController.stop() is stripped, surfacing an uncaught
+    // "Null check operator used on a null value". Guard against it.
+    if (!mounted) return;
+
     await _controller.forward();
     _isAnimating = false;
   }
